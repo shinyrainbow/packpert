@@ -1,6 +1,5 @@
-import { useTranslations } from "next-intl";
+import { getTranslations, getLocale } from "next-intl/server";
 import Link from "next/link";
-import { getLocale } from "next-intl/server";
 
 const features = [
   {
@@ -52,10 +51,11 @@ const productCategories = [
 
 export default async function HomePage() {
   const locale = await getLocale();
-  const t = useTranslations("hero");
-  const th = useTranslations("home");
-  const tc = useTranslations("catalog");
-  const tcommon = useTranslations("common");
+  const t = await getTranslations("hero");
+  const th = await getTranslations("home");
+  const tc = await getTranslations("catalog");
+  const tcommon = await getTranslations("common");
+  const tabout = await getTranslations("about");
 
   return (
     <>
@@ -165,19 +165,19 @@ export default async function HomePage() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
             <div>
               <div className="text-4xl lg:text-5xl font-bold mb-2">10+</div>
-              <div className="text-white/80">{useTranslations("about")("experience")}</div>
+              <div className="text-white/80">{tabout("experience")}</div>
             </div>
             <div>
               <div className="text-4xl lg:text-5xl font-bold mb-2">10,000+</div>
-              <div className="text-white/80">{useTranslations("about")("brands")}</div>
+              <div className="text-white/80">{tabout("brands")}</div>
             </div>
             <div>
               <div className="text-4xl lg:text-5xl font-bold mb-2">1M+</div>
-              <div className="text-white/80">{useTranslations("about")("products")}</div>
+              <div className="text-white/80">{tabout("products")}</div>
             </div>
             <div>
               <div className="text-4xl lg:text-5xl font-bold mb-2">99%</div>
-              <div className="text-white/80">{useTranslations("about")("satisfaction")}</div>
+              <div className="text-white/80">{tabout("satisfaction")}</div>
             </div>
           </div>
         </div>
