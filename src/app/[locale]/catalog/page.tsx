@@ -29,7 +29,7 @@ export default async function CatalogPage({ searchParams }: Props) {
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary to-primary-dark text-white py-20">
+      <section className="bg-gradient-to-br from-primary to-primary-dark text-white py-20 -mt-20 pt-28">
         <div className="container-custom">
           <h1 className="text-4xl lg:text-5xl font-bold mb-4">{t("title")}</h1>
           <p className="text-xl text-white/80">{t("subtitle")}</p>
@@ -37,7 +37,7 @@ export default async function CatalogPage({ searchParams }: Props) {
       </section>
 
       {/* Catalog Content */}
-      <section className="section-padding">
+      <section className="section-padding bg-white min-h-[60vh]">
         <div className="container-custom">
           {/* Category Filter */}
           <div className="flex flex-wrap gap-3 mb-8">
@@ -64,21 +64,29 @@ export default async function CatalogPage({ searchParams }: Props) {
                 className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group"
               >
                 <div className="aspect-square bg-gray-100 relative overflow-hidden">
-                  <div className="w-full h-full bg-gradient-to-br from-primary/10 to-primary/30 flex items-center justify-center">
-                    <svg
-                      className="w-16 h-16 text-primary/40"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-                      />
-                    </svg>
-                  </div>
+                  {product.image ? (
+                    <img
+                      src={product.image}
+                      alt={locale === "th" ? product.nameTh : product.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-primary/10 to-primary/30 flex items-center justify-center">
+                      <svg
+                        className="w-16 h-16 text-primary/40"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                        />
+                      </svg>
+                    </div>
+                  )}
                   <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors"></div>
                 </div>
                 <div className="p-4">

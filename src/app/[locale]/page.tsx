@@ -2,6 +2,7 @@ import { getTranslations, getLocale } from "next-intl/server";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import ProductCarousel from "@/components/ProductCarousel";
+import HeroBannerSlider from "@/components/HeroBannerSlider";
 
 export default async function HomePage() {
   const locale = await getLocale();
@@ -24,15 +25,8 @@ export default async function HomePage() {
   return (
     <>
       {/* Banner Section */}
-      <section className="relative min-h-[600px] lg:min-h-[700px] flex items-center">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1605000797499-95a51c5269ae?q=80&w=2071&auto=format&fit=crop')"
-          }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
-        </div>
+      <section className="relative min-h-[600px] lg:min-h-[700px] flex items-center -mt-20 pt-20">
+        <HeroBannerSlider />
         <div className="container-custom relative z-10">
           <div className="max-w-2xl text-white">
             <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
@@ -107,21 +101,29 @@ export default async function HomePage() {
                 className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow group"
               >
                 <div className="aspect-[4/3] bg-gray-100 relative overflow-hidden">
-                  <div className="w-full h-full bg-gradient-to-br from-primary/20 to-accent/30 flex items-center justify-center">
-                    <svg
-                      className="w-16 h-16 text-primary/30"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                      />
-                    </svg>
-                  </div>
+                  {portfolio.image ? (
+                    <img
+                      src={portfolio.image}
+                      alt={locale === "th" ? portfolio.titleTh : portfolio.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-primary/20 to-accent/30 flex items-center justify-center">
+                      <svg
+                        className="w-16 h-16 text-primary/30"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        />
+                      </svg>
+                    </div>
+                  )}
                   <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors"></div>
                 </div>
                 <div className="p-5">

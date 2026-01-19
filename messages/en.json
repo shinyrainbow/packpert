@@ -5,6 +5,7 @@
     "catalog": "Catalog",
     "portfolio": "Portfolio",
     "contact": "Contact",
+    "article": "Article",
     "login": "Login",
     "logout": "Logout",
     "dashboard": "Dashboard",
@@ -41,7 +42,7 @@
     "ourClientsDesc": "Over 10,000 brands trust us with their packaging needs",
     "ctaTitle": "Ready to Start Your Project?",
     "ctaDesc": "Contact us today for a free consultation and quote",
-    "lineDiscount": "Click LINE for New Customer Discount",
+    "lineDiscount": "Get New Customer Discount",
     "requestQuote": "Request Quote",
     "articlesTitle": "Articles",
     "articlesDesc": "Learn more about packaging and industry trends"
@@ -57,7 +58,18 @@
     "experience": "Years of Experience",
     "brands": "Brands Served",
     "products": "Products Delivered",
-    "satisfaction": "Customer Satisfaction"
+    "satisfaction": "Customer Satisfaction",
+    "viewCatalog": "View Catalog",
+    "oneStopTitle": "One Stop Service",
+    "oneStopDesc": "From consultation to delivery, we handle everything for your packaging needs",
+    "step1Title": "Consultation",
+    "step1Desc": "Discuss your requirements with our expert team",
+    "step2Title": "Design",
+    "step2Desc": "Free custom design tailored to your brand",
+    "step3Title": "Production",
+    "step3Desc": "High-quality manufacturing with strict quality control",
+    "step4Title": "Delivery",
+    "step4Desc": "Fast and reliable delivery to your location"
   },
   "catalog": {
     "title": "Product Catalog",
@@ -79,6 +91,13 @@
     "description": "Take a look at some of the packaging projects we've completed for our valued clients.",
     "client": "Client",
     "viewProject": "View Project"
+  },
+  "article": {
+    "title": "Articles",
+    "subtitle": "Packaging Knowledge & Industry Insights",
+    "description": "Stay updated with the latest packaging trends, tips, and industry news.",
+    "readMore": "Read More",
+    "noArticles": "No articles available yet."
   },
   "contact": {
     "title": "Contact Us",
@@ -103,7 +122,11 @@
     "infoTitle": "Contact Information",
     "addressValue": "123 Packaging Street, Industrial Zone, Bangkok, Thailand 10100",
     "workingHours": "Working Hours",
-    "workingHoursValue": "Monday - Friday: 8:00 AM - 6:00 PM\nSaturday: 9:00 AM - 3:00 PM"
+    "workingHoursValue": "Monday - Friday: 8:00 AM - 6:00 PM\nSaturday: 9:00 AM - 3:00 PM",
+    "privacyAccept": "I accept the",
+    "privacyPolicy": "Privacy Policy",
+    "viewOnMap": "View on Google Maps",
+    "lineContact": "Chat with us on LINE"
   },
   "login": {
     "title": "Admin Login",
@@ -138,5 +161,21 @@
     "contactInfo": "Contact Info",
     "followUs": "Follow Us",
     "copyright": "© 2024 Packpert. All rights reserved."
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last Updated",
+    "section1Title": "Information We Collect",
+    "section1Content": "We collect information you provide directly to us, such as when you fill out a contact form, request a quote, or communicate with us. This may include your name, email address, phone number, company name, and any other information you choose to provide.",
+    "section2Title": "How We Use Your Information",
+    "section2Content": "We use the information we collect to respond to your inquiries, process your requests, send you marketing communications (with your consent), improve our services, and comply with legal obligations.",
+    "section3Title": "Information Sharing",
+    "section3Content": "We do not sell, trade, or otherwise transfer your personal information to third parties without your consent, except as necessary to provide our services or as required by law.",
+    "section4Title": "Data Security",
+    "section4Content": "We implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.",
+    "section5Title": "Your Rights",
+    "section5Content": "You have the right to access, correct, or delete your personal information. You may also opt out of marketing communications at any time by contacting us.",
+    "contactTitle": "Contact Us",
+    "contactContent": "If you have any questions about this Privacy Policy, please contact us at:"
   }
 }

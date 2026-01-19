@@ -4,6 +4,7 @@ import { routing } from "@/i18n/routing";
 import { Noto_Sans_Thai } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import FloatingLineButton from "@/components/FloatingLineButton";
 
 const notoSansThai = Noto_Sans_Thai({
   variable: "--font-noto-sans-thai",
@@ -28,11 +29,12 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
-      <body className={`${notoSansThai.variable} antialiased`}>
+      <body className={`${notoSansThai.variable} antialiased flex flex-col min-h-screen`}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Header />
-          <main className="min-h-screen">{children}</main>
+          <main className="flex-1 pt-20">{children}</main>
           <Footer />
+          <FloatingLineButton />
         </NextIntlClientProvider>
       </body>
     </html>

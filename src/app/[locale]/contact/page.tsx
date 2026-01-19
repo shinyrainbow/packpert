@@ -2,10 +2,14 @@
 
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
 export default function ContactPage() {
   const t = useTranslations("contact");
   const tc = useTranslations("common");
+  const params = useParams();
+  const locale = params.locale as string;
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -14,10 +18,16 @@ export default function ContactPage() {
     subject: "",
     message: "",
   });
+  const [acceptPrivacy, setAcceptPrivacy] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!acceptPrivacy) {
+      return;
+    }
+
     setStatus("loading");
 
     try {
@@ -37,6 +47,7 @@ export default function ContactPage() {
           subject: "",
           message: "",
         });
+        setAcceptPrivacy(false);
       } else {
         setStatus("error");
       }
@@ -53,24 +64,35 @@ export default function ContactPage() {
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary to-primary-dark text-white py-20">
-        <div className="container-custom">
-          <h1 className="text-4xl lg:text-5xl font-bold mb-4">{t("title")}</h1>
-          <p className="text-xl text-white/80">{t("subtitle")}</p>
-        </div>
+      {/* Map Section */}
+      <section className="w-full h-[400px] bg-gray-200">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3875.8395!2d100.5234!3d13.7428!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTPCsDQ0JzM0LjEiTiAxMDDCsDMxJzI0LjIiRQ!5e0!3m2!1sen!2sth!4v1704067200000!5m2!1sen!2sth"
+          width="100%"
+          height="100%"
+          style={{ border: 0 }}
+          allowFullScreen
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          title="Packpert Location"
+        ></iframe>
       </section>
 
       {/* Contact Content */}
-      <section className="section-padding">
+      <section className="section-padding bg-white min-h-[60vh]">
         <div className="container-custom">
-          <p className="text-muted text-center max-w-2xl mx-auto mb-12">
-            {t("description")}
-          </p>
+          <div className="text-center mb-12">
+            <h1 className="text-4xl lg:text-5xl font-bold text-primary mb-4">
+              {t("title")}
+            </h1>
+            <p className="text-muted text-lg max-w-2xl mx-auto">
+              {t("description")}
+            </p>
+          </div>
 
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Contact Form */}
-            <div className="bg-white p-8 rounded-2xl shadow-sm">
+            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
               <h2 className="text-2xl font-bold text-primary mb-6">
                 {t("formTitle")}
               </h2>
@@ -178,9 +200,30 @@ export default function ContactPage() {
                   ></textarea>
                 </div>
 
+                {/* Privacy Policy Checkbox */}
+                <div className="flex items-start gap-3">
+                  <input
+                    type="checkbox"
+                    id="acceptPrivacy"
+                    checked={acceptPrivacy}
+                    onChange={(e) => setAcceptPrivacy(e.target.checked)}
+                    required
+                    className="mt-1 w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary cursor-pointer"
+                  />
+                  <label htmlFor="acceptPrivacy" className="text-sm text-muted cursor-pointer">
+                    {t("privacyAccept")}{" "}
+                    <Link
+                      href={`/${locale}/privacy-policy`}
+                      className="text-primary hover:underline"
+                    >
+                      {t("privacyPolicy")}
+                    </Link>
+                  </label>
+                </div>
+
                 <button
                   type="submit"
-                  disabled={status === "loading"}
+                  disabled={status === "loading" || !acceptPrivacy}
                   className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {status === "loading" ? tc("sending") : t("send")}
@@ -222,6 +265,17 @@ export default function ContactPage() {
                       {tc("address")}
                     </h3>
                     <p className="text-muted text-sm">{t("addressValue")}</p>
+                    <a
+                      href="https://maps.app.goo.gl/tpHP7iHKAoKs3vaz5"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-primary text-sm mt-2 hover:underline"
+                    >
+                      {t("viewOnMap")}
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </a>
                   </div>
                 </div>
 
@@ -245,7 +299,9 @@ export default function ContactPage() {
                     <h3 className="font-semibold text-primary mb-1">
                       {tc("phone")}
                     </h3>
-                    <p className="text-muted text-sm">+66 63 652 1222</p>
+                    <a href="tel:+66636521222" className="text-muted text-sm hover:text-primary transition-colors">
+                      +66 63 652 1222
+                    </a>
                   </div>
                 </div>
 
@@ -269,7 +325,9 @@ export default function ContactPage() {
                     <h3 className="font-semibold text-primary mb-1">
                       {tc("email")}
                     </h3>
-                    <p className="text-muted text-sm">contact@packpert.com</p>
+                    <a href="mailto:contact@packpert.com" className="text-muted text-sm hover:text-primary transition-colors">
+                      contact@packpert.com
+                    </a>
                   </div>
                 </div>
 
@@ -298,28 +356,24 @@ export default function ContactPage() {
                     </p>
                   </div>
                 </div>
-              </div>
 
-              {/* Map Placeholder */}
-              <div className="mt-8 h-64 bg-gray-200 rounded-xl overflow-hidden">
-                <div className="w-full h-full bg-gradient-to-br from-primary/10 to-primary/20 flex items-center justify-center">
-                  <div className="text-center text-primary/50">
-                    <svg
-                      className="w-12 h-12 mx-auto mb-2"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
-                      />
+                {/* LINE Contact */}
+                <a
+                  href="https://line.me/ti/p/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-4 p-6 bg-[#06C755] rounded-xl text-white hover:bg-[#05b34c] transition-colors"
+                >
+                  <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <svg className="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314" />
                     </svg>
-                    <p className="text-sm">Map Location</p>
                   </div>
-                </div>
+                  <div>
+                    <h3 className="font-semibold mb-1">LINE Official</h3>
+                    <p className="text-white/80 text-sm">{t("lineContact")}</p>
+                  </div>
+                </a>
               </div>
             </div>
           </div>
