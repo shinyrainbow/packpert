@@ -4,6 +4,11 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Packpert - Premium Packaging Solutions",
   description: "Your trusted partner for quality packaging solutions. Custom packaging for cosmetics, food, and various industries.",
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({

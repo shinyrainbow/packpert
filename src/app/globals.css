@@ -1,9 +1,30 @@
 @import "tailwindcss";
 
+/* Custom Font - Add your UID ปริศนา font file to /public/fonts/ */
+@font-face {
+  font-family: 'UID ปริศนา';
+  src: url('/fonts/UID-Prisana.woff2') format('woff2'),
+       url('/fonts/UID-Prisana.woff') format('woff'),
+       url('/fonts/UID-Prisana.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'UID ปริศนา';
+  src: url('/fonts/UID-Prisana-Bold.woff2') format('woff2'),
+       url('/fonts/UID-Prisana-Bold.woff') format('woff'),
+       url('/fonts/UID-Prisana-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  --primary: #494b42;
-  --primary-dark: #3a3c35;
-  --primary-light: #5a5c53;
+  --primary: #354447;
+  --primary-dark: #2a3639;
+  --primary-light: #465558;
   --secondary: #f5f5f0;
   --accent: #c9a959;
   --background: #ffffff;
@@ -25,7 +46,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Noto Sans Thai', 'Segoe UI', Arial, sans-serif;
+  font-family: 'UID ปริศนา', 'Noto Sans Thai', 'Segoe UI', Arial, sans-serif;
 }
 
 .btn-primary {
@@ -70,4 +91,43 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   line-height: 1.2;
+}
+
+/* Banner Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.animate-fade-in-up-delay-1 {
+  animation: fadeInUp 0.8s ease-out 0.2s forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-up-delay-2 {
+  animation: fadeInUp 0.8s ease-out 0.4s forwards;
+  opacity: 0;
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease-out forwards;
 }

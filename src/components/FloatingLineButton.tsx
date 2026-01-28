@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-const LINE_URL = "https://line.me/ti/p/~@packpert"; // Replace with your LINE ID
+const LINE_URL = "https://lin.ee/Gq5zgzn";
 
 export default function FloatingLineButton() {
   return (

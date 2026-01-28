@@ -19,9 +19,9 @@
     "address": "Address"
   },
   "hero": {
-    "title": "Premium Packaging Solutions",
-    "subtitle": "Your Trusted Partner for Quality Packaging",
-    "description": "Packpert offers comprehensive packaging manufacturing services with over 10 years of experience. We design and produce high-quality packaging for cosmetics, food, and various industries.",
+    "title": "Elevate Your Brand",
+    "subtitle": "with Our Packaging Expertise",
+    "description": "",
     "cta": "Explore Our Products",
     "ctaContact": "Contact Us"
   },
@@ -44,13 +44,18 @@
     "ctaDesc": "Contact us today for a free consultation and quote",
     "lineDiscount": "Get New Customer Discount",
     "requestQuote": "Request Quote",
+    "ourServicesTitle": "Packpert Services",
     "articlesTitle": "Articles",
-    "articlesDesc": "Learn more about packaging and industry trends"
+    "articlesDesc": "Learn more about packaging and industry trends",
+    "minOrderTitle": "Elevate Your Brand with Our Packaging Expertise",
+    "minOrderDesc": "Packpert Co., Ltd. is a leader in One-Stop Packaging Solutions, committed to being a partner that helps create competitive advantages for your business through professional packaging management. We provide services from expert packaging consultation, attractive packaging design by our diverse creative team, to fast and accurate packaging production and delivery – the key elements that help customers reduce operational time and packaging costs most efficiently.",
+    "minOrderDesc2": "We use modern, high-quality packaging production technology to ensure every printed and formed piece is beautiful, sharp, and enhances your brand image to stand out in the market. Packpert understands the needs of entrepreneurs across all industries, so we develop services that meet both aesthetic and functional packaging requirements, while helping reduce supply chain complexity so you can focus on growing your business. If you're looking for a packaging factory that understands every step and is ready to elevate your product image with world-class design, Packpert is ready to deliver the best solutions for your brand's sustainable success.",
+    "contactUs": "Contact Us"
   },
   "about": {
-    "title": "About Packpert",
-    "subtitle": "Your Trusted Packaging Partner",
-    "description": "Packpert is a leading packaging manufacturer in Thailand with over 10 years of experience in producing high-quality packaging solutions for various industries.",
+    "title": "Elevate Your Brand with Our Packaging Expertise",
+    "subtitle": "Packpert Co., Ltd. is a leader in One-Stop Packaging Solutions, committed to being a partner that helps create competitive advantages for your business through professional packaging management. We provide services from expert packaging consultation, attractive packaging design by our diverse creative team, to fast and accurate packaging production and delivery – the key elements that help customers reduce operational time and packaging costs most efficiently.",
+    "description": "We use modern, high-quality packaging production technology to ensure every printed and formed piece is beautiful, sharp, and enhances your brand image to stand out in the market. Packpert understands the needs of entrepreneurs across all industries, so we develop services that meet both aesthetic and functional packaging requirements, while helping reduce supply chain complexity so you can focus on growing your business. If you're looking for a packaging factory that understands every step and is ready to elevate your product image with world-class design, Packpert is ready to deliver the best solutions for your brand's sustainable success.",
     "mission": "Our Mission",
     "missionDesc": "To provide innovative and sustainable packaging solutions that help brands stand out while maintaining the highest quality standards.",
     "vision": "Our Vision",
@@ -62,6 +67,7 @@
     "viewCatalog": "View Catalog",
     "oneStopTitle": "One Stop Service",
     "oneStopDesc": "From consultation to delivery, we handle everything for your packaging needs",
+    "packpertServicesTitle": "Packpert Services",
     "step1Title": "Consultation",
     "step1Desc": "Discuss your requirements with our expert team",
     "step2Title": "Design",
@@ -74,13 +80,17 @@
   "catalog": {
     "title": "Product Catalog",
     "subtitle": "Explore Our Packaging Solutions",
+    "productionStepsTitle": "Production Order Steps",
     "all": "All Products",
-    "foilPouch": "Foil Pouches",
-    "cosmeticTube": "Cosmetic Tubes",
-    "paperBox": "Paper Boxes",
-    "plasticBottle": "Plastic Bottles",
-    "label": "Labels & Stickers",
-    "customBox": "Custom Boxes",
+    "stickTube": "Stick Tubes",
+    "creamTube": "Cream Tubes",
+    "jar": "Jars",
+    "tonerPadJar": "Toner Pad Jars",
+    "creamJar": "Cream Jars",
+    "pumpBottle": "Pump Bottles",
+    "serumBottle": "Serum Bottles",
+    "lip": "Lip Products",
+    "cosmetics": "Cosmetics",
     "viewDetails": "View Details",
     "category": "Category",
     "description": "Description"
@@ -90,7 +100,8 @@
     "subtitle": "Showcasing Our Best Work",
     "description": "Take a look at some of the packaging projects we've completed for our valued clients.",
     "client": "Client",
-    "viewProject": "View Project"
+    "viewProject": "View Project",
+    "viewPortfolio": "View Portfolio"
   },
   "article": {
     "title": "Articles",

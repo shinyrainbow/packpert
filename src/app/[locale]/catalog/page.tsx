@@ -1,30 +1,19 @@
 import { getTranslations, getLocale } from "next-intl/server";
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
-
-interface Props {
-  searchParams: Promise<{ category?: string }>;
-}
 
 const categories = [
-  { key: "all", value: "" },
-  { key: "foilPouch", value: "foilPouch" },
-  { key: "cosmeticTube", value: "cosmeticTube" },
-  { key: "paperBox", value: "paperBox" },
-  { key: "plasticBottle", value: "plasticBottle" },
-  { key: "label", value: "label" },
-  { key: "customBox", value: "customBox" },
+  { key: "stickTube", value: "stickTube" },
+  { key: "creamTube", value: "creamTube" },
+  { key: "jar", value: "jar" },
+  { key: "pumpBottle", value: "pumpBottle" },
+  { key: "serumBottle", value: "serumBottle" },
+  { key: "lip", value: "lip" },
+  { key: "cosmetics", value: "cosmetics" },
 ];
 
-export default async function CatalogPage({ searchParams }: Props) {
-  const { category } = await searchParams;
+export default async function CatalogPage() {
   const locale = await getLocale();
   const t = await getTranslations("catalog");
-
-  const products = await prisma.product.findMany({
-    where: category ? { category } : undefined,
-    orderBy: { createdAt: "desc" },
-  });
 
   return (
     <>
@@ -39,78 +28,55 @@ export default async function CatalogPage({ searchParams }: Props) {
       {/* Catalog Content */}
       <section className="section-padding bg-white min-h-[60vh]">
         <div className="container-custom">
-          {/* Category Filter */}
-          <div className="flex flex-wrap gap-3 mb-8">
+          {/* Category Cards */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-12">
             {categories.map((cat) => (
               <Link
                 key={cat.key}
-                href={`/${locale}/catalog${cat.value ? `?category=${cat.value}` : ""}`}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                  (category || "") === cat.value
-                    ? "bg-primary text-white"
-                    : "bg-secondary text-gray-700 hover:bg-gray-200"
-                }`}
+                href={`/${locale}/catalog/${cat.value}`}
+                className="rounded-xl p-5 text-center font-medium transition-all hover:shadow-md group bg-secondary text-gray-700 hover:bg-gray-100"
               >
-                {t(cat.key)}
+                <div className="w-12 h-12 mx-auto mb-3 rounded-lg flex items-center justify-center bg-primary/10 group-hover:bg-primary/20">
+                  <svg
+                    className="w-6 h-6 text-primary"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                    />
+                  </svg>
+                </div>
+                <span className="text-sm">{t(cat.key)}</span>
               </Link>
             ))}
           </div>
+        </div>
+      </section>
 
-          {/* Products Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {products.map((product) => (
-              <div
-                key={product.id}
-                className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group"
-              >
-                <div className="aspect-square bg-gray-100 relative overflow-hidden">
-                  {product.image ? (
-                    <img
-                      src={product.image}
-                      alt={locale === "th" ? product.nameTh : product.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-primary/10 to-primary/30 flex items-center justify-center">
-                      <svg
-                        className="w-16 h-16 text-primary/40"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-                        />
-                      </svg>
-                    </div>
-                  )}
-                  <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors"></div>
-                </div>
-                <div className="p-4">
-                  <h3 className="font-semibold text-primary mb-1">
-                    {locale === "th" ? product.nameTh : product.name}
-                  </h3>
-                  <p className="text-sm text-muted line-clamp-2">
-                    {locale === "th" ? product.descriptionTh : product.description}
-                  </p>
-                  <div className="mt-3">
-                    <span className="inline-block px-3 py-1 bg-secondary text-xs rounded-full text-gray-600">
-                      {t(product.category)}
-                    </span>
-                  </div>
-                </div>
+      {/* Production Steps Section */}
+      <section className="section-padding bg-secondary">
+        <div className="container-custom">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl font-bold text-primary mb-4">
+              {t("productionStepsTitle")}
+            </h2>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 lg:gap-8">
+            {[1, 2, 3, 4, 5, 6].map((num) => (
+              <div key={num} className="flex flex-col items-center">
+                <img
+                  src={`/icons/ขั้นตอนผลิต${num}.png`}
+                  alt={`Production Step ${num}`}
+                  className="w-24 h-24 lg:w-32 lg:h-32 object-contain"
+                />
               </div>
             ))}
           </div>
-
-          {products.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-muted">No products found.</p>
-            </div>
-          )}
         </div>
       </section>
     </>

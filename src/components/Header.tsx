@@ -6,12 +6,13 @@ import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
 
 const catalogSubmenu = [
-  { key: "foilPouch", href: "/catalog?category=foilPouch" },
-  { key: "cosmeticTube", href: "/catalog?category=cosmeticTube" },
-  { key: "paperBox", href: "/catalog?category=paperBox" },
-  { key: "plasticBottle", href: "/catalog?category=plasticBottle" },
-  { key: "label", href: "/catalog?category=label" },
-  { key: "customBox", href: "/catalog?category=customBox" },
+  { key: "stickTube", href: "/catalog/stickTube" },
+  { key: "creamTube", href: "/catalog/creamTube" },
+  { key: "jar", href: "/catalog/jar" },
+  { key: "pumpBottle", href: "/catalog/pumpBottle" },
+  { key: "serumBottle", href: "/catalog/serumBottle" },
+  { key: "lip", href: "/catalog/lip" },
+  { key: "cosmetics", href: "/catalog/cosmetics" },
 ];
 
 export default function Header() {
@@ -65,27 +66,12 @@ export default function Header() {
       <nav className="container-custom">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href={`/${locale}`} className="flex items-center gap-2">
-            <div
-              className={`w-10 h-10 rounded-lg flex items-center justify-center transition-colors ${
-                useWhiteHeader ? "bg-primary" : "bg-white"
-              }`}
-            >
-              <span
-                className={`font-bold text-xl ${
-                  useWhiteHeader ? "text-white" : "text-primary"
-                }`}
-              >
-                P
-              </span>
-            </div>
-            <span
-              className={`text-2xl font-bold transition-colors ${
-                useWhiteHeader ? "text-primary" : "text-white"
-              }`}
-            >
-              Packpert
-            </span>
+          <Link href={`/${locale}`} className="flex items-center">
+            <img
+              src="/logo.png"
+              alt="Packpert"
+              className="h-12 w-auto"
+            />
           </Link>
 
           {/* Desktop Navigation */}
