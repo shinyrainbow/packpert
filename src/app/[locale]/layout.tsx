@@ -28,15 +28,13 @@ export default async function LocaleLayout({
   const messages = (await import(`../../../messages/${locale}.json`)).default;
 
   return (
-    <html lang={locale}>
-      <body className={`${sarabun.variable} antialiased flex flex-col min-h-screen`}>
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          <Header />
-          <main className="flex-1 pt-20">{children}</main>
-          <Footer />
-          <FloatingLineButton />
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <div className={`${sarabun.variable} antialiased flex flex-col min-h-screen`} lang={locale}>
+      <NextIntlClientProvider locale={locale} messages={messages}>
+        <Header />
+        <main className="flex-1 pt-20">{children}</main>
+        <Footer />
+        <FloatingLineButton />
+      </NextIntlClientProvider>
+    </div>
   );
 }

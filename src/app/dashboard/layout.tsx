@@ -28,13 +28,9 @@ export default async function DashboardLayout({
   }
 
   return (
-    <html lang="en">
-      <body className={`${notoSansThai.variable} antialiased bg-gray-50`}>
-        <div className="min-h-screen">
-          <DashboardNav user={session.user} />
-          <main className="p-6 lg:p-8">{children}</main>
-        </div>
-      </body>
-    </html>
+    <div className={`${notoSansThai.variable} antialiased bg-gray-50 min-h-screen`}>
+      <DashboardNav user={session.user} />
+      <main className="p-6 lg:p-8">{children}</main>
+    </div>
   );
 }
