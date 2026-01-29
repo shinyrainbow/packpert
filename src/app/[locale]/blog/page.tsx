@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { FileText, Calendar, ArrowRight, Home, TrendingUp } from "lucide-react";
 import Image from "next/image";
-import { Link } from "@/i18n/routing";
+import Link from "next/link";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import { useTranslations, useLocale } from "next-intl";
