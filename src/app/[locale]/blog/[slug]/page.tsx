@@ -3,12 +3,10 @@
 import { useEffect, useState, use } from "react";
 import { FileText, Calendar, ArrowLeft, Share2, Home, Facebook, Link2, MessageCircle, TrendingUp, User, Clock } from "lucide-react";
 import Image from "next/image";
-import { Link } from "@/i18n/routing";
-import Header from "@/components/layout/header";
-import Footer from "@/components/layout/footer";
+import Link from "next/link";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { useTranslations, useLocale } from "next-intl";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
 
 interface BlogSection {
   id: string;
@@ -144,7 +142,7 @@ export default function BlogPostPage({
       window.open(`https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(url)}`, "_blank");
     } else {
       await navigator.clipboard.writeText(url);
-      toast.success("Link copied!");
+      alert("Link copied!");
     }
   };
 
@@ -274,17 +272,13 @@ export default function BlogPostPage({
             {t("notFoundDesc")}
           </p>
           <div className="flex gap-4 justify-center">
-            <Link href="/blog">
-              <Button variant="outline" className="border-gray-300 text-gray-700 hover:border-[#C9A227] hover:text-[#C9A227]">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                {t("backToBlog")}
-              </Button>
+            <Link href={`/${locale}/blog`} className="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:border-[#C9A227] hover:text-[#C9A227] transition-colors">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              {t("backToBlog")}
             </Link>
-            <Link href="/">
-              <Button variant="gold">
-                <Home className="w-4 h-4 mr-2" />
-                {t("backHome")}
-              </Button>
+            <Link href={`/${locale}`} className="inline-flex items-center px-4 py-2 bg-[#C9A227] text-white rounded-lg hover:bg-[#b8922a] transition-colors">
+              <Home className="w-4 h-4 mr-2" />
+              {t("backHome")}
             </Link>
           </div>
         </div>
@@ -466,11 +460,9 @@ export default function BlogPostPage({
                         <MessageCircle className="w-3.5 h-3.5 text-white" />
                       </button>
                     </div>
-                    <Link href="/blog">
-                      <Button variant="outline" size="sm" className="border-gray-300 text-gray-700 hover:border-[#C9A227] hover:text-[#C9A227]">
-                        <ArrowLeft className="w-4 h-4 mr-2" />
-                        {t("backToBlog")}
-                      </Button>
+                    <Link href={`/${locale}/blog`} className="inline-flex items-center px-3 py-1.5 text-sm border border-gray-300 text-gray-700 rounded-lg hover:border-[#C9A227] hover:text-[#C9A227] transition-colors">
+                      <ArrowLeft className="w-4 h-4 mr-2" />
+                      {t("backToBlog")}
                     </Link>
                   </div>
                 </div>
@@ -490,7 +482,7 @@ export default function BlogPostPage({
                     {relatedBlogs.map((relatedBlog) => (
                       <Link
                         key={relatedBlog.id}
-                        href={`/blog/${relatedBlog.slug}`}
+                        href={`/${locale}/blog/${relatedBlog.slug}`}
                         className="group flex gap-3"
                       >
                         <div className="relative w-20 h-16 rounded-lg overflow-hidden flex-shrink-0">
@@ -551,10 +543,8 @@ export default function BlogPostPage({
                 <div className="bg-gradient-to-br from-[#C9A227]/20 to-[#C9A227]/5 rounded-xl border border-[#C9A227]/30 p-5">
                   <h3 className="text-gray-900 font-semibold mb-2">{t("needHelp")}</h3>
                   <p className="text-gray-600 text-xs mb-4">{t("needHelpDesc")}</p>
-                  <Link href="/contact">
-                    <Button variant="gold" size="sm" className="w-full text-xs">
-                      {t("contactUs")}
-                    </Button>
+                  <Link href={`/${locale}/contact`} className="block w-full text-center px-3 py-2 text-xs bg-[#C9A227] text-white rounded-lg hover:bg-[#b8922a] transition-colors">
+                    {t("contactUs")}
                   </Link>
                 </div>
               </div>
@@ -575,7 +565,7 @@ export default function BlogPostPage({
               {relatedBlogs.slice(0, 4).map((relatedBlog) => (
                 <Link
                   key={relatedBlog.id}
-                  href={`/blog/${relatedBlog.slug}`}
+                  href={`/${locale}/blog/${relatedBlog.slug}`}
                   className="group"
                 >
                   <div className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:border-[#C9A227]/50 transition-all">

@@ -56,10 +56,10 @@ export default async function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
             {/* Text content - left side, 50% */}
             <div className="flex flex-col justify-center">
-              <h2 className="text-base lg:text-lg font-bold text-primary mb-3">
+              <h2 className="text-lg lg:text-xl font-bold text-primary mb-3">
                 {t("subtitle")}
               </h2>
-              <p className="text-muted mb-4 leading-relaxed text-xs">
+              <p className="text-muted mb-4 leading-relaxed text-sm lg:text-base">
                 {t("description")}
               </p>
               <Link
