@@ -12,9 +12,19 @@ export default async function HomePage() {
     <>
       {/* Banner Section */}
       <section
-        className="relative min-h-[600px] lg:min-h-[700px] flex items-center -mt-20 pt-20 pb-32 bg-cover bg-center"
-        style={{ backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.3) 70%, rgba(255, 255, 255, 1) 100%), url('/home-banner.png')" }}
+        className="relative min-h-[600px] lg:min-h-[700px] flex items-center -mt-20 pt-20 pb-32"
       >
+        {/* Background Image */}
+        <img
+          src="/home-banner.png"
+          alt="Packpert Banner"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        {/* Gradient Overlay */}
+        <div
+          className="absolute inset-0"
+          style={{ background: "linear-gradient(rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.3) 70%, rgba(255, 255, 255, 1) 100%)" }}
+        />
         <div className="w-full px-8 lg:px-20 relative z-10">
           <div className="max-w-md text-white text-left lg:ml-16">
             <h1 className="text-2xl lg:text-4xl font-bold mb-2 leading-tight animate-fade-in-up">
