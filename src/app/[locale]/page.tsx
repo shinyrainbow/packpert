@@ -275,9 +275,9 @@ export default async function HomePage() {
         <div className="container-custom">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
             {/* Video - left side */}
-            <div className="rounded-2xl overflow-hidden h-full min-h-[400px]">
+            <div className="rounded-2xl overflow-hidden flex items-center justify-center">
               <video
-                className="w-full h-full object-cover"
+                className="h-[600px] w-auto rounded-2xl"
                 autoPlay
                 muted
                 loop
@@ -287,7 +287,7 @@ export default async function HomePage() {
               </video>
             </div>
             {/* Text content - right side */}
-            <div className="flex flex-col justify-center">
+            <div className="flex flex-col justify-center px-4 lg:px-8">
               <h2 className="text-3xl lg:text-4xl font-bold text-primary mb-4">
                 {th("minOrderTitle")}
               </h2>

@@ -83,18 +83,16 @@ export default async function AboutPage() {
               </Link>
             </div>
             {/* Video - right side, 50% */}
-            <div className="px-4 lg:px-8">
-              <div className="rounded-2xl overflow-hidden aspect-video lg:aspect-auto h-full">
-                <video
-                  className="w-full h-full object-cover"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                >
-                  <source src="/packpert.mp4" type="video/mp4" />
-                </video>
-              </div>
+            <div className="rounded-2xl overflow-hidden flex items-center justify-center">
+              <video
+                className="h-[600px] w-auto rounded-2xl"
+                autoPlay
+                muted
+                loop
+                playsInline
+              >
+                <source src="/packpert.mp4" type="video/mp4" />
+              </video>
             </div>
           </div>
         </div>
