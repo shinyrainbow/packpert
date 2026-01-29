@@ -2,14 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { Card } from "@/components/ui/card";
 import { FileText, Calendar, ArrowRight, Home, TrendingUp } from "lucide-react";
 import Image from "next/image";
-import { Link } from "@/i18n/routing";
-import Header from "@/components/layout/header";
-import Footer from "@/components/layout/footer";
+import Link from "next/link";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { useTranslations, useLocale } from "next-intl";
-import { Button } from "@/components/ui/button";
 
 interface BlogSection {
   id: string;
@@ -143,7 +141,7 @@ export default function CategoryPage() {
           }`}
         >
           <div className="max-w-3xl">
-            <Link href="/blog" className="text-[#C9A227] text-xs uppercase tracking-widest mb-3 inline-flex items-center gap-2 hover:underline">
+            <Link href={`/${locale}/blog`} className="text-[#C9A227] text-xs uppercase tracking-widest mb-3 inline-flex items-center gap-2 hover:underline">
               <ArrowRight className="w-3 h-3 rotate-180" />
               BACK TO BLOG
             </Link>
@@ -179,11 +177,9 @@ export default function CategoryPage() {
               <FileText className="w-16 h-16 mx-auto text-gray-400 mb-4" />
               <p className="text-gray-700 text-lg mb-2">No blog posts in this category yet</p>
               <p className="text-gray-500 text-sm mb-6">Check back later for updates</p>
-              <Link href="/blog">
-                <Button variant="gold">
-                  <Home className="w-4 h-4 mr-2" />
-                  Back to Blog
-                </Button>
+              <Link href={`/${locale}/blog`} className="inline-flex items-center px-4 py-2 bg-[#C9A227] text-white rounded-lg hover:bg-[#b8922a] transition-colors">
+                <Home className="w-4 h-4 mr-2" />
+                Back to Blog
               </Link>
             </div>
           ) : (
@@ -191,7 +187,7 @@ export default function CategoryPage() {
               {blogs.map((blog, index) => (
                 <Link
                   key={blog.id}
-                  href={`/blog/${blog.slug}`}
+                  href={`/${locale}/blog/${blog.slug}`}
                   className={`group block transition-all duration-500 ${
                     isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
                   }`}

@@ -4,10 +4,9 @@ import { useEffect, useState } from "react";
 import { FileText, Calendar, ArrowRight, Home, TrendingUp } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import Header from "@/components/layout/header";
-import Footer from "@/components/layout/footer";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { useTranslations, useLocale } from "next-intl";
-import { Button } from "@/components/ui/button";
 
 interface Article {
   id: string;
@@ -159,11 +158,9 @@ export default function BlogPage() {
               <FileText className="w-16 h-16 mx-auto text-gray-400 mb-4" />
               <p className="text-gray-700 text-lg mb-2">{t("noBlogs")}</p>
               <p className="text-gray-500 text-sm mb-6">{locale === "th" ? "กลับมาดูใหม่ภายหลัง" : "Check back later for updates"}</p>
-              <Link href="/">
-                <Button variant="default" className="bg-primary hover:bg-primary/90">
-                  <Home className="w-4 h-4 mr-2" />
-                  {t("backHome")}
-                </Button>
+              <Link href={`/${locale}`} className="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+                <Home className="w-4 h-4 mr-2" />
+                {t("backHome")}
               </Link>
             </div>
           ) : (
@@ -363,10 +360,8 @@ export default function BlogPage() {
                   <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl border border-primary/20 p-5">
                     <h3 className="text-gray-900 font-semibold mb-2">{t("needHelp")}</h3>
                     <p className="text-gray-600 text-xs mb-4">{t("needHelpDesc")}</p>
-                    <Link href="/contact">
-                      <Button variant="default" size="sm" className="w-full text-xs bg-primary hover:bg-primary/90">
-                        {t("contactUs")}
-                      </Button>
+                    <Link href={`/${locale}/contact`} className="block w-full text-center px-3 py-2 text-xs bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+                      {t("contactUs")}
                     </Link>
                   </div>
                 </div>

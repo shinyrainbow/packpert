@@ -5,8 +5,7 @@ import { prisma } from "@/lib/prisma";
 export async function GET() {
   try {
     const categories = await prisma.blogCategory.findMany({
-      where: { isActive: true },
-      orderBy: { order: "asc" },
+      orderBy: { createdAt: "desc" },
     });
 
     return NextResponse.json({ success: true, data: categories });
@@ -23,7 +22,7 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, nameEn, nameZh, slug, color, order } = body;
+    const { name, nameEn, nameZh, slug, color } = body;
 
     if (!name || !slug) {
       return NextResponse.json(
@@ -39,7 +38,6 @@ export async function POST(request: Request) {
         nameZh: nameZh || null,
         slug,
         color: color || "#3B82F6",
-        order: order || 0,
       },
     });
 

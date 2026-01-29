@@ -124,6 +124,75 @@ async function main() {
         },
       ],
     },
+    {
+      title: "ประโยชน์ของซองฟอยล์สำหรับบรรจุภัณฑ์อาหาร",
+      titleEn: "Benefits of Foil Pouches for Food Packaging",
+      slug: "foil-pouch-benefits",
+      excerpt: "ซองฟอยล์เป็นทางเลือกยอดนิยมสำหรับบรรจุภัณฑ์อาหาร เรียนรู้ข้อดีและการใช้งานที่เหมาะสม",
+      excerptEn: "Foil pouches are a popular choice for food packaging. Learn about their benefits and proper usage",
+      coverImage: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop",
+      isPublished: true,
+      publishedAt: new Date("2025-01-20"),
+      categoryId: categories[0].id,
+      sections: [
+        {
+          order: 0,
+          content: "<h2>ความทนทานและการป้องกัน</h2><p>ซองฟอยล์มีคุณสมบัติป้องกันความชื้น แสง และอากาศได้ดีเยี่ยม ช่วยรักษาความสดของผลิตภัณฑ์ได้นานขึ้น</p>",
+          contentEn: "<h2>Durability and Protection</h2><p>Foil pouches have excellent moisture, light, and air barrier properties, helping to preserve product freshness longer.</p>",
+        },
+        {
+          order: 1,
+          content: "<h2>ความคุ้มค่า</h2><p>เมื่อเทียบกับบรรจุภัณฑ์แบบอื่น ซองฟอยล์มีต้นทุนที่ต่ำกว่าและสามารถพิมพ์ลายได้หลากหลาย</p>",
+          contentEn: "<h2>Cost Effectiveness</h2><p>Compared to other packaging types, foil pouches have lower costs and can be printed with various designs.</p>",
+        },
+      ],
+    },
+    {
+      title: "หลอดครีมสำหรับเครื่องสำอาง: คู่มือฉบับสมบูรณ์",
+      titleEn: "Cosmetic Tubes: A Complete Guide",
+      slug: "cosmetic-tubes-guide",
+      excerpt: "ทุกสิ่งที่คุณต้องรู้เกี่ยวกับหลอดครีมสำหรับผลิตภัณฑ์เครื่องสำอางและสกินแคร์",
+      excerptEn: "Everything you need to know about tubes for cosmetic and skincare products",
+      coverImage: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&h=600&fit=crop",
+      isPublished: true,
+      publishedAt: new Date("2025-01-18"),
+      categoryId: categories[1].id,
+      sections: [
+        {
+          order: 0,
+          content: "<h2>ประเภทของหลอดครีม</h2><p>หลอดครีมมีหลายประเภท ได้แก่ หลอดบีบ หลอดปั๊ม และหลอดแอร์เลส แต่ละประเภทเหมาะกับผลิตภัณฑ์ที่แตกต่างกัน</p>",
+          contentEn: "<h2>Types of Cosmetic Tubes</h2><p>There are several types of tubes including squeeze tubes, pump tubes, and airless tubes. Each type suits different products.</p>",
+        },
+        {
+          order: 1,
+          content: "<h2>การเลือกขนาดที่เหมาะสม</h2><p>ขนาดหลอดที่นิยมมีตั้งแต่ 15ml ถึง 200ml ขึ้นอยู่กับประเภทผลิตภัณฑ์และการใช้งาน</p>",
+          contentEn: "<h2>Choosing the Right Size</h2><p>Popular tube sizes range from 15ml to 200ml, depending on product type and usage.</p>",
+        },
+      ],
+    },
+    {
+      title: "กล่องกระดาษ: ทางเลือกยั่งยืนสำหรับธุรกิจ",
+      titleEn: "Paper Boxes: Sustainable Choice for Business",
+      slug: "paper-boxes-sustainable",
+      excerpt: "กล่องกระดาษเป็นทางเลือกที่เป็นมิตรกับสิ่งแวดล้อมและสามารถปรับแต่งได้ตามความต้องการ",
+      excerptEn: "Paper boxes are eco-friendly options that can be customized to meet your needs",
+      coverImage: "https://images.unsplash.com/photo-1607166452427-7e4477079cb9?w=800&h=600&fit=crop",
+      isPublished: true,
+      publishedAt: new Date("2025-01-12"),
+      categoryId: categories[2].id,
+      sections: [
+        {
+          order: 0,
+          content: "<h2>ข้อดีของกล่องกระดาษ</h2><p>กล่องกระดาษสามารถรีไซเคิลได้ 100% ย่อยสลายได้ตามธรรมชาติ และสามารถพิมพ์ลายได้คมชัด</p>",
+          contentEn: "<h2>Benefits of Paper Boxes</h2><p>Paper boxes are 100% recyclable, biodegradable, and can be printed with sharp, clear designs.</p>",
+        },
+        {
+          order: 1,
+          content: "<h2>การเลือกความหนาที่เหมาะสม</h2><p>ความหนาของกระดาษมีผลต่อความแข็งแรงและการปกป้องสินค้า เลือกให้เหมาะกับน้ำหนักของผลิตภัณฑ์</p>",
+          contentEn: "<h2>Choosing the Right Thickness</h2><p>Paper thickness affects durability and product protection. Choose based on your product weight.</p>",
+        },
+      ],
+    },
   ];
 
   for (const blogData of blogs) {
