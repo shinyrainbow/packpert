@@ -1,13 +1,13 @@
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
-import { Noto_Sans_Thai } from "next/font/google";
+import { Sarabun } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingLineButton from "@/components/FloatingLineButton";
 
-const notoSansThai = Noto_Sans_Thai({
-  variable: "--font-noto-sans-thai",
+const sarabun = Sarabun({
+  variable: "--font-sarabun",
   subsets: ["thai", "latin"],
   weight: ["300", "400", "500", "600", "700"],
 });
@@ -29,7 +29,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
-      <body className={`${notoSansThai.variable} antialiased flex flex-col min-h-screen`}>
+      <body className={`${sarabun.variable} antialiased flex flex-col min-h-screen`}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Header />
           <main className="flex-1 pt-20">{children}</main>

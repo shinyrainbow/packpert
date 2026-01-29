@@ -191,3 +191,62 @@ model Portfolio {
   @@index([isFeatured])
   @@index([category])
 }
+
+// Blog model with sections
+model Blog {
+  id          String        @id @default(cuid())
+  title       String        // Thai title (default)
+  titleEn     String?       // English title
+  titleZh     String?       // Chinese title
+  slug        String        @unique
+  excerpt     String?       @db.Text
+  excerptEn   String?       @db.Text
+  excerptZh   String?       @db.Text
+  coverImage  String?
+  isPublished Boolean       @default(false)
+  publishedAt DateTime?
+  viewCount   Int           @default(0)
+
+  // Relations
+  sections    BlogSection[]
+  categoryId  String?
+  category    BlogCategory? @relation(fields: [categoryId], references: [id])
+
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([isPublished])
+  @@index([publishedAt])
+  @@index([categoryId])
+}
+
+// Blog content sections
+model BlogSection {
+  id        String   @id @default(cuid())
+  order     Int      @default(0)
+  imageUrl  String?
+  content   String?  @db.Text // Thai content (default)
+  contentEn String?  @db.Text // English content
+  contentZh String?  @db.Text // Chinese content
+
+  blogId    String
+  blog      Blog     @relation(fields: [blogId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([blogId])
+}
+
+// Blog categories
+model BlogCategory {
+  id      String  @id @default(cuid())
+  name    String  // Thai name (default)
+  nameEn  String? // English name
+  nameZh  String? // Chinese name
+  slug    String  @unique
+  color   String  @default("#C9A227")
+
+  blogs   Blog[]
+
+  createdAt DateTime @default(now())
+}

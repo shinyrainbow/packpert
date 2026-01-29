@@ -1,5 +1,6 @@
 import { getTranslations, getLocale } from "next-intl/server";
 import Link from "next/link";
+import { prisma } from "@/lib/prisma";
 
 export default async function HomePage() {
   const locale = await getLocale();
@@ -7,6 +8,55 @@ export default async function HomePage() {
   const th = await getTranslations("home");
   const tp = await getTranslations("portfolio");
   const tcommon = await getTranslations("common");
+
+  // Fetch latest published blogs
+  let blogs: Array<{
+    id: string;
+    title: string;
+    titleEn: string | null;
+    slug: string;
+    excerpt: string | null;
+    excerptEn: string | null;
+    coverImage: string | null;
+    publishedAt: Date | null;
+  }> = [];
+
+  try {
+    blogs = await prisma.blog.findMany({
+      where: { isPublished: true },
+      orderBy: { publishedAt: "desc" },
+      take: 3,
+      select: {
+        id: true,
+        title: true,
+        titleEn: true,
+        slug: true,
+        excerpt: true,
+        excerptEn: true,
+        coverImage: true,
+        publishedAt: true,
+      },
+    });
+  } catch (error) {
+    console.error("Failed to fetch blogs:", error);
+  }
+
+  const getLocalizedTitle = (blog: (typeof blogs)[0]) => {
+    return locale === "en" && blog.titleEn ? blog.titleEn : blog.title;
+  };
+
+  const getLocalizedExcerpt = (blog: (typeof blogs)[0]) => {
+    return locale === "en" && blog.excerptEn ? blog.excerptEn : blog.excerpt;
+  };
+
+  const formatDate = (date: Date | null) => {
+    if (!date) return "";
+    return new Date(date).toLocaleDateString(locale === "th" ? "th-TH" : "en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
 
   return (
     <>
@@ -25,16 +75,17 @@ export default async function HomePage() {
           className="absolute inset-0"
           style={{ background: "linear-gradient(rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.3) 70%, rgba(255, 255, 255, 1) 100%)" }}
         />
-        <div className="w-full px-8 lg:px-20 relative z-10">
+        <div className="w-full px-8 lg:px-20 relative z-10 bg-pink">
           <div className="max-w-md text-white text-left lg:ml-16">
-            <h1 className="text-2xl lg:text-4xl font-bold mb-2 leading-tight animate-fade-in-up">
+            <h1 className="text-3xl lg:text-5xl font-bold mb-2 leading-tight animate-fade-in-up">
               {t("title")}
             </h1>
             {t("subtitle") && (
-              <h1 className="text-2xl lg:text-4xl font-bold mb-6 leading-tight animate-fade-in-up-delay-1">
+              <h1 className="text-xl lg:text-xl font-bold mb-6 leading-tight animate-fade-in-up-delay-1">
                 {t("subtitle")}
               </h1>
             )}
+
             <div className="flex flex-col sm:flex-row gap-3 animate-fade-in-up-delay-2">
               <a
                 href="https://lin.ee/Gq5zgzn"
@@ -95,11 +146,11 @@ export default async function HomePage() {
               </div>
             ))}
           </div>
-          <div className="text-center mt-8">
+          {/* <div className="text-center mt-8">
             <Link href={`/${locale}/catalog`} className="btn-primary">
               {tcommon("viewAll")}
             </Link>
-          </div>
+          </div> */}
         </div>
       </section>
 
@@ -162,72 +213,80 @@ export default async function HomePage() {
               {th("articlesDesc")}
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                title: locale === "th" ? "5 เทรนด์บรรจุภัณฑ์ที่น่าจับตามองในปี 2024" : "5 Packaging Trends to Watch in 2024",
-                excerpt: locale === "th" ? "ค้นพบเทรนด์บรรจุภัณฑ์ล่าสุดที่จะเปลี่ยนแปลงอุตสาหกรรมในปีนี้" : "Discover the latest packaging trends that will transform the industry this year",
-                date: "Jan 15, 2024",
-                image: "https://images.unsplash.com/photo-1607082349566-187342175e2f?w=400&h=300&fit=crop"
-              },
-              {
-                title: locale === "th" ? "วิธีเลือกบรรจุภัณฑ์ที่เหมาะกับสินค้าของคุณ" : "How to Choose the Right Packaging for Your Product",
-                excerpt: locale === "th" ? "คู่มือฉบับสมบูรณ์ในการเลือกบรรจุภัณฑ์ที่เหมาะสมกับแบรนด์และสินค้าของคุณ" : "A complete guide to selecting packaging that fits your brand and product",
-                date: "Jan 10, 2024",
-                image: "https://images.unsplash.com/photo-1586880244406-556ebe35f282?w=400&h=300&fit=crop"
-              },
-              {
-                title: locale === "th" ? "บรรจุภัณฑ์รักษ์โลก: ทางเลือกที่ยั่งยืน" : "Eco-Friendly Packaging: Sustainable Options",
-                excerpt: locale === "th" ? "เรียนรู้เกี่ยวกับตัวเลือกบรรจุภัณฑ์ที่เป็นมิตรกับสิ่งแวดล้อมสำหรับธุรกิจของคุณ" : "Learn about environmentally friendly packaging options for your business",
-                date: "Jan 5, 2024",
-                image: "https://images.unsplash.com/photo-1610557892470-55d9e80c0eb2?w=400&h=300&fit=crop"
-              }
-            ].map((article, index) => (
-              <article key={index} className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow group">
-                <div className="aspect-[16/10] bg-gray-100 relative overflow-hidden">
-                  <img
-                    src={article.image}
-                    alt={article.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <div className="p-5">
-                  <p className="text-xs text-muted mb-2">{article.date}</p>
-                  <h3 className="text-lg font-semibold text-primary mb-2 line-clamp-2">
-                    {article.title}
-                  </h3>
-                  <p className="text-muted text-sm line-clamp-2">
-                    {article.excerpt}
-                  </p>
-                  <button className="mt-4 text-primary font-medium text-sm hover:underline">
-                    {tcommon("readMore")} →
-                  </button>
-                </div>
-              </article>
-            ))}
-          </div>
+          {blogs.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {blogs.map((blog) => (
+                <Link
+                  key={blog.id}
+                  href={`/${locale}/blog/${blog.slug}`}
+                  className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow group"
+                >
+                  <div className="aspect-[16/10] bg-gray-100 relative overflow-hidden">
+                    {blog.coverImage ? (
+                      <img
+                        src={blog.coverImage}
+                        alt={getLocalizedTitle(blog)}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gray-200">
+                        <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-5">
+                    {blog.publishedAt && (
+                      <p className="text-xs text-muted mb-2">{formatDate(blog.publishedAt)}</p>
+                    )}
+                    <h3 className="text-lg font-semibold text-primary mb-2 line-clamp-2 group-hover:text-primary/80 transition-colors">
+                      {getLocalizedTitle(blog)}
+                    </h3>
+                    {getLocalizedExcerpt(blog) && (
+                      <p className="text-muted text-sm line-clamp-2">
+                        {getLocalizedExcerpt(blog)}
+                      </p>
+                    )}
+                    <span className="mt-4 inline-block text-primary font-medium text-sm group-hover:underline">
+                      {tcommon("readMore")} →
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-muted">{locale === "th" ? "ยังไม่มีบทความ" : "No articles yet"}</p>
+            </div>
+          )}
+          {blogs.length > 0 && (
+            <div className="text-center mt-8">
+              <Link href={`/${locale}/blog`} className="btn-primary">
+                {tcommon("viewAll")}
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 
       {/* Minimum Order Section */}
       <section className="py-16">
         <div className="container-custom">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Video - left side, 50% */}
-            <div className="px-4 lg:px-12 lg:max-h-[400px]">
-              <div className="rounded-2xl overflow-hidden">
-                <video
-                  className="w-full aspect-[9/16] object-cover"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                >
-                  <source src="/packpert.mp4" type="video/mp4" />
-                </video>
-              </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
+            {/* Video - left side */}
+            <div className="rounded-2xl overflow-hidden h-full min-h-[400px]">
+              <video
+                className="w-full h-full object-cover"
+                autoPlay
+                muted
+                loop
+                playsInline
+              >
+                <source src="/packpert.mp4" type="video/mp4" />
+              </video>
             </div>
-            {/* Text content - right side, 50% */}
+            {/* Text content - right side */}
             <div className="flex flex-col justify-center">
               <h2 className="text-3xl lg:text-4xl font-bold text-primary mb-4">
                 {th("minOrderTitle")}

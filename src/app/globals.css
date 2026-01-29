@@ -1,26 +1,5 @@
 @import "tailwindcss";
 
-/* Custom Font - Add your UID ปริศนา font file to /public/fonts/ */
-@font-face {
-  font-family: 'UID ปริศนา';
-  src: url('/fonts/UID-Prisana.woff2') format('woff2'),
-       url('/fonts/UID-Prisana.woff') format('woff'),
-       url('/fonts/UID-Prisana.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'UID ปริศนา';
-  src: url('/fonts/UID-Prisana-Bold.woff2') format('woff2'),
-       url('/fonts/UID-Prisana-Bold.woff') format('woff'),
-       url('/fonts/UID-Prisana-Bold.ttf') format('truetype');
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
-
 :root {
   --primary: #354447;
   --primary-dark: #2a3639;
@@ -46,7 +25,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'UID ปริศนา', 'Noto Sans Thai', 'Segoe UI', Arial, sans-serif;
+  font-family: var(--font-sarabun), 'Segoe UI', Arial, sans-serif;
 }
 
 .btn-primary {
