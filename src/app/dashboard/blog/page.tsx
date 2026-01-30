@@ -8,7 +8,6 @@ import {
   Plus,
   Pencil,
   Trash2,
-  Image as ImageIcon,
   Loader2,
   Eye,
   EyeOff,
@@ -401,7 +400,7 @@ export default function AdminBlogPage() {
         </Card>
       </div>
 
-      {/* Blog Grid */}
+      {/* Blog Table */}
       {blogs.length === 0 ? (
         <Card className="p-12 text-center">
           <FileText className="w-12 h-12 text-gray-300 mx-auto mb-3" />
@@ -415,122 +414,137 @@ export default function AdminBlogPage() {
           </Button>
         </Card>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {blogs.map((blog) => (
-            <Card
-              key={blog.id}
-              className={`overflow-hidden ${
-                !blog.isPublished ? "opacity-70" : ""
-              }`}
-            >
-              {/* Image */}
-              <div className="relative h-40 bg-gray-100">
-                {blog.coverImage ? (
-                  <Image
-                    src={blog.coverImage}
-                    alt={blog.title}
-                    fill
-                    className="object-cover"
-                  />
-                ) : (
-                  <div className="flex items-center justify-center h-full">
-                    <ImageIcon className="w-12 h-12 text-gray-300" />
-                  </div>
-                )}
-                {/* Status Badge */}
-                <div
-                  className={`absolute top-2 left-2 px-2 py-1 rounded-full text-xs font-bold ${
-                    blog.isPublished
-                      ? "bg-green-500 text-white"
-                      : "bg-gray-700 text-white"
-                  }`}
-                >
-                  {blog.isPublished ? "เผยแพร่แล้ว" : "แบบร่าง"}
-                </div>
-                {/* Sections Count */}
-                <div className="absolute top-2 right-2 bg-black/50 text-white px-2 py-1 rounded-full text-xs font-bold">
-                  {blog.sections.length} ส่วน
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="p-4">
-                <h3 className="font-semibold text-gray-900 mb-1 line-clamp-2">
-                  {blog.title}
-                </h3>
-                {blog.excerpt && (
-                  <p className="text-sm text-gray-600 mb-2 line-clamp-2">
-                    {blog.excerpt}
-                  </p>
-                )}
-                <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-3">
-                  <Calendar className="w-3 h-3" />
-                  {formatDate(blog.createdAt)}
-                </div>
-
-                {/* View Link */}
-                {blog.isPublished && (
-                  <Link
-                    href={`/blog/${blog.slug}`}
-                    target="_blank"
-                    className="text-sm text-[#C9A227] hover:text-[#A88B1F] flex items-center gap-1 mb-3"
+        <Card className="overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-50 border-b border-gray-200">
+                <tr>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    หัวข้อ
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    Slug
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    สถานะ
+                  </th>
+                  <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    ส่วนเนื้อหา
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    วันที่สร้าง
+                  </th>
+                  <th className="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    การจัดการ
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                {blogs.map((blog) => (
+                  <tr
+                    key={blog.id}
+                    className={`hover:bg-gray-50 transition-colors ${
+                      !blog.isPublished ? "bg-gray-50/50" : ""
+                    }`}
                   >
-                    <ExternalLink className="w-3 h-3" />
-                    ดูบทความ
-                  </Link>
-                )}
-
-                {/* Actions */}
-                <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleTogglePublish(blog)}
-                    disabled={updating === blog.id}
-                    className={
-                      blog.isPublished
-                        ? "text-gray-600 hover:text-gray-700"
-                        : "text-green-600 hover:text-green-700"
-                    }
-                  >
-                    {updating === blog.id ? (
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                    ) : blog.isPublished ? (
-                      <>
-                        <EyeOff className="w-4 h-4 mr-1" />
-                        ซ่อน
-                      </>
-                    ) : (
-                      <>
-                        <Eye className="w-4 h-4 mr-1" />
-                        เผยแพร่
-                      </>
-                    )}
-                  </Button>
-                  <div className="flex items-center gap-1">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleOpenModal(blog)}
-                      className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-                    >
-                      <Pencil className="w-4 h-4" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleDelete(blog.id)}
-                      disabled={updating === blog.id}
-                      className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div>
+                    <td className="px-4 py-3">
+                      <div className="flex flex-col">
+                        <span className="font-medium text-gray-900 line-clamp-1">
+                          {blog.title}
+                        </span>
+                        {blog.excerpt && (
+                          <span className="text-xs text-gray-500 line-clamp-1 mt-0.5">
+                            {blog.excerpt}
+                          </span>
+                        )}
+                      </div>
+                    </td>
+                    <td className="px-4 py-3">
+                      <code className="text-xs bg-gray-100 px-2 py-1 rounded text-gray-700">
+                        {blog.slug}
+                      </code>
+                    </td>
+                    <td className="px-4 py-3">
+                      <span
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          blog.isPublished
+                            ? "bg-green-100 text-green-800"
+                            : "bg-gray-100 text-gray-800"
+                        }`}
+                      >
+                        {blog.isPublished ? "เผยแพร่แล้ว" : "แบบร่าง"}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-center">
+                      <span className="text-sm text-gray-600">
+                        {blog.sections.length}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-1.5 text-sm text-gray-600">
+                        <Calendar className="w-3.5 h-3.5" />
+                        {formatDate(blog.createdAt)}
+                      </div>
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="flex items-center justify-end gap-1">
+                        {blog.isPublished && (
+                          <Link
+                            href={`/blog/${blog.slug}`}
+                            target="_blank"
+                            className="p-2 text-[#C9A227] hover:bg-[#C9A227]/10 rounded-lg transition-colors"
+                            title="ดูบทความ"
+                          >
+                            <ExternalLink className="w-4 h-4" />
+                          </Link>
+                        )}
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleTogglePublish(blog)}
+                          disabled={updating === blog.id}
+                          className={`p-2 ${
+                            blog.isPublished
+                              ? "text-gray-600 hover:text-gray-700 hover:bg-gray-100"
+                              : "text-green-600 hover:text-green-700 hover:bg-green-50"
+                          }`}
+                          title={blog.isPublished ? "ซ่อน" : "เผยแพร่"}
+                        >
+                          {updating === blog.id ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                          ) : blog.isPublished ? (
+                            <EyeOff className="w-4 h-4" />
+                          ) : (
+                            <Eye className="w-4 h-4" />
+                          )}
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleOpenModal(blog)}
+                          className="p-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                          title="แก้ไข"
+                        >
+                          <Pencil className="w-4 h-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleDelete(blog.id)}
+                          disabled={updating === blog.id}
+                          className="p-2 text-red-600 hover:text-red-700 hover:bg-red-50"
+                          title="ลบ"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Card>
       )}
 
       {/* Add/Edit Modal */}

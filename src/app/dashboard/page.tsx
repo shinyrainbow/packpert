@@ -11,6 +11,8 @@ interface Contact {
   subject: string;
   message: string;
   isRead: boolean;
+  isContacted: boolean;
+  contactedAt: string | null;
   createdAt: string;
 }
 
@@ -60,7 +62,22 @@ export default function DashboardPage() {
     }
   }
 
-  const unreadCount = contacts.filter((c) => !c.isRead).length;
+  async function toggleContacted(contact: Contact) {
+    try {
+      const res = await fetch(`/api/contacts/${contact.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isContacted: !contact.isContacted }),
+      });
+      const updatedContact = await res.json();
+      setSelectedContact(updatedContact);
+      fetchContacts();
+    } catch (error) {
+      console.error("Failed to toggle contacted status:", error);
+    }
+  }
+
+  const notContactedCount = contacts.filter((c) => !c.isContacted).length;
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -94,9 +111,9 @@ export default function DashboardPage() {
 
         <div className="bg-white p-6 rounded-xl shadow-sm">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+            <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
               <svg
-                className="w-6 h-6 text-yellow-600"
+                className="w-6 h-6 text-orange-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -105,13 +122,13 @@ export default function DashboardPage() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
             </div>
             <div>
-              <p className="text-sm text-muted">Unread</p>
-              <p className="text-2xl font-bold text-yellow-600">{unreadCount}</p>
+              <p className="text-sm text-muted">รอติดต่อกลับ</p>
+              <p className="text-2xl font-bold text-orange-600">{notContactedCount}</p>
             </div>
           </div>
         </div>
@@ -134,9 +151,9 @@ export default function DashboardPage() {
               </svg>
             </div>
             <div>
-              <p className="text-sm text-muted">Read</p>
+              <p className="text-sm text-muted">ติดต่อกลับแล้ว</p>
               <p className="text-2xl font-bold text-green-600">
-                {contacts.length - unreadCount}
+                {contacts.length - notContactedCount}
               </p>
             </div>
           </div>
@@ -184,6 +201,15 @@ export default function DashboardPage() {
                           - {contact.company}
                         </span>
                       )}
+                      <span
+                        className={`ml-2 px-2 py-0.5 rounded-full text-xs font-medium ${
+                          contact.isContacted
+                            ? "bg-green-100 text-green-700"
+                            : "bg-orange-100 text-orange-700"
+                        }`}
+                      >
+                        {contact.isContacted ? "ติดต่อแล้ว" : "รอติดต่อ"}
+                      </span>
                     </div>
                     <p className="text-sm font-medium text-primary truncate">
                       {contact.subject}
@@ -275,27 +301,44 @@ export default function DashboardPage() {
                 </p>
               </div>
 
-              <div>
-                <p className="text-sm text-muted">Received</p>
-                <p className="font-medium">
-                  {new Date(selectedContact.createdAt).toLocaleString()}
-                </p>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-sm text-muted">Received</p>
+                  <p className="font-medium">
+                    {new Date(selectedContact.createdAt).toLocaleString()}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted">สถานะการติดต่อ</p>
+                  <p className={`font-medium ${selectedContact.isContacted ? "text-green-600" : "text-orange-600"}`}>
+                    {selectedContact.isContacted ? "ติดต่อกลับแล้ว" : "รอติดต่อกลับ"}
+                    {selectedContact.contactedAt && (
+                      <span className="text-sm text-muted ml-2">
+                        ({new Date(selectedContact.contactedAt).toLocaleString()})
+                      </span>
+                    )}
+                  </p>
+                </div>
               </div>
             </div>
 
-            <div className="p-6 border-t flex justify-end gap-3">
+            <div className="p-6 border-t flex justify-between">
               <button
                 onClick={() => deleteContact(selectedContact.id)}
                 className="px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
               >
                 Delete
               </button>
-              <a
-                href={`mailto:${selectedContact.email}?subject=Re: ${selectedContact.subject}`}
-                className="btn-primary"
+              <button
+                onClick={() => toggleContacted(selectedContact)}
+                className={`px-4 py-2 rounded-lg transition-colors font-medium ${
+                  selectedContact.isContacted
+                    ? "bg-orange-100 text-orange-700 hover:bg-orange-200"
+                    : "bg-green-600 text-white hover:bg-green-700"
+                }`}
               >
-                Reply via Email
-              </a>
+                {selectedContact.isContacted ? "ยกเลิกสถานะติดต่อ" : "ติดต่อกลับแล้ว"}
+              </button>
             </div>
           </div>
         </div>

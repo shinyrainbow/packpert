@@ -82,6 +82,45 @@ export default async function CatalogPage() {
           </div>
         </div>
       </section>
+
+      {/* Other Catalogs Section */}
+      <section className="section-padding bg-white">
+        <div className="container-custom">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl font-bold text-primary mb-4">
+              {t("otherCatalogs")}
+            </h2>
+          </div>
+          <div className="grid grid-cols-4 lg:grid-cols-7 gap-4 lg:gap-6">
+            {[
+              { image: "1creamtube.png", key: "creamTube", value: "creamTube" },
+              { image: "2stick.png", key: "stickTube", value: "stickTube" },
+              { image: "3bottle.png", key: "pumpBottle", value: "pumpBottle" },
+              { image: "4cosmetic.png", key: "cosmetics", value: "cosmetics" },
+              { image: "5jar.png", key: "jar", value: "jar" },
+              { image: "6serum.png", key: "serumBottle", value: "serumBottle" },
+              { image: "7lip.png", key: "lip", value: "lip" },
+            ].map((item) => (
+              <Link
+                key={item.key}
+                href={`/${locale}/catalog/${item.value}`}
+                className="group"
+              >
+                <div className="rounded-xl overflow-hidden bg-gray-100 mb-3">
+                  <img
+                    src={`/other-catalog/${item.image}`}
+                    alt={t(item.key)}
+                    className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <p className="text-center font-semibold text-gray-800 group-hover:text-primary transition-colors">
+                  {t(item.key)}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
     </>
   );
 }

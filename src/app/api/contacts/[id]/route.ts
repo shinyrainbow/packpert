@@ -18,11 +18,24 @@ export async function PATCH(
   try {
     const data = await request.json();
 
+    const updateData: {
+      isRead?: boolean;
+      isContacted?: boolean;
+      contactedAt?: Date | null;
+    } = {};
+
+    if (data.isRead !== undefined) {
+      updateData.isRead = data.isRead;
+    }
+
+    if (data.isContacted !== undefined) {
+      updateData.isContacted = data.isContacted;
+      updateData.contactedAt = data.isContacted ? new Date() : null;
+    }
+
     const contact = await prisma.contact.update({
       where: { id },
-      data: {
-        isRead: data.isRead,
-      },
+      data: updateData,
     });
 
     return NextResponse.json(contact);

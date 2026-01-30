@@ -134,6 +134,69 @@ export default async function CategoryDetailPage({ params }: Props) {
           </div>
         </div>
       </section>
+
+      {/* Production Steps Section */}
+      <section className="section-padding bg-secondary">
+        <div className="container-custom">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl font-bold text-primary mb-4">
+              {t("productionStepsTitle")}
+            </h2>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 lg:gap-8">
+            {[1, 2, 3, 4, 5, 6].map((num) => (
+              <div key={num} className="flex flex-col items-center">
+                <img
+                  src={`/icons/ขั้นตอนผลิต${num}.png`}
+                  alt={`Production Step ${num}`}
+                  className="w-24 h-24 lg:w-32 lg:h-32 object-contain"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Other Catalogs Section */}
+      <section className="section-padding bg-white">
+        <div className="container-custom">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl font-bold text-primary mb-4">
+              {t("otherCatalogs")}
+            </h2>
+          </div>
+          <div className="grid grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-6">
+            {[
+              { image: "1creamtube.png", key: "creamTube", value: "creamTube" },
+              { image: "2stick.png", key: "stickTube", value: "stickTube" },
+              { image: "3bottle.png", key: "pumpBottle", value: "pumpBottle" },
+              { image: "4cosmetic.png", key: "cosmetics", value: "cosmetics" },
+              { image: "5jar.png", key: "jar", value: "jar" },
+              { image: "6serum.png", key: "serumBottle", value: "serumBottle" },
+              { image: "7lip.png", key: "lip", value: "lip" },
+            ]
+              .filter((item) => item.value !== category)
+              .map((item) => (
+                <Link
+                  key={item.key}
+                  href={`/${locale}/catalog/${item.value}`}
+                  className="group"
+                >
+                  <div className="rounded-xl overflow-hidden bg-gray-100 mb-3">
+                    <img
+                      src={`/other-catalog/${item.image}`}
+                      alt={t(item.key)}
+                      className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                  <p className="text-center font-semibold text-gray-800 group-hover:text-primary transition-colors">
+                    {t(item.key)}
+                  </p>
+                </Link>
+              ))}
+          </div>
+        </div>
+      </section>
     </>
   );
 }

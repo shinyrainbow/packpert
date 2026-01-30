@@ -111,27 +111,33 @@ export default async function AboutPage() {
               {t("packpertServicesTitle")}
             </h2>
           </div>
-          <div className="flex flex-wrap justify-center gap-8 lg:gap-16">
-            <div className="flex flex-col items-center">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 max-w-5xl mx-auto">
+            <div className="flex flex-col items-center text-center">
               <img
                 src="/icons/บริการของ Packpert1.png"
-                alt="Packpert Service 1"
-                className="w-32 h-32 lg:w-40 lg:h-40 object-contain"
+                alt="ผู้ช่วยเลือกแพ็กเกจจิ้ง"
+                className="w-32 h-32 lg:w-40 lg:h-40 object-contain mb-4"
               />
+              <h3 className="text-lg font-semibold text-primary mb-2">ผู้ช่วยเลือกแพ็กเกจจิ้ง</h3>
+              <p className="text-muted text-sm">ให้คำปรึกษาและแนะนำแพ็กเกจจิ้งที่เหมาะกับแบรนด์คุณ</p>
             </div>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center text-center">
               <img
                 src="/icons/บริการของ Packpert2.png"
-                alt="Packpert Service 2"
-                className="w-32 h-32 lg:w-40 lg:h-40 object-contain"
+                alt="รับผลิตแพ็กเกจจิ้ง"
+                className="w-32 h-32 lg:w-40 lg:h-40 object-contain mb-4"
               />
+              <h3 className="text-lg font-semibold text-primary mb-2">รับผลิตแพ็กเกจจิ้ง</h3>
+              <p className="text-muted text-sm">ดูแลครบจบในที่เดียว ตั้งแต่เลือกวัสดุจนถึงจัดส่ง งานไว มั่นใจคุณภาพ พร้อมตอบโจทย์ทุกความต้องการของธุรกิจคุณ</p>
             </div>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center text-center">
               <img
                 src="/icons/บริการของ Packpert3.png"
-                alt="Packpert Service 3"
-                className="w-32 h-32 lg:w-40 lg:h-40 object-contain"
+                alt="ออกแบบแพ็กเกจจิ้งและโลโก้แบรนด์"
+                className="w-32 h-32 lg:w-40 lg:h-40 object-contain mb-4"
               />
+              <h3 className="text-lg font-semibold text-primary mb-2">ออกแบบแพ็กเกจจิ้งและโลโก้แบรนด์</h3>
+              <p className="text-muted text-sm">เปลี่ยนไอเดียให้เป็นงานดีไซน์ที่โดดเด่น สร้างเอกลักษณ์ให้แบรนด์คุณเป็นที่จดจำ</p>
             </div>
           </div>
         </div>

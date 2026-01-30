@@ -45,7 +45,7 @@
     "ctaDesc": "Contact us today for a free consultation and quote",
     "lineDiscount": "Get New Customer Discount",
     "requestQuote": "Request Quote",
-    "ourServicesTitle": "Packpert Services",
+    "ourServicesTitle": "Our Services",
     "articlesTitle": "Articles",
     "articlesDesc": "Learn more about packaging and industry trends",
     "minOrderTitle": "Elevate Your Brand with Our Packaging Expertise",
@@ -108,7 +108,8 @@
     "lipH1": "Lipstick & Lip Gloss Packaging with Modern Designs to Enhance Your Makeup Brand",
     "lipSubheadline": "Premium twist-up lipstick tubes and trending 2026 lip gloss dip tubes with innovative brush applicators for smooth, counter-brand quality application.",
     "cosmeticsH1": "Cushion Compacts & Powder Cases with Elegant Designs Driving Makeup Trends",
-    "cosmeticsSubheadline": "Elevate your makeup line with portable compacts featuring secure locks to prevent product drying, built-in mirrors, and separate puff compartments for optimal hygiene."
+    "cosmeticsSubheadline": "Elevate your makeup line with portable compacts featuring secure locks to prevent product drying, built-in mirrors, and separate puff compartments for optimal hygiene.",
+    "otherCatalogs": "Other Products"
   },
   "portfolio": {
     "title": "Our Portfolio",
@@ -173,7 +174,7 @@
     "success": "Message sent successfully! We will get back to you soon.",
     "error": "Failed to send message. Please try again.",
     "infoTitle": "Contact Information",
-    "addressValue": "123 Packaging Street, Industrial Zone, Bangkok, Thailand 10100",
+    "addressValue": "92/4, Sathorn Thani 2 Building, North Sathorn Road, Si Lom, Bang Rak, Bangkok 10500",
     "workingHours": "Working Hours",
     "workingHoursValue": "Monday - Friday: 8:00 AM - 6:00 PM\nSaturday: 9:00 AM - 3:00 PM",
     "privacyAccept": "I accept the",

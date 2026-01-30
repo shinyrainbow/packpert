@@ -139,7 +139,7 @@ export default function BlogPostPage({
 
         {/* Breadcrumb Skeleton */}
         <div className="bg-[#0d1117] py-4 border-b border-white/10">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-2">
             <div className="flex items-center gap-2 animate-pulse">
               <div className="h-4 bg-gray-700 rounded w-12" />
               <div className="h-4 bg-gray-700 rounded w-1" />
@@ -152,7 +152,7 @@ export default function BlogPostPage({
 
         {/* Main Content Skeleton */}
         <section className="py-8 bg-gray-50">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-2">
             <div className="max-w-4xl mx-auto">
               {/* Article Content Skeleton */}
               <article className="animate-pulse">
@@ -212,7 +212,7 @@ export default function BlogPostPage({
       <div className="min-h-screen bg-gray-50">
         <Header />
         <div className="h-16" />
-        <div className="container mx-auto px-4 py-20 text-center bg-gray-50">
+        <div className="container mx-auto px-2 py-20 text-center bg-gray-50">
           <FileText className="w-20 h-20 mx-auto text-gray-600 mb-6" />
           <h1 className="text-2xl font-bold text-gray-900 mb-4">
             {t("notFound")}
@@ -243,7 +243,7 @@ export default function BlogPostPage({
 
       {/* Breadcrumb */}
       <div className="bg-[#0d1117] py-4 border-b border-white/10">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-2">
           <div className="flex items-center gap-2 text-sm">
             <Link href="/" className="text-gray-400 hover:text-[#C9A227] transition-colors">
               {t("home")}
@@ -260,7 +260,7 @@ export default function BlogPostPage({
 
       {/* Main Content */}
       <section className="py-8 bg-gray-50">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-2">
           <div className="max-w-4xl mx-auto">
             {/* Article Content */}
             <div>

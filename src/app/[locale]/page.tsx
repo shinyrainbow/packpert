@@ -17,8 +17,8 @@ export default async function HomePage() {
     slug: string;
     excerpt: string | null;
     excerptEn: string | null;
-    coverImage: string | null;
     publishedAt: Date | null;
+    sections: Array<{ imageUrl: string | null }>;
   }> = [];
 
   try {
@@ -33,8 +33,12 @@ export default async function HomePage() {
         slug: true,
         excerpt: true,
         excerptEn: true,
-        coverImage: true,
         publishedAt: true,
+        sections: {
+          orderBy: { order: "asc" },
+          take: 1,
+          select: { imageUrl: true },
+        },
       },
     });
   } catch (error) {
@@ -179,27 +183,33 @@ export default async function HomePage() {
               {th("ourServicesTitle")}
             </h2>
           </div>
-          <div className="flex flex-wrap justify-center gap-8 lg:gap-16">
-            <div className="flex flex-col items-center">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 max-w-5xl mx-auto">
+            <div className="flex flex-col items-center text-center">
               <img
                 src="/icons/บริการของ Packpert1.png"
-                alt="Packpert Service 1"
-                className="w-24 h-24 lg:w-32 lg:h-32 object-contain"
+                alt="ผู้ช่วยเลือกแพ็กเกจจิ้ง"
+                className="w-24 h-24 lg:w-32 lg:h-32 object-contain mb-4"
               />
+              <h3 className="text-lg font-semibold text-primary mb-2">ผู้ช่วยเลือกแพ็กเกจจิ้ง</h3>
+              <p className="text-muted text-sm">ให้คำปรึกษาและแนะนำแพ็กเกจจิ้งที่เหมาะกับแบรนด์คุณ</p>
             </div>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center text-center">
               <img
                 src="/icons/บริการของ Packpert2.png"
-                alt="Packpert Service 2"
-                className="w-24 h-24 lg:w-32 lg:h-32 object-contain"
+                alt="รับผลิตแพ็กเกจจิ้ง"
+                className="w-24 h-24 lg:w-32 lg:h-32 object-contain mb-4"
               />
+              <h3 className="text-lg font-semibold text-primary mb-2">รับผลิตแพ็กเกจจิ้ง</h3>
+              <p className="text-muted text-sm">ดูแลครบจบในที่เดียว ตั้งแต่เลือกวัสดุจนถึงจัดส่ง งานไว มั่นใจคุณภาพ พร้อมตอบโจทย์ทุกความต้องการของธุรกิจคุณ</p>
             </div>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center text-center">
               <img
                 src="/icons/บริการของ Packpert3.png"
-                alt="Packpert Service 3"
-                className="w-24 h-24 lg:w-32 lg:h-32 object-contain"
+                alt="ออกแบบแพ็กเกจจิ้งและโลโก้แบรนด์"
+                className="w-24 h-24 lg:w-32 lg:h-32 object-contain mb-4"
               />
+              <h3 className="text-lg font-semibold text-primary mb-2">ออกแบบแพ็กเกจจิ้งและโลโก้แบรนด์</h3>
+              <p className="text-muted text-sm">เปลี่ยนไอเดียให้เป็นงานดีไซน์ที่โดดเด่น สร้างเอกลักษณ์ให้แบรนด์คุณเป็นที่จดจำ</p>
             </div>
           </div>
         </div>
@@ -225,9 +235,9 @@ export default async function HomePage() {
                   className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow group"
                 >
                   <div className="aspect-[16/10] bg-gray-100 relative overflow-hidden">
-                    {blog.coverImage ? (
+                    {blog.sections[0]?.imageUrl ? (
                       <img
-                        src={blog.coverImage}
+                        src={blog.sections[0].imageUrl}
                         alt={getLocalizedTitle(blog)}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />

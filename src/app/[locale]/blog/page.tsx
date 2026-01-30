@@ -8,6 +8,11 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useTranslations, useLocale } from "next-intl";
 
+interface BlogSection {
+  id: string;
+  imageUrl: string | null;
+}
+
 interface Blog {
   id: string;
   title: string;
@@ -15,9 +20,9 @@ interface Blog {
   slug: string;
   excerpt: string | null;
   excerptEn: string | null;
-  coverImage: string | null;
   isPublished: boolean;
   publishedAt: string | null;
+  sections: BlogSection[];
 }
 
 export default function BlogPage() {
@@ -80,12 +85,11 @@ export default function BlogPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
-      <div className="h-16" />
 
       {/* Hero Section */}
-      <section className="relative py-16 bg-primary">
+      <section className="relative pt-24 pb-16 bg-primary -mt-16">
         <div
-          className={`container mx-auto px-4 transition-all duration-700 ${
+          className={`container mx-auto px-2 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
           }`}
         >
@@ -103,7 +107,7 @@ export default function BlogPage() {
 
       {/* Blog Content */}
       <section className="py-12 bg-gray-50">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-2">
           {loading ? (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Loading Skeleton */}
@@ -165,9 +169,9 @@ export default function BlogPage() {
                   >
                     <div className="relative rounded-xl overflow-hidden bg-white border border-gray-200 hover:border-primary/50 hover:shadow-lg transition-all">
                       <div className="relative h-72 md:h-96 overflow-hidden">
-                        {featuredBlog.coverImage ? (
+                        {featuredBlog.sections[0]?.imageUrl ? (
                           <Image
-                            src={featuredBlog.coverImage}
+                            src={featuredBlog.sections[0].imageUrl}
                             alt={getLocalizedTitle(featuredBlog)}
                             fill
                             priority
@@ -225,9 +229,9 @@ export default function BlogPage() {
                     >
                       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:border-primary/50 transition-all h-full">
                         <div className="relative h-44 overflow-hidden">
-                          {blog.coverImage ? (
+                          {blog.sections[0]?.imageUrl ? (
                             <Image
-                              src={blog.coverImage}
+                              src={blog.sections[0].imageUrl}
                               alt={getLocalizedTitle(blog)}
                               fill
                               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
