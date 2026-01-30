@@ -1,13 +1,9 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import { FileText, Calendar, ArrowRight, Home, TrendingUp } from "lucide-react";
+import { FileText, Calendar, ArrowRight, Home } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { useTranslations, useLocale } from "next-intl";
+import { getTranslations, getLocale } from "next-intl/server";
+import { prisma } from "@/lib/prisma";
+import { notFound } from "next/navigation";
 
 interface BlogSection {
   id: string;
@@ -33,53 +29,67 @@ interface Blog {
   excerptEn: string | null;
   coverImage: string | null;
   isPublished: boolean;
-  publishedAt: string | null;
+  publishedAt: Date | null;
   sections: BlogSection[];
   category: BlogCategory | null;
 }
 
-export default function CategoryPage() {
-  const params = useParams();
-  const categorySlug = params.slug as string;
-  const t = useTranslations("blog");
-  const locale = useLocale();
-  const [blogs, setBlogs] = useState<Blog[]>([]);
-  const [category, setCategory] = useState<BlogCategory | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [isVisible, setIsVisible] = useState(false);
+export default async function CategoryPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug: categorySlug } = await params;
+  const t = await getTranslations("blog");
+  const locale = await getLocale();
 
-  useEffect(() => {
-    const timer = setTimeout(() => setIsVisible(true), 100);
-    return () => clearTimeout(timer);
-  }, []);
+  // Fetch category
+  let category: BlogCategory | null = null;
+  let blogs: Blog[] = [];
 
-  useEffect(() => {
-    const fetchCategoryAndBlogs = async () => {
-      try {
-        setLoading(true);
+  try {
+    category = await prisma.blogCategory.findUnique({
+      where: { slug: categorySlug },
+    });
 
-        // Fetch blogs by category
-        const blogsRes = await fetch(`/api/public/blog?category=${categorySlug}`);
-        const blogsData = await blogsRes.json();
-
-        if (blogsData.success && blogsData.data.length > 0) {
-          setBlogs(blogsData.data);
-          // Get category from first blog
-          if (blogsData.data[0].category) {
-            setCategory(blogsData.data[0].category);
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching blogs:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (categorySlug) {
-      fetchCategoryAndBlogs();
+    if (category) {
+      blogs = await prisma.blog.findMany({
+        where: {
+          isPublished: true,
+          categoryId: category.id,
+        },
+        orderBy: { publishedAt: "desc" },
+        select: {
+          id: true,
+          title: true,
+          titleEn: true,
+          slug: true,
+          excerpt: true,
+          excerptEn: true,
+          coverImage: true,
+          isPublished: true,
+          publishedAt: true,
+          sections: {
+            orderBy: { order: "asc" },
+            take: 1,
+            select: {
+              id: true,
+              imageUrl: true,
+              content: true,
+              contentEn: true,
+            },
+          },
+          category: true,
+        },
+      });
     }
-  }, [categorySlug]);
+  } catch (error) {
+    console.error("Error fetching category and blogs:", error);
+  }
+
+  if (!category) {
+    notFound();
+  }
 
   const getLocalizedTitle = (blog: Blog) => {
     if (locale === "en") {
@@ -102,49 +112,43 @@ export default function CategoryPage() {
     return cat.name;
   };
 
-  const formatDate = (dateString: string | null) => {
-    if (!dateString) return "";
-    const date = new Date(dateString);
-    return date.toLocaleDateString(locale === "th" ? "th-TH" : locale === "zh" ? "zh-CN" : "en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
+  const formatDate = (date: Date | null) => {
+    if (!date) return "";
+    return new Date(date).toLocaleDateString(
+      locale === "th" ? "th-TH" : locale === "zh" ? "zh-CN" : "en-US",
+      {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      }
+    );
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
-      <div className="h-16" />
-
       {/* Hero Section */}
-      <section className="relative py-16 bg-[#0d1117]">
-        <div
-          className={`container mx-auto px-4 transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
-          }`}
-        >
+      <section className="relative pt-24 pb-16 bg-primary -mt-16">
+        <div className="container mx-auto px-4">
           <div className="max-w-3xl">
-            <Link href={`/${locale}/blog`} className="text-[#C9A227] text-xs uppercase tracking-widest mb-3 inline-flex items-center gap-2 hover:underline">
+            <Link
+              href={`/${locale}/blog`}
+              className="text-accent text-xs uppercase tracking-widest mb-3 inline-flex items-center gap-2 hover:underline"
+            >
               <ArrowRight className="w-3 h-3 rotate-180" />
               BACK TO BLOG
             </Link>
-            {category && (
-              <>
-                <div
-                  className="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4 text-white"
-                  style={{ backgroundColor: category.color }}
-                >
-                  {getLocalizedCategoryName(category)}
-                </div>
-                <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                  {getLocalizedCategoryName(category)}
-                </h1>
-                <p className="text-gray-400">
-                  {blogs.length} {blogs.length === 1 ? "post" : "posts"} in this category
-                </p>
-              </>
-            )}
+            <div
+              className="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4 text-white"
+              style={{ backgroundColor: category.color }}
+            >
+              {getLocalizedCategoryName(category)}
+            </div>
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              {getLocalizedCategoryName(category)}
+            </h1>
+            <p className="text-gray-300">
+              {blogs.length} {blogs.length === 1 ? "post" : "posts"} in this category
+            </p>
           </div>
         </div>
       </section>
@@ -152,37 +156,33 @@ export default function CategoryPage() {
       {/* Blog Content */}
       <section className="py-12 bg-gray-50">
         <div className="container mx-auto px-4">
-          {loading ? (
-            <div className="flex justify-center items-center py-20">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#C9A227]"></div>
-            </div>
-          ) : blogs.length === 0 ? (
+          {blogs.length === 0 ? (
             <div className="text-center py-20">
               <FileText className="w-16 h-16 mx-auto text-gray-400 mb-4" />
               <p className="text-gray-700 text-lg mb-2">No blog posts in this category yet</p>
               <p className="text-gray-500 text-sm mb-6">Check back later for updates</p>
-              <Link href={`/${locale}/blog`} className="inline-flex items-center px-4 py-2 bg-[#C9A227] text-white rounded-lg hover:bg-[#b8922a] transition-colors">
+              <Link
+                href={`/${locale}/blog`}
+                className="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+              >
                 <Home className="w-4 h-4 mr-2" />
                 Back to Blog
               </Link>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {blogs.map((blog, index) => (
+              {blogs.map((blog) => (
                 <Link
                   key={blog.id}
                   href={`/${locale}/blog/${blog.slug}`}
-                  className={`group block transition-all duration-500 ${
-                    isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
-                  }`}
-                  style={{ transitionDelay: `${index * 100}ms` }}
+                  className="group block"
                 >
-                  <div className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:border-[#C9A227]/50 hover:shadow-lg transition-all h-full">
+                  <div className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:border-primary/50 hover:shadow-lg transition-all h-full">
                     {/* Image */}
                     <div className="relative h-48 overflow-hidden">
-                      {blog.coverImage ? (
+                      {blog.coverImage || blog.sections[0]?.imageUrl ? (
                         <Image
-                          src={blog.coverImage}
+                          src={blog.coverImage || blog.sections[0]?.imageUrl || ""}
                           alt={getLocalizedTitle(blog)}
                           fill
                           className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -206,7 +206,7 @@ export default function CategoryPage() {
 
                     {/* Content */}
                     <div className="p-5">
-                      <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-[#C9A227] transition-colors line-clamp-2">
+                      <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-primary transition-colors line-clamp-2">
                         {getLocalizedTitle(blog)}
                       </h3>
 
@@ -230,8 +230,6 @@ export default function CategoryPage() {
           )}
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }

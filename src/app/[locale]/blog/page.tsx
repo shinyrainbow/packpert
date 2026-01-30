@@ -1,12 +1,8 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { FileText, Calendar, ArrowRight, Home } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { useTranslations, useLocale } from "next-intl";
+import { getTranslations, getLocale } from "next-intl/server";
+import { prisma } from "@/lib/prisma";
 
 interface BlogSection {
   id: string;
@@ -21,39 +17,42 @@ interface Blog {
   excerpt: string | null;
   excerptEn: string | null;
   isPublished: boolean;
-  publishedAt: string | null;
+  publishedAt: Date | null;
   sections: BlogSection[];
 }
 
-export default function BlogPage() {
-  const t = useTranslations("blog");
-  const locale = useLocale();
-  const [blogs, setBlogs] = useState<Blog[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [isVisible, setIsVisible] = useState(false);
+export default async function BlogPage() {
+  const t = await getTranslations("blog");
+  const locale = await getLocale();
 
-  useEffect(() => {
-    const timer = setTimeout(() => setIsVisible(true), 100);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        setLoading(true);
-        const res = await fetch("/api/public/blog");
-        const data = await res.json();
-        if (data.success) {
-          setBlogs(data.data);
-        }
-      } catch (error) {
-        console.error("Error fetching blogs:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchBlogs();
-  }, []);
+  // Fetch blogs directly from database
+  let blogs: Blog[] = [];
+  try {
+    blogs = await prisma.blog.findMany({
+      where: { isPublished: true },
+      orderBy: { publishedAt: "desc" },
+      select: {
+        id: true,
+        title: true,
+        titleEn: true,
+        slug: true,
+        excerpt: true,
+        excerptEn: true,
+        isPublished: true,
+        publishedAt: true,
+        sections: {
+          orderBy: { order: "asc" },
+          take: 1,
+          select: {
+            id: true,
+            imageUrl: true,
+          },
+        },
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching blogs:", error);
+  }
 
   const getLocalizedTitle = (blog: Blog) => {
     if (locale === "en") {
@@ -69,14 +68,16 @@ export default function BlogPage() {
     return blog.excerpt;
   };
 
-  const formatDate = (dateString: string | null) => {
-    if (!dateString) return "";
-    const date = new Date(dateString);
-    return date.toLocaleDateString(locale === "th" ? "th-TH" : locale === "zh" ? "zh-CN" : "en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
+  const formatDate = (date: Date | null) => {
+    if (!date) return "";
+    return new Date(date).toLocaleDateString(
+      locale === "th" ? "th-TH" : locale === "zh" ? "zh-CN" : "en-US",
+      {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      }
+    );
   };
 
   const featuredBlog = blogs[0];
@@ -84,15 +85,9 @@ export default function BlogPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
-
       {/* Hero Section */}
       <section className="relative pt-24 pb-16 bg-primary -mt-16">
-        <div
-          className={`container mx-auto px-2 transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
-          }`}
-        >
+        <div className="container mx-auto px-2">
           <div className="max-w-3xl">
             <p className="text-accent text-xs uppercase tracking-widest mb-3">BLOG & NEWS</p>
             <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
@@ -108,49 +103,17 @@ export default function BlogPage() {
       {/* Blog Content */}
       <section className="py-12 bg-gray-50">
         <div className="container mx-auto px-2">
-          {loading ? (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Loading Skeleton */}
-              <div className="lg:col-span-2 space-y-6">
-                <div className="rounded-xl overflow-hidden bg-white border border-gray-200 animate-pulse">
-                  <div className="h-96 bg-gray-200" />
-                  <div className="p-6">
-                    <div className="h-8 bg-gray-200 rounded mb-3 w-3/4" />
-                    <div className="h-4 bg-gray-200 rounded mb-2 w-full" />
-                    <div className="h-4 bg-gray-200 rounded w-2/3" />
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {[...Array(4)].map((_, i) => (
-                    <div key={i} className="bg-white rounded-xl border border-gray-200 overflow-hidden animate-pulse">
-                      <div className="h-44 bg-gray-200" />
-                      <div className="p-4">
-                        <div className="h-5 bg-gray-200 rounded mb-2 w-3/4" />
-                        <div className="h-4 bg-gray-200 rounded w-1/2" />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="lg:col-span-1">
-                <div className="sticky top-24 space-y-6">
-                  <div className="bg-white rounded-xl border border-gray-200 p-5 animate-pulse">
-                    <div className="h-6 bg-gray-200 rounded mb-4 w-1/2" />
-                    <div className="flex flex-wrap gap-2">
-                      {[...Array(4)].map((_, i) => (
-                        <div key={i} className="h-8 bg-gray-200 rounded-full w-20" />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : blogs.length === 0 ? (
+          {blogs.length === 0 ? (
             <div className="text-center py-20">
               <FileText className="w-16 h-16 mx-auto text-gray-400 mb-4" />
               <p className="text-gray-700 text-lg mb-2">{t("noBlogs")}</p>
-              <p className="text-gray-500 text-sm mb-6">{locale === "th" ? "กลับมาดูใหม่ภายหลัง" : "Check back later for updates"}</p>
-              <Link href={`/${locale}`} className="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+              <p className="text-gray-500 text-sm mb-6">
+                {locale === "th" ? "กลับมาดูใหม่ภายหลัง" : "Check back later for updates"}
+              </p>
+              <Link
+                href={`/${locale}`}
+                className="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+              >
                 <Home className="w-4 h-4 mr-2" />
                 {t("backHome")}
               </Link>
@@ -163,9 +126,7 @@ export default function BlogPage() {
                 {featuredBlog && (
                   <Link
                     href={`/${locale}/blog/${featuredBlog.slug}`}
-                    className={`group block transition-all duration-500 ${
-                      isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
-                    }`}
+                    className="group block"
                   >
                     <div className="relative rounded-xl overflow-hidden bg-white border border-gray-200 hover:border-primary/50 hover:shadow-lg transition-all">
                       <div className="relative h-72 md:h-96 overflow-hidden">
@@ -222,10 +183,7 @@ export default function BlogPage() {
                     <Link
                       key={blog.id}
                       href={`/${locale}/blog/${blog.slug}`}
-                      className={`group block transition-all duration-500 ${
-                        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
-                      }`}
-                      style={{ transitionDelay: `${(index + 1) * 100}ms` }}
+                      className="group block"
                     >
                       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:border-primary/50 transition-all h-full">
                         <div className="relative h-44 overflow-hidden">
@@ -265,13 +223,10 @@ export default function BlogPage() {
                   ))}
                 </div>
               </div>
-
             </div>
           )}
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }
