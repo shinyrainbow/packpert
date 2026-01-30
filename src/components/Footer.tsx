@@ -14,6 +14,8 @@ export default function Footer() {
     { href: "/about", label: tc("about") },
     { href: "/catalog", label: tc("catalog") },
     { href: "/portfolio", label: tc("portfolio") },
+    { href: "/agent", label: tc("agent") },
+    { href: "/article", label: tc("article") },
     { href: "/contact", label: tc("contact") },
   ];
 
@@ -22,13 +24,14 @@ export default function Footer() {
       <div className="container-custom py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-                <span className="text-primary font-bold text-xl">P</span>
-              </div>
-              <span className="text-2xl font-bold">Packpert</span>
-            </div>
+          <div className="text-center">
+            <Link href={`/${locale}`} className="inline-block mb-4">
+              <img
+                src="/logo.png"
+                alt="Packpert"
+                className="h-12 w-auto mx-auto"
+              />
+            </Link>
             <p className="text-gray-300 text-sm leading-relaxed">
               {t("description")}
             </p>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, use } from "react";
-import { FileText, Calendar, ArrowLeft, Share2, Home, Facebook, Link2, MessageCircle, TrendingUp, User, Clock } from "lucide-react";
+import { FileText, ArrowLeft, Home, Facebook, Link2, MessageCircle, User, Clock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import Header from "@/components/Header";
@@ -39,7 +39,6 @@ export default function BlogPostPage({
   const t = useTranslations("blog");
   const locale = useLocale();
   const [blog, setBlog] = useState<Blog | null>(null);
-  const [relatedBlogs, setRelatedBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -56,10 +55,6 @@ export default function BlogPostPage({
         const data = await res.json();
         if (data.success) {
           setBlog(data.data);
-          // Related blogs are now included in the API response
-          if (data.data.relatedBlogs) {
-            setRelatedBlogs(data.data.relatedBlogs);
-          }
         } else {
           setNotFound(true);
         }
@@ -158,87 +153,51 @@ export default function BlogPostPage({
         {/* Main Content Skeleton */}
         <section className="py-8 bg-gray-50">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="max-w-4xl mx-auto">
               {/* Article Content Skeleton */}
-              <div className="lg:col-span-2">
-                <article className="animate-pulse">
-                  {/* Header Skeleton */}
-                  <header className="mb-8">
-                    <div className="h-10 bg-gray-200 rounded mb-4 w-3/4" />
-                    <div className="h-6 bg-gray-200 rounded mb-4 w-1/2" />
+              <article className="animate-pulse">
+                {/* Header Skeleton */}
+                <header className="mb-8">
+                  <div className="h-10 bg-gray-200 rounded mb-4 w-3/4" />
+                  <div className="h-6 bg-gray-200 rounded mb-4 w-1/2" />
 
-                    {/* Meta Info Skeleton */}
-                    <div className="flex flex-wrap items-center gap-4 mb-6">
-                      <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-gray-200 rounded-full" />
-                        <div className="h-4 bg-gray-200 rounded w-24" />
-                      </div>
-                      <div className="h-4 bg-gray-200 rounded w-32" />
+                  {/* Meta Info Skeleton */}
+                  <div className="flex flex-wrap items-center gap-4 mb-6">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 bg-gray-200 rounded-full" />
+                      <div className="h-4 bg-gray-200 rounded w-24" />
                     </div>
-
-                    {/* Social Share Skeleton */}
-                    <div className="flex items-center gap-2 pb-6 border-b border-gray-200">
-                      <div className="h-4 bg-gray-200 rounded w-12" />
-                      <div className="w-9 h-9 bg-gray-200 rounded-lg" />
-                      <div className="w-9 h-9 bg-gray-200 rounded-lg" />
-                      <div className="w-9 h-9 bg-gray-200 rounded-lg" />
-                      <div className="w-9 h-9 bg-gray-200 rounded-lg" />
-                    </div>
-                  </header>
-
-                  {/* Article Content Card Skeleton */}
-                  <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
-                    {/* Cover Image Skeleton */}
-                    <div className="relative w-full aspect-video rounded-lg bg-gray-200 mb-8" />
-
-                    {/* Content Skeleton */}
-                    <div className="space-y-6">
-                      <div className="space-y-3">
-                        <div className="h-4 bg-gray-200 rounded w-full" />
-                        <div className="h-4 bg-gray-200 rounded w-full" />
-                        <div className="h-4 bg-gray-200 rounded w-4/5" />
-                      </div>
-                      <div className="my-8 h-64 bg-gray-200 rounded-lg" />
-                      <div className="space-y-3">
-                        <div className="h-4 bg-gray-200 rounded w-full" />
-                        <div className="h-4 bg-gray-200 rounded w-full" />
-                        <div className="h-4 bg-gray-200 rounded w-3/4" />
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              </div>
-
-              {/* Sidebar Skeleton */}
-              <div className="lg:col-span-1">
-                <div className="sticky top-24 space-y-6">
-                  {/* Related Articles Skeleton */}
-                  <div className="bg-white rounded-xl border border-gray-200 p-5 animate-pulse">
-                    <div className="h-6 bg-gray-200 rounded mb-4 w-1/2" />
-                    <div className="space-y-4">
-                      {[...Array(3)].map((_, i) => (
-                        <div key={i} className="flex gap-3">
-                          <div className="w-20 h-16 rounded-lg bg-gray-200 shrink-0" />
-                          <div className="flex-1">
-                            <div className="h-4 bg-gray-200 rounded mb-2 w-full" />
-                            <div className="h-3 bg-gray-200 rounded w-2/3" />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                    <div className="h-4 bg-gray-200 rounded w-32" />
                   </div>
 
-                  {/* Categories Skeleton */}
-                  <div className="bg-white rounded-xl border border-gray-200 p-5 animate-pulse">
-                    <div className="h-6 bg-gray-200 rounded mb-4 w-1/2" />
-                    <div className="flex flex-wrap gap-2">
-                      {[...Array(5)].map((_, i) => (
-                        <div key={i} className="h-8 bg-gray-200 rounded-full w-20" />
-                      ))}
+                  {/* Social Share Skeleton */}
+                  <div className="flex items-center gap-2 pb-6 border-b border-gray-200">
+                    <div className="h-4 bg-gray-200 rounded w-12" />
+                    <div className="w-9 h-9 bg-gray-200 rounded-lg" />
+                    <div className="w-9 h-9 bg-gray-200 rounded-lg" />
+                    <div className="w-9 h-9 bg-gray-200 rounded-lg" />
+                    <div className="w-9 h-9 bg-gray-200 rounded-lg" />
+                  </div>
+                </header>
+
+                {/* Article Content Card Skeleton */}
+                <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                  {/* Content Skeleton */}
+                  <div className="space-y-6">
+                    <div className="space-y-3">
+                      <div className="h-4 bg-gray-200 rounded w-full" />
+                      <div className="h-4 bg-gray-200 rounded w-full" />
+                      <div className="h-4 bg-gray-200 rounded w-4/5" />
+                    </div>
+                    <div className="my-8 h-64 bg-gray-200 rounded-lg" />
+                    <div className="space-y-3">
+                      <div className="h-4 bg-gray-200 rounded w-full" />
+                      <div className="h-4 bg-gray-200 rounded w-full" />
+                      <div className="h-4 bg-gray-200 rounded w-3/4" />
                     </div>
                   </div>
                 </div>
-              </div>
+              </article>
             </div>
           </div>
         </section>
@@ -302,9 +261,9 @@ export default function BlogPostPage({
       {/* Main Content */}
       <section className="py-8 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="max-w-4xl mx-auto">
             {/* Article Content */}
-            <div className="lg:col-span-2">
+            <div>
               <article
                 className={`transition-all duration-700 ${
                   isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
@@ -366,18 +325,6 @@ export default function BlogPostPage({
 
                 {/* Article Content Card */}
                 <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
-                  {/* Cover Image */}
-                  {blog.coverImage && (
-                    <div className="relative w-full aspect-video rounded-lg overflow-hidden mb-8 mx-auto max-w-3xl">
-                      <Image
-                        src={blog.coverImage}
-                        alt={getLocalizedTitle(blog)}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  )}
-
                   {/* Article Sections */}
                   <div className="space-y-8">
                     {blog.sections.map((section, index) => (
@@ -473,138 +420,9 @@ export default function BlogPostPage({
               </article>
             </div>
 
-            {/* Sidebar */}
-            <div className="lg:col-span-1">
-              <div className="sticky top-24 space-y-6">
-                {/* Related Articles */}
-                <div className="bg-white rounded-xl border border-gray-200 p-5">
-                  <h3 className="text-gray-900 font-semibold mb-4 flex items-center gap-2">
-                    <TrendingUp className="w-4 h-4 text-[#C9A227]" />
-                    {t("relatedArticles")}
-                  </h3>
-                  <div className="space-y-4">
-                    {relatedBlogs.map((relatedBlog) => (
-                      <Link
-                        key={relatedBlog.id}
-                        href={`/${locale}/blog/${relatedBlog.slug}`}
-                        className="group flex gap-3"
-                      >
-                        <div className="relative w-20 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                          {relatedBlog.coverImage ? (
-                            <Image
-                              src={relatedBlog.coverImage}
-                              alt={getLocalizedTitle(relatedBlog)}
-                              fill
-                              className="object-cover"
-                            />
-                          ) : (
-                            <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
-                              <FileText className="w-6 h-6 text-gray-600" />
-                            </div>
-                          )}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h4 className="text-gray-900 text-xs font-medium line-clamp-2 group-hover:text-[#C9A227] transition-colors">
-                            {getLocalizedTitle(relatedBlog)}
-                          </h4>
-                          {relatedBlog.publishedAt && (
-                            <p className="text-gray-500 text-[10px] mt-1 flex items-center gap-1">
-                              <Calendar className="w-3 h-3" />
-                              {formatDate(relatedBlog.publishedAt)}
-                            </p>
-                          )}
-                        </div>
-                      </Link>
-                    ))}
-                    {relatedBlogs.length === 0 && (
-                      <p className="text-gray-500 text-sm">{t("noRelatedArticles")}</p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Categories */}
-                <div className="bg-white rounded-xl border border-gray-200 p-5">
-                  <h3 className="text-gray-900 font-semibold mb-4">{t("categories")}</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {[
-                      { key: "categoryRealEstate", label: t("categoryRealEstate") },
-                      { key: "categoryMarketTrends", label: t("categoryMarketTrends") },
-                      { key: "categoryTips", label: t("categoryTips") },
-                      { key: "categoryInvestment", label: t("categoryInvestment") },
-                      { key: "categoryNews", label: t("categoryNews") },
-                    ].map((tag) => (
-                      <span
-                        key={tag.key}
-                        className="px-3 py-1 bg-gray-100 text-gray-600 text-xs rounded-full border border-gray-200 hover:border-[#C9A227]/50 hover:text-[#C9A227] transition-colors cursor-pointer"
-                      >
-                        {tag.label}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Contact CTA */}
-                <div className="bg-gradient-to-br from-[#C9A227]/20 to-[#C9A227]/5 rounded-xl border border-[#C9A227]/30 p-5">
-                  <h3 className="text-gray-900 font-semibold mb-2">{t("needHelp")}</h3>
-                  <p className="text-gray-600 text-xs mb-4">{t("needHelpDesc")}</p>
-                  <Link href={`/${locale}/contact`} className="block w-full text-center px-3 py-2 text-xs bg-[#C9A227] text-white rounded-lg hover:bg-[#b8922a] transition-colors">
-                    {t("contactUs")}
-                  </Link>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
-
-      {/* Related Articles Section - Bottom */}
-      {relatedBlogs.length > 0 && (
-        <section className="py-12 bg-[#0d1117]">
-          <div className="container mx-auto px-4">
-            <h2 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
-              <FileText className="w-5 h-5 text-[#C9A227]" />
-              {t("moreArticles")}
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {relatedBlogs.slice(0, 4).map((relatedBlog) => (
-                <Link
-                  key={relatedBlog.id}
-                  href={`/${locale}/blog/${relatedBlog.slug}`}
-                  className="group"
-                >
-                  <div className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:border-[#C9A227]/50 transition-all">
-                    <div className="relative h-36 overflow-hidden">
-                      {relatedBlog.coverImage ? (
-                        <Image
-                          src={relatedBlog.coverImage}
-                          alt={getLocalizedTitle(relatedBlog)}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      ) : (
-                        <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
-                          <FileText className="w-10 h-10 text-gray-600" />
-                        </div>
-                      )}
-                    </div>
-                    <div className="p-4">
-                      <h3 className="text-gray-900 text-sm font-medium line-clamp-2 group-hover:text-[#C9A227] transition-colors mb-2">
-                        {getLocalizedTitle(relatedBlog)}
-                      </h3>
-                      {relatedBlog.publishedAt && (
-                        <p className="text-gray-500 text-xs flex items-center gap-1">
-                          <Calendar className="w-3 h-3" />
-                          {formatDate(relatedBlog.publishedAt)}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
 
       <Footer />
     </div>

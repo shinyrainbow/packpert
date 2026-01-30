@@ -789,35 +789,68 @@ export default function AdminBlogPage() {
                         )}
                       </div>
 
-                      {/* Image Position */}
+                      {/* Image Position - Visual Preview */}
                       {section.imageUrl && (
                         <div className="mb-4">
                           <label className="block text-xs font-medium text-gray-600 mb-2">
                             ตำแหน่งรูปภาพ
                           </label>
-                          <div className="flex gap-4">
-                            <label className="flex items-center gap-2 cursor-pointer">
-                              <input
-                                type="radio"
-                                name={`imagePosition-${index}`}
-                                value="left"
-                                checked={section.imagePosition === "left"}
-                                onChange={() => updateSection(index, "imagePosition", "left")}
-                                className="w-4 h-4 text-[#C9A227] border-gray-300 focus:ring-[#C9A227]"
-                              />
-                              <span className="text-sm text-gray-700">รูปซ้าย - เนื้อหาขวา</span>
-                            </label>
-                            <label className="flex items-center gap-2 cursor-pointer">
-                              <input
-                                type="radio"
-                                name={`imagePosition-${index}`}
-                                value="right"
-                                checked={section.imagePosition === "right"}
-                                onChange={() => updateSection(index, "imagePosition", "right")}
-                                className="w-4 h-4 text-[#C9A227] border-gray-300 focus:ring-[#C9A227]"
-                              />
-                              <span className="text-sm text-gray-700">รูปขวา - เนื้อหาซ้าย</span>
-                            </label>
+                          <div className="flex gap-3">
+                            {/* Left layout preview */}
+                            <button
+                              type="button"
+                              onClick={() => updateSection(index, "imagePosition", "left")}
+                              className={`flex-1 p-3 rounded-lg border-2 transition-all ${
+                                section.imagePosition === "left"
+                                  ? "border-[#C9A227] bg-[#C9A227]/10"
+                                  : "border-gray-200 hover:border-gray-300"
+                              }`}
+                            >
+                              <div className="flex gap-2 mb-2">
+                                <div className={`w-1/2 h-12 rounded flex items-center justify-center text-xs ${
+                                  section.imagePosition === "left" ? "bg-[#C9A227] text-white" : "bg-gray-300 text-gray-600"
+                                }`}>
+                                  รูป
+                                </div>
+                                <div className="w-1/2 h-12 bg-gray-100 rounded flex items-center justify-center">
+                                  <div className="space-y-1">
+                                    <div className="w-8 h-1 bg-gray-300 rounded"></div>
+                                    <div className="w-6 h-1 bg-gray-300 rounded"></div>
+                                  </div>
+                                </div>
+                              </div>
+                              <span className={`text-xs ${section.imagePosition === "left" ? "text-[#C9A227] font-medium" : "text-gray-500"}`}>
+                                รูปซ้าย - เนื้อหาขวา
+                              </span>
+                            </button>
+
+                            {/* Right layout preview */}
+                            <button
+                              type="button"
+                              onClick={() => updateSection(index, "imagePosition", "right")}
+                              className={`flex-1 p-3 rounded-lg border-2 transition-all ${
+                                section.imagePosition === "right"
+                                  ? "border-[#C9A227] bg-[#C9A227]/10"
+                                  : "border-gray-200 hover:border-gray-300"
+                              }`}
+                            >
+                              <div className="flex gap-2 mb-2">
+                                <div className="w-1/2 h-12 bg-gray-100 rounded flex items-center justify-center">
+                                  <div className="space-y-1">
+                                    <div className="w-8 h-1 bg-gray-300 rounded"></div>
+                                    <div className="w-6 h-1 bg-gray-300 rounded"></div>
+                                  </div>
+                                </div>
+                                <div className={`w-1/2 h-12 rounded flex items-center justify-center text-xs ${
+                                  section.imagePosition === "right" ? "bg-[#C9A227] text-white" : "bg-gray-300 text-gray-600"
+                                }`}>
+                                  รูป
+                                </div>
+                              </div>
+                              <span className={`text-xs ${section.imagePosition === "right" ? "text-[#C9A227] font-medium" : "text-gray-500"}`}>
+                                รูปขวา - เนื้อหาซ้าย
+                              </span>
+                            </button>
                           </div>
                         </div>
                       )}
