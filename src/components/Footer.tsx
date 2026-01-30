@@ -15,7 +15,7 @@ export default function Footer() {
     { href: "/catalog", label: tc("catalog") },
     { href: "/portfolio", label: tc("portfolio") },
     { href: "/agent", label: tc("agent") },
-    { href: "/article", label: tc("article") },
+    { href: "/blog", label: tc("article") },
     { href: "/contact", label: tc("contact") },
   ];
 

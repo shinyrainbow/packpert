@@ -50,7 +50,7 @@ export default function Header() {
     { href: "/catalog", label: t("catalog"), hasSubmenu: true },
     { href: "/portfolio", label: t("portfolio") },
     { href: "/agent", label: t("agent") },
-    { href: "/article", label: t("article") },
+    { href: "/blog", label: t("article") },
   ];
 
   return (
