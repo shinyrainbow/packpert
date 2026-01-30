@@ -67,7 +67,7 @@ export default function ContactPage() {
       {/* Map Section */}
       <section className="w-full h-[400px] bg-gray-200">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3875.8395!2d100.5234!3d13.7428!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTPCsDQ0JzM0LjEiTiAxMDDCsDMxJzI0LjIiRQ!5e0!3m2!1sen!2sth!4v1704067200000!5m2!1sen!2sth"
+          src="https://www.google.com/maps?q=92/4,+%E0%B8%AD%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%A3%E0%B8%AA%E0%B8%B2%E0%B8%97%E0%B8%A3%E0%B8%98%E0%B8%B2%E0%B8%99%E0%B8%B5+2+%E0%B8%96%E0%B8%99%E0%B8%99%E0%B8%AA%E0%B8%B2%E0%B8%97%E0%B8%A3%E0%B9%80%E0%B8%AB%E0%B8%99%E0%B8%B7%E0%B8%AD+%E0%B9%81%E0%B8%82%E0%B8%A7%E0%B8%87%E0%B8%AA%E0%B8%B5%E0%B8%A5%E0%B8%A1+%E0%B9%80%E0%B8%82%E0%B8%95%E0%B8%9A%E0%B8%B2%E0%B8%87%E0%B8%A3%E0%B8%B1%E0%B8%81+%E0%B8%81%E0%B8%A3%E0%B8%B8%E0%B8%87%E0%B9%80%E0%B8%97%E0%B8%9E%E0%B8%AF+10500&output=embed"
           width="100%"
           height="100%"
           style={{ border: 0 }}
@@ -266,7 +266,7 @@ export default function ContactPage() {
                     </h3>
                     <p className="text-muted text-sm">{t("addressValue")}</p>
                     <a
-                      href="https://maps.app.goo.gl/tpHP7iHKAoKs3vaz5"
+                      href="https://www.google.com/maps?q=92/4,+%E0%B8%AD%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%A3%E0%B8%AA%E0%B8%B2%E0%B8%97%E0%B8%A3%E0%B8%98%E0%B8%B2%E0%B8%99%E0%B8%B5+2+%E0%B8%96%E0%B8%99%E0%B8%99%E0%B8%AA%E0%B8%B2%E0%B8%97%E0%B8%A3%E0%B9%80%E0%B8%AB%E0%B8%99%E0%B8%B7%E0%B8%AD+%E0%B9%81%E0%B8%82%E0%B8%A7%E0%B8%87%E0%B8%AA%E0%B8%B5%E0%B8%A5%E0%B8%A1+%E0%B9%80%E0%B8%82%E0%B8%95%E0%B8%9A%E0%B8%B2%E0%B8%87%E0%B8%A3%E0%B8%B1%E0%B8%81+%E0%B8%81%E0%B8%A3%E0%B8%B8%E0%B8%87%E0%B9%80%E0%B8%97%E0%B8%9E%E0%B8%AF+10500"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 text-primary text-sm mt-2 hover:underline"

@@ -4,10 +4,19 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Packpert - Premium Packaging Solutions",
   description: "Your trusted partner for quality packaging solutions. Custom packaging for cosmetics, food, and various industries.",
+  keywords: ["packaging", "custom packaging", "cosmetics packaging", "food packaging", "Thailand packaging", "บรรจุภัณฑ์"],
+  authors: [{ name: "Packpert" }],
   icons: {
-    icon: "/logo.png",
-    shortcut: "/logo.png",
-    apple: "/logo.png",
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
+  openGraph: {
+    title: "Packpert - Premium Packaging Solutions",
+    description: "Your trusted partner for quality packaging solutions. Custom packaging for cosmetics, food, and various industries.",
+    type: "website",
+    locale: "th_TH",
+    siteName: "Packpert",
   },
 };
 
