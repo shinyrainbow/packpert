@@ -53,6 +53,7 @@ export default function Header() {
     { href: "/catalog", label: t("catalog"), hasSubmenu: true },
     { href: "/portfolio", label: t("portfolio") },
     { href: "/article", label: t("article") },
+    { href: "/agent", label: t("agent") },
   ];
 
   return (
@@ -84,9 +85,8 @@ export default function Header() {
                     onMouseEnter={() => setCatalogOpen(true)}
                     onMouseLeave={() => setCatalogOpen(false)}
                   >
-                    <Link
-                      href={`/${locale}${link.href}`}
-                      className={`font-medium transition-colors py-2 ${
+                    <span
+                      className={`font-medium transition-colors py-2 cursor-pointer ${
                         useWhiteHeader
                           ? "text-gray-700 hover:text-primary"
                           : "text-white/90 hover:text-white"
@@ -106,15 +106,9 @@ export default function Header() {
                           d="M19 9l-7 7-7-7"
                         />
                       </svg>
-                    </Link>
+                    </span>
                     {catalogOpen && (
                       <div className="absolute top-full left-0 w-48 bg-white shadow-lg rounded-lg py-2 mt-1">
-                        <Link
-                          href={`/${locale}/catalog`}
-                          className="block px-4 py-2 text-gray-700 hover:bg-secondary hover:text-primary transition-colors"
-                        >
-                          {tc("all")}
-                        </Link>
                         {catalogSubmenu.map((item) => (
                           <Link
                             key={item.key}
@@ -227,13 +221,19 @@ export default function Header() {
           <div className="lg:hidden py-4 border-t bg-white">
             {navLinks.map((link) => (
               <div key={link.href}>
-                <Link
-                  href={`/${locale}${link.href}`}
-                  className="block py-3 text-gray-700 hover:text-primary font-medium"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </Link>
+                {link.hasSubmenu ? (
+                  <span className="block py-3 text-gray-700 font-medium">
+                    {link.label}
+                  </span>
+                ) : (
+                  <Link
+                    href={`/${locale}${link.href}`}
+                    className="block py-3 text-gray-700 hover:text-primary font-medium"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                )}
                 {link.hasSubmenu && (
                   <div className="pl-4">
                     {catalogSubmenu.map((item) => (
