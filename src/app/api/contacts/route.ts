@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { sendLineNotification } from "@/lib/line";
 
 export async function POST(request: Request) {
   try {
@@ -16,6 +17,18 @@ export async function POST(request: Request) {
         subject: data.subject,
         message: data.message,
       },
+    });
+
+    // Send LINE notification (non-blocking)
+    sendLineNotification({
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      company: data.company,
+      subject: data.subject,
+      message: data.message,
+    }).catch((error) => {
+      console.error("LINE notification failed:", error);
     });
 
     return NextResponse.json(contact, { status: 201 });
