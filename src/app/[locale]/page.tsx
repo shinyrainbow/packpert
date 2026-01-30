@@ -161,8 +161,11 @@ export default async function HomePage() {
           alt="Portfolio"
           className="w-full h-auto"
         />
-        <div className="absolute inset-0 flex items-end justify-start p-8 lg:p-16">
-          <Link href={`/${locale}/portfolio`} className="btn-primary">
+        <div className="absolute inset-0 flex items-end justify-start pb-16 lg:pb-24 pl-12 lg:pl-24">
+          <Link
+            href={`/${locale}/portfolio`}
+            className="bg-primary hover:bg-primary-dark text-white px-8 py-4 lg:px-12 lg:py-5 rounded-xl font-semibold text-lg lg:text-xl transition-colors shadow-lg"
+          >
             {tp("viewPortfolio")}
           </Link>
         </div>
