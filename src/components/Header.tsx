@@ -52,8 +52,8 @@ export default function Header() {
     { href: "/about", label: t("about") },
     { href: "/catalog", label: t("catalog"), hasSubmenu: true },
     { href: "/portfolio", label: t("portfolio") },
-    { href: "/article", label: t("article") },
     { href: "/agent", label: t("agent") },
+    { href: "/article", label: t("article") },
   ];
 
   return (
