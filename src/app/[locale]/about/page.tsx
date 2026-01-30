@@ -168,30 +168,6 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-16 bg-primary text-white">
-        <div className="container-custom">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-4xl lg:text-5xl font-bold mb-2">10+</div>
-              <div className="text-white/80">{t("experience")}</div>
-            </div>
-            <div>
-              <div className="text-4xl lg:text-5xl font-bold mb-2">10,000+</div>
-              <div className="text-white/80">{t("brands")}</div>
-            </div>
-            <div>
-              <div className="text-4xl lg:text-5xl font-bold mb-2">1M+</div>
-              <div className="text-white/80">{t("products")}</div>
-            </div>
-            <div>
-              <div className="text-4xl lg:text-5xl font-bold mb-2">99%</div>
-              <div className="text-white/80">{t("satisfaction")}</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Spacer for footer separation */}
       <div className="h-16 bg-white"></div>
     </>
