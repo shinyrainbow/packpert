@@ -24,10 +24,10 @@ export default async function AboutPage() {
         <div className="w-full px-8 lg:px-20 relative z-10">
           <div className="max-w-md text-white text-left lg:ml-16">
             <h1 className="text-2xl lg:text-4xl font-bold mb-2 leading-tight animate-fade-in-up">
-              {t("title").split(" ").slice(0, 3).join(" ")}
+              ผู้ช่วยเลือกแพ็กเกจจิ้ง
             </h1>
-            <p className="text-2xl lg:text-4xl font-bold mb-6 leading-tight animate-fade-in-up-delay-1">
-              {t("title").split(" ").slice(3).join(" ")}
+            <p className="text-lg lg:text-xl mb-6 leading-relaxed animate-fade-in-up-delay-1">
+              เราคือผู้เชี่ยวชาญที่ให้คำปรึกษาและแนะนำแพ็กเกจจิ้งที่เหมาะกับแบรนด์คุณ
             </p>
             <div className="flex flex-col sm:flex-row gap-3 animate-fade-in-up-delay-2">
               <a
@@ -147,21 +147,26 @@ export default async function AboutPage() {
       <section className="section-padding">
         <div className="container-custom">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-primary mb-4">
+            <h2 className="text-3xl lg:text-4xl font-bold text-primary">
               {tHome("whyChooseUs")}
             </h2>
-            <p className="text-muted text-lg max-w-2xl mx-auto">
-              {tHome("whyChooseUsDesc")}
-            </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 lg:gap-8">
-            {[1, 2, 3, 4, 5, 6].map((num) => (
-              <div key={num} className="flex flex-col items-center">
+            {[
+              { num: 1, label: "One-Stop Service" },
+              { num: 2, label: "คุณภาพระดับพรีเมียม" },
+              { num: 3, label: "มีแพ็กเกจจิ้งให้เลือกหลากหลาย" },
+              { num: 4, label: "ให้คำปรึกษาแบบมืออาชีพ" },
+              { num: 5, label: "รวดเร็วและตรงต่อเวลา" },
+              { num: 6, label: "บริการหลังการขายและระบบตรวจสอบ" },
+            ].map((item) => (
+              <div key={item.num} className="flex flex-col items-center text-center">
                 <img
-                  src={`/icons/why${num}.png`}
-                  alt={`Why Packpert ${num}`}
-                  className="w-24 h-24 lg:w-32 lg:h-32 object-contain"
+                  src={`/icons/why${item.num}.png`}
+                  alt={item.label}
+                  className="w-24 h-24 lg:w-32 lg:h-32 object-contain mb-3"
                 />
+                <p className="text-sm font-medium text-gray-700">{item.label}</p>
               </div>
             ))}
           </div>
