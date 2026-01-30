@@ -5,6 +5,16 @@ interface Props {
   params: Promise<{ category: string }>;
 }
 
+const categoryBanners: Record<string, string> = {
+  stickTube: "/product-catalog/2Stick tube.png",
+  creamTube: "/product-catalog/1creamTube.png",
+  jar: "/product-catalog/4Jar.png",
+  pumpBottle: "/product-catalog/3Bottle.png",
+  serumBottle: "/product-catalog/5Serum bottle.png",
+  lip: "/product-catalog/6Lip.png",
+  cosmetics: "/product-catalog/7Cosmetics.png",
+};
+
 const categoryImages: Record<string, { folder: string; files: string[] }> = {
   stickTube: {
     folder: "หลอดสติ๊ก",
@@ -66,9 +76,14 @@ export default async function CategoryDetailPage({ params }: Props) {
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary to-primary-dark text-white py-20 -mt-20 pt-28">
-        <div className="container-custom">
+      {/* Hero Section with Banner */}
+      <section className="relative text-white py-20 -mt-20 pt-28 min-h-[300px]">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url('${categoryBanners[category]}')` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-primary-dark/60" />
+        <div className="container-custom relative z-10">
           <h1 className="text-4xl lg:text-5xl font-bold mb-4">{t(category)}</h1>
           <p className="text-xl text-white/80">{t("subtitle")}</p>
         </div>
