@@ -24,10 +24,10 @@ export default async function AboutPage() {
         <div className="w-full px-8 lg:px-20 relative z-10">
           <div className="max-w-md text-white text-left lg:ml-16">
             <h1 className="text-2xl lg:text-4xl font-bold mb-2 leading-tight animate-fade-in-up">
-              ผู้ช่วยเลือกแพ็กเกจจิ้ง
+              ที่ปรึกษามืออาชีพด้านแพ็กเกจจิ้ง
             </h1>
             <p className="text-lg lg:text-xl mb-6 leading-relaxed animate-fade-in-up-delay-1">
-              เราคือผู้เชี่ยวชาญที่ให้คำปรึกษาและแนะนำแพ็กเกจจิ้งที่เหมาะกับแบรนด์คุณ
+              ดูแลครบจบในที่เดียว ตั้งแต่ ดีไซน์ ผลิต จนถึงจัดส่ง
             </p>
             <div className="flex flex-col sm:flex-row gap-3 animate-fade-in-up-delay-2">
               <a

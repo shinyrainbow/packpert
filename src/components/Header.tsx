@@ -83,7 +83,7 @@ export default function Header() {
                     onMouseLeave={() => setCatalogOpen(false)}
                   >
                     <span
-                      className={`font-medium transition-colors py-2 cursor-pointer ${
+                      className={`relative font-medium transition-colors py-2 cursor-pointer after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full ${
                         useWhiteHeader
                           ? "text-white/90 hover:text-white"
                           : "text-white/90 hover:text-white"
@@ -121,7 +121,7 @@ export default function Header() {
                 ) : (
                   <Link
                     href={`/${locale}${link.href}`}
-                    className={`font-medium transition-colors ${
+                    className={`relative font-medium transition-colors after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full ${
                       useWhiteHeader
                         ? "text-white/90 hover:text-white"
                         : "text-white/90 hover:text-white"

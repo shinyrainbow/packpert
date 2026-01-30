@@ -85,6 +85,7 @@ export async function POST(request: NextRequest) {
             (
               section: {
                 imageUrl?: string;
+                imagePosition?: string;
                 content?: string;
                 contentEn?: string;
               },
@@ -92,6 +93,7 @@ export async function POST(request: NextRequest) {
             ) => ({
               order: index,
               imageUrl: section.imageUrl || null,
+              imagePosition: section.imagePosition || "left",
               content: section.content || null,
               contentEn: section.contentEn || null,
             })

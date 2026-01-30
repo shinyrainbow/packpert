@@ -239,21 +239,39 @@ export default function BlogPostPage({
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
-      <div className="h-16" />
+
+      {/* Hero Section */}
+      <section className="relative pt-24 pb-16 bg-primary -mt-16">
+        <div
+          className={`container mx-auto px-2 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+          }`}
+        >
+          <div className="max-w-3xl">
+            <p className="text-accent text-xs uppercase tracking-widest mb-3">BLOG & NEWS</p>
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              {t("title")}
+            </h1>
+            <p className="text-gray-300">
+              {t("subtitle")}
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* Breadcrumb */}
-      <div className="bg-[#0d1117] py-4 border-b border-white/10">
+      <div className="bg-white py-4 border-b border-gray-200">
         <div className="container mx-auto px-2">
           <div className="flex items-center gap-2 text-sm">
-            <Link href="/" className="text-gray-400 hover:text-[#C9A227] transition-colors">
+            <Link href={`/${locale}`} className="text-gray-500 hover:text-primary transition-colors">
               {t("home")}
             </Link>
-            <span className="text-gray-600">/</span>
-            <Link href="/blog" className="text-gray-400 hover:text-[#C9A227] transition-colors">
+            <span className="text-gray-400">/</span>
+            <Link href={`/${locale}/blog`} className="text-gray-500 hover:text-primary transition-colors">
               {t("blog")}
             </Link>
-            <span className="text-gray-600">/</span>
-            <span className="text-[#C9A227] truncate max-w-[200px]">{getLocalizedTitle(blog)}</span>
+            <span className="text-gray-400">/</span>
+            <span className="text-primary truncate max-w-[200px]">{getLocalizedTitle(blog)}</span>
           </div>
         </div>
       </div>
