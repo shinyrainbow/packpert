@@ -12,7 +12,7 @@ export default async function AboutPage() {
       <section className="relative min-h-[500px] lg:min-h-[600px] flex items-center -mt-20 pt-20 pb-24">
         {/* Background Image */}
         <img
-          src="/about-packpert.png"
+          src="/about-banner.png"
           alt="About Packpert Banner"
           className="absolute inset-0 w-full h-full object-cover"
         />
