@@ -36,8 +36,11 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Use primary header style if scrolled or mobile menu open
-  const useWhiteHeader = scrolled || mobileMenuOpen;
+  // Check if on contact page (force primary header)
+  const isContactPage = pathname.includes("/contact");
+
+  // Use primary header style if scrolled, mobile menu open, or on contact page
+  const useWhiteHeader = scrolled || mobileMenuOpen || isContactPage;
 
   const switchLocale = (newLocale: string) => {
     const currentPath = pathname.replace(`/${locale}`, "");

@@ -145,12 +145,13 @@ export default async function CategoryDetailPage({ params }: Props) {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 lg:gap-8">
             {[1, 2, 3, 4, 5, 6].map((num) => (
-              <div key={num} className="flex flex-col items-center">
+              <div key={num} className="flex flex-col items-center text-center">
                 <img
                   src={`/icons/ขั้นตอนผลิต${num}.png`}
-                  alt={`Production Step ${num}`}
-                  className="w-24 h-24 lg:w-32 lg:h-32 object-contain"
+                  alt={t(`prodStep${num}`)}
+                  className="w-24 h-24 lg:w-32 lg:h-32 object-contain mb-3"
                 />
+                <p className="text-sm font-medium text-gray-700">{t(`prodStep${num}`)}</p>
               </div>
             ))}
           </div>
