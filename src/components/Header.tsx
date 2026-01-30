@@ -206,64 +206,145 @@ export default function Header() {
           </button>
         </div>
 
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="lg:hidden py-4 border-t bg-white">
-            {navLinks.map((link) => (
-              <div key={link.href}>
-                {link.hasSubmenu ? (
-                  <span className="block py-3 text-gray-700 font-medium">
-                    {link.label}
-                  </span>
-                ) : (
-                  <Link
-                    href={`/${locale}${link.href}`}
-                    className="block py-3 text-gray-700 hover:text-primary font-medium"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                )}
-                {link.hasSubmenu && (
-                  <div className="pl-4">
-                    {catalogSubmenu.map((item) => (
-                      <Link
-                        key={item.key}
-                        href={`/${locale}${item.href}`}
-                        className="block py-2 text-gray-500 hover:text-primary text-sm"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        {tc(item.key)}
-                      </Link>
-                    ))}
-                  </div>
-                )}
+        {/* Mobile Menu Overlay */}
+        <div
+          className={`lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm transition-all duration-300 ${
+            mobileMenuOpen ? "opacity-100 z-40" : "opacity-0 pointer-events-none"
+          }`}
+          onClick={() => setMobileMenuOpen(false)}
+        />
+
+        {/* Mobile Menu Panel */}
+        <div
+          className={`lg:hidden fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-gradient-to-b from-white to-gray-50 shadow-2xl z-50 transform transition-transform duration-300 ease-out ${
+            mobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          {/* Mobile Menu Header */}
+          <div className="relative bg-gradient-to-r from-primary to-primary/90 p-6">
+            <button
+              onClick={() => setMobileMenuOpen(false)}
+              className="absolute top-4 right-4 p-2 text-white/80 hover:text-white hover:bg-white/10 rounded-full transition-all"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <img src="/logo.png" alt="Packpert" className="h-14 w-auto" />
+            <p className="text-white/70 text-sm mt-2">Premium Packaging Solutions</p>
+          </div>
+
+          {/* Mobile Menu Content */}
+          <div className="flex flex-col h-[calc(100%-140px)] overflow-y-auto">
+            <nav className="flex-1 py-2">
+              {navLinks.map((link, index) => (
+                <div key={link.href} className={index === 0 ? "" : ""}>
+                  {link.hasSubmenu ? (
+                    <>
+                      <div className="flex items-center gap-3 px-6 py-4 text-primary font-semibold">
+                        <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                          <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                          </svg>
+                        </div>
+                        {link.label}
+                      </div>
+                      <div className="ml-6 mr-4 mb-2 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                        {catalogSubmenu.map((item, idx) => (
+                          <Link
+                            key={item.key}
+                            href={`/${locale}${item.href}`}
+                            className={`flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary hover:bg-primary/5 transition-colors ${
+                              idx !== catalogSubmenu.length - 1 ? "border-b border-gray-50" : ""
+                            }`}
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            <span className="w-2 h-2 rounded-full bg-gradient-to-r from-primary/60 to-primary/30" />
+                            <span className="text-sm">{tc(item.key)}</span>
+                          </Link>
+                        ))}
+                      </div>
+                    </>
+                  ) : (
+                    <Link
+                      href={`/${locale}${link.href}`}
+                      className="flex items-center gap-3 px-6 py-4 text-gray-700 hover:text-primary hover:bg-primary/5 font-medium transition-colors"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
+                        {link.href === "/" && (
+                          <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                          </svg>
+                        )}
+                        {link.href === "/about" && (
+                          <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        )}
+                        {link.href === "/portfolio" && (
+                          <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                        )}
+                        {link.href === "/agent" && (
+                          <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                          </svg>
+                        )}
+                        {link.href === "/blog" && (
+                          <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                          </svg>
+                        )}
+                      </div>
+                      {link.label}
+                    </Link>
+                  )}
+                </div>
+              ))}
+            </nav>
+
+            {/* Mobile Menu Footer */}
+            <div className="p-4 bg-white border-t border-gray-100">
+              {/* Language Switch */}
+              <div className="flex items-center gap-2 mb-3">
+                <button
+                  onClick={() => switchLocale("th")}
+                  className={`flex-1 py-2.5 rounded-xl font-medium text-sm transition-all ${
+                    locale === "th"
+                      ? "bg-gradient-to-r from-primary to-primary/90 text-white shadow-lg shadow-primary/25"
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  }`}
+                >
+                  🇹🇭 ไทย
+                </button>
+                <button
+                  onClick={() => switchLocale("en")}
+                  className={`flex-1 py-2.5 rounded-xl font-medium text-sm transition-all ${
+                    locale === "en"
+                      ? "bg-gradient-to-r from-primary to-primary/90 text-white shadow-lg shadow-primary/25"
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  }`}
+                >
+                  🇬🇧 English
+                </button>
               </div>
-            ))}
-            <div className="flex items-center gap-4 mt-4 pt-4 border-t">
-              <button
-                onClick={() => switchLocale("th")}
-                className={`px-3 py-1 rounded ${
-                  locale === "th"
-                    ? "bg-primary text-white"
-                    : "border text-gray-600"
-                }`}
+
+              {/* Contact Button */}
+              <Link
+                href={`/${locale}/contact`}
+                className="flex items-center justify-center gap-2 w-full py-3.5 bg-gradient-to-r from-primary to-primary/90 text-white rounded-xl font-medium shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all active:scale-[0.98]"
+                onClick={() => setMobileMenuOpen(false)}
               >
-                TH
-              </button>
-              <button
-                onClick={() => switchLocale("en")}
-                className={`px-3 py-1 rounded ${
-                  locale === "en"
-                    ? "bg-primary text-white"
-                    : "border text-gray-600"
-                }`}
-              >
-                EN
-              </button>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                {t("contact")}
+              </Link>
             </div>
           </div>
-        )}
+        </div>
       </nav>
     </header>
   );
