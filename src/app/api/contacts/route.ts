@@ -19,17 +19,20 @@ export async function POST(request: Request) {
       },
     });
 
-    // Send LINE notification (non-blocking)
-    sendLineNotification({
-      name: data.name,
-      email: data.email,
-      phone: data.phone,
-      company: data.company,
-      subject: data.subject,
-      message: data.message,
-    }).catch((error) => {
-      console.error("LINE notification failed:", error);
-    });
+    // Send LINE notification
+    try {
+      const lineResult = await sendLineNotification({
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        company: data.company,
+        subject: data.subject,
+        message: data.message,
+      });
+      console.log("LINE notification result:", lineResult);
+    } catch (lineError) {
+      console.error("LINE notification error:", lineError);
+    }
 
     return NextResponse.json(contact, { status: 201 });
   } catch (error) {
