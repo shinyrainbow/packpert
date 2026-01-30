@@ -36,7 +36,6 @@ export async function POST(request: NextRequest) {
       images,
       client,
       category,
-      isFeatured,
       sortOrder,
     } = body;
 
@@ -59,7 +58,6 @@ export async function POST(request: NextRequest) {
         images,
         client,
         category,
-        isFeatured: isFeatured || false,
         sortOrder: sortOrder || 0,
       },
     });
