@@ -32,14 +32,6 @@ interface BlogSection {
   contentEn: string;
 }
 
-interface BlogCategory {
-  id: string;
-  name: string;
-  nameEn: string | null;
-  slug: string;
-  color: string;
-}
-
 interface Blog {
   id: string;
   title: string;
@@ -51,20 +43,16 @@ interface Blog {
   isPublished: boolean;
   publishedAt: string | null;
   createdAt: string;
-  categoryId: string | null;
-  category: BlogCategory | null;
   sections: BlogSection[];
 }
 
 export default function AdminBlogPage() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
-  const [categories, setCategories] = useState<BlogCategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [editingBlog, setEditingBlog] = useState<Blog | null>(null);
   const [uploading, setUploading] = useState<string | null>(null);
-  const coverImageInputRef = useRef<HTMLInputElement>(null);
   const sectionImageInputRef = useRef<HTMLInputElement>(null);
   const [currentSectionIndex, setCurrentSectionIndex] = useState<number | null>(null);
   const { confirm } = useConfirmDialog();
@@ -125,9 +113,6 @@ export default function AdminBlogPage() {
       toast.error("อัปโหลดไม่สำเร็จ");
     } finally {
       setUploading(null);
-      if (coverImageInputRef.current) {
-        coverImageInputRef.current.value = "";
-      }
       if (sectionImageInputRef.current) {
         sectionImageInputRef.current.value = "";
       }
@@ -149,21 +134,8 @@ export default function AdminBlogPage() {
     }
   };
 
-  const fetchCategories = async () => {
-    try {
-      const res = await fetch("/api/admin/blog-categories");
-      const data = await res.json();
-      if (data.success) {
-        setCategories(data.data);
-      }
-    } catch (error) {
-      console.error("Failed to fetch categories:", error);
-    }
-  };
-
   useEffect(() => {
     fetchBlogs();
-    fetchCategories();
   }, []);
 
   const handleSubmit = async () => {
@@ -267,7 +239,7 @@ export default function AdminBlogPage() {
         excerptEn: blog.excerptEn || "",
         coverImage: blog.coverImage || "",
         isPublished: blog.isPublished,
-        categoryId: blog.categoryId || "",
+        categoryId: "",
         sections: blog.sections.map((s) => ({
           imageUrl: s.imageUrl || "",
           imagePosition: (s.imagePosition as "left" | "right") || "left",
@@ -628,84 +600,18 @@ export default function AdminBlogPage() {
                 />
               </div>
 
-              {/* Category & Excerpt */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    หมวดหมู่
-                  </label>
-                  <select
-                    value={formData.categoryId}
-                    onChange={(e) =>
-                      setFormData({ ...formData, categoryId: e.target.value })
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:border-transparent text-gray-900 bg-white h-10"
-                  >
-                    <option value="">-- ไม่ระบุหมวดหมู่ --</option>
-                    {categories.map((cat) => (
-                      <option key={cat.id} value={cat.id}>
-                        {cat.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    ตัวอย่างเนื้อหา (ภาษาไทย)
-                  </label>
-                  <textarea
-                    value={formData.excerpt}
-                    onChange={(e) =>
-                      setFormData({ ...formData, excerpt: e.target.value })
-                    }
-                    placeholder="คำอธิบายสั้นๆ..."
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm min-h-[80px] focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:border-transparent text-gray-900"
-                  />
-                </div>
-              </div>
-
-              {/* Cover Image */}
+              {/* Excerpt */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  รูปภาพปก
+                  ตัวอย่างเนื้อหา (ภาษาไทย)
                 </label>
-                {formData.coverImage ? (
-                  <div className="relative h-48 bg-gray-100 rounded-lg overflow-hidden mb-2">
-                    <Image
-                      src={formData.coverImage}
-                      alt="Cover"
-                      fill
-                      className="object-cover"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setFormData({ ...formData, coverImage: "" })}
-                      className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  </div>
-                ) : (
-                  <div
-                    onClick={() => coverImageInputRef.current?.click()}
-                    className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-[#C9A227] hover:bg-[#C9A227]/5 transition-colors"
-                  >
-                    {uploading === "cover" ? (
-                      <Loader2 className="w-8 h-8 text-[#C9A227] animate-spin mx-auto" />
-                    ) : (
-                      <>
-                        <Upload className="w-8 h-8 text-gray-500 mx-auto mb-2" />
-                        <p className="text-sm text-gray-900">คลิกเพื่ออัปโหลด</p>
-                      </>
-                    )}
-                  </div>
-                )}
-                <input
-                  ref={coverImageInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleImageUpload(e, "cover")}
-                  className="hidden"
+                <textarea
+                  value={formData.excerpt}
+                  onChange={(e) =>
+                    setFormData({ ...formData, excerpt: e.target.value })
+                  }
+                  placeholder="คำอธิบายสั้นๆ..."
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm min-h-[80px] focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:border-transparent text-gray-900"
                 />
               </div>
 

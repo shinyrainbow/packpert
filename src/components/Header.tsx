@@ -25,9 +25,6 @@ export default function Header() {
   const [catalogOpen, setCatalogOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // Check if on contact page - always show white header
-  const isContactPage = pathname.includes("/contact");
-
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -39,8 +36,8 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Use white header style if scrolled, mobile menu open, or on contact page
-  const useWhiteHeader = scrolled || mobileMenuOpen || isContactPage;
+  // Use primary header style if scrolled or mobile menu open
+  const useWhiteHeader = scrolled || mobileMenuOpen;
 
   const switchLocale = (newLocale: string) => {
     const currentPath = pathname.replace(`/${locale}`, "");

@@ -77,7 +77,7 @@ export default async function CategoryDetailPage({ params }: Props) {
   return (
     <>
       {/* Hero Section with Banner */}
-      <section className="relative text-white h-[45vh] md:h-[55vh] lg:h-[60vh] overflow-hidden">
+      <section className="relative text-white h-[45vh] md:h-[55vh] lg:h-[60vh] overflow-hidden -mt-16">
         <img
           src={categoryBanners[category]}
           alt={t(category)}
@@ -86,9 +86,19 @@ export default async function CategoryDetailPage({ params }: Props) {
         <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-primary-dark/60" />
         <div className="absolute inset-0 flex items-center">
           <div className="container-custom">
-            <h1 className="text-4xl lg:text-5xl font-bold mb-4">{t(category)}</h1>
-            <p className="text-xl text-white/80">{t("subtitle")}</p>
+            <h1 className="text-3xl lg:text-4xl xl:text-5xl font-bold mb-4 leading-tight">
+              {t(`${category}H1`)}
+            </h1>
           </div>
+        </div>
+      </section>
+
+      {/* Sub-headline Section */}
+      <section className="bg-secondary py-6">
+        <div className="container-custom px-8 md:px-12 lg:px-16">
+          <p className="text-sm lg:text-base text-gray-700 leading-relaxed">
+            {t(`${category}Subheadline`)}
+          </p>
         </div>
       </section>
 
