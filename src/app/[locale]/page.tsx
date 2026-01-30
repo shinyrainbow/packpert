@@ -8,6 +8,7 @@ export default async function HomePage() {
   const th = await getTranslations("home");
   const tp = await getTranslations("portfolio");
   const tcommon = await getTranslations("common");
+  const ta = await getTranslations("about");
 
   // Fetch latest published blogs
   let blogs: Array<{
@@ -187,29 +188,29 @@ export default async function HomePage() {
             <div className="flex flex-col items-center text-center">
               <img
                 src="/icons/บริการของ Packpert1.png"
-                alt="ผู้ช่วยเลือกแพ็กเกจจิ้ง"
+                alt={ta("service1Title")}
                 className="w-24 h-24 lg:w-32 lg:h-32 object-contain mb-4"
               />
-              <h3 className="text-lg font-semibold text-primary mb-2">ผู้ช่วยเลือกแพ็กเกจจิ้ง</h3>
-              <p className="text-muted text-sm">ให้คำปรึกษาและแนะนำแพ็กเกจจิ้งที่เหมาะกับแบรนด์คุณ</p>
+              <h3 className="text-lg font-semibold text-primary mb-2">{ta("service1Title")}</h3>
+              <p className="text-muted text-sm">{ta("service1Desc")}</p>
             </div>
             <div className="flex flex-col items-center text-center">
               <img
                 src="/icons/บริการของ Packpert2.png"
-                alt="รับผลิตแพ็กเกจจิ้ง"
+                alt={ta("service2Title")}
                 className="w-24 h-24 lg:w-32 lg:h-32 object-contain mb-4"
               />
-              <h3 className="text-lg font-semibold text-primary mb-2">รับผลิตแพ็กเกจจิ้ง</h3>
-              <p className="text-muted text-sm">ดูแลครบจบในที่เดียว ตั้งแต่เลือกวัสดุจนถึงจัดส่ง งานไว มั่นใจคุณภาพ พร้อมตอบโจทย์ทุกความต้องการของธุรกิจคุณ</p>
+              <h3 className="text-lg font-semibold text-primary mb-2">{ta("service2Title")}</h3>
+              <p className="text-muted text-sm">{ta("service2Desc")}</p>
             </div>
             <div className="flex flex-col items-center text-center">
               <img
                 src="/icons/บริการของ Packpert3.png"
-                alt="ออกแบบแพ็กเกจจิ้งและโลโก้แบรนด์"
+                alt={ta("service3Title")}
                 className="w-24 h-24 lg:w-32 lg:h-32 object-contain mb-4"
               />
-              <h3 className="text-lg font-semibold text-primary mb-2">ออกแบบแพ็กเกจจิ้งและโลโก้แบรนด์</h3>
-              <p className="text-muted text-sm">เปลี่ยนไอเดียให้เป็นงานดีไซน์ที่โดดเด่น สร้างเอกลักษณ์ให้แบรนด์คุณเป็นที่จดจำ</p>
+              <h3 className="text-lg font-semibold text-primary mb-2">{ta("service3Title")}</h3>
+              <p className="text-muted text-sm">{ta("service3Desc")}</p>
             </div>
           </div>
         </div>

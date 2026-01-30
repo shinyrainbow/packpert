@@ -24,10 +24,10 @@ export default async function AboutPage() {
         <div className="w-full px-8 lg:px-20 relative z-10">
           <div className="max-w-md text-white text-left lg:ml-16">
             <h1 className="text-2xl lg:text-4xl font-bold mb-2 leading-tight animate-fade-in-up">
-              ที่ปรึกษามืออาชีพด้านแพ็กเกจจิ้ง
+              {t("bannerTitle")}
             </h1>
             <p className="text-lg lg:text-xl mb-6 leading-relaxed animate-fade-in-up-delay-1">
-              ดูแลครบจบในที่เดียว ตั้งแต่ ดีไซน์ ผลิต จนถึงจัดส่ง
+              {t("bannerSubtitle")}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 animate-fade-in-up-delay-2">
               <a
@@ -115,29 +115,29 @@ export default async function AboutPage() {
             <div className="flex flex-col items-center text-center">
               <img
                 src="/icons/บริการของ Packpert1.png"
-                alt="ผู้ช่วยเลือกแพ็กเกจจิ้ง"
+                alt={t("service1Title")}
                 className="w-32 h-32 lg:w-40 lg:h-40 object-contain mb-4"
               />
-              <h3 className="text-lg font-semibold text-primary mb-2">ผู้ช่วยเลือกแพ็กเกจจิ้ง</h3>
-              <p className="text-muted text-sm">ให้คำปรึกษาและแนะนำแพ็กเกจจิ้งที่เหมาะกับแบรนด์คุณ</p>
+              <h3 className="text-lg font-semibold text-primary mb-2">{t("service1Title")}</h3>
+              <p className="text-muted text-sm">{t("service1Desc")}</p>
             </div>
             <div className="flex flex-col items-center text-center">
               <img
                 src="/icons/บริการของ Packpert2.png"
-                alt="รับผลิตแพ็กเกจจิ้ง"
+                alt={t("service2Title")}
                 className="w-32 h-32 lg:w-40 lg:h-40 object-contain mb-4"
               />
-              <h3 className="text-lg font-semibold text-primary mb-2">รับผลิตแพ็กเกจจิ้ง</h3>
-              <p className="text-muted text-sm">ดูแลครบจบในที่เดียว ตั้งแต่เลือกวัสดุจนถึงจัดส่ง งานไว มั่นใจคุณภาพ พร้อมตอบโจทย์ทุกความต้องการของธุรกิจคุณ</p>
+              <h3 className="text-lg font-semibold text-primary mb-2">{t("service2Title")}</h3>
+              <p className="text-muted text-sm">{t("service2Desc")}</p>
             </div>
             <div className="flex flex-col items-center text-center">
               <img
                 src="/icons/บริการของ Packpert3.png"
-                alt="ออกแบบแพ็กเกจจิ้งและโลโก้แบรนด์"
+                alt={t("service3Title")}
                 className="w-32 h-32 lg:w-40 lg:h-40 object-contain mb-4"
               />
-              <h3 className="text-lg font-semibold text-primary mb-2">ออกแบบแพ็กเกจจิ้งและโลโก้แบรนด์</h3>
-              <p className="text-muted text-sm">เปลี่ยนไอเดียให้เป็นงานดีไซน์ที่โดดเด่น สร้างเอกลักษณ์ให้แบรนด์คุณเป็นที่จดจำ</p>
+              <h3 className="text-lg font-semibold text-primary mb-2">{t("service3Title")}</h3>
+              <p className="text-muted text-sm">{t("service3Desc")}</p>
             </div>
           </div>
         </div>
@@ -153,20 +153,20 @@ export default async function AboutPage() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 lg:gap-8">
             {[
-              { num: 1, label: "One-Stop Service" },
-              { num: 2, label: "คุณภาพระดับพรีเมียม" },
-              { num: 3, label: "มีแพ็กเกจจิ้งให้เลือกหลากหลาย" },
-              { num: 4, label: "ให้คำปรึกษาแบบมืออาชีพ" },
-              { num: 5, label: "รวดเร็วและตรงต่อเวลา" },
-              { num: 6, label: "บริการหลังการขายและระบบตรวจสอบ" },
+              { num: 1, key: "why1" },
+              { num: 2, key: "why2" },
+              { num: 3, key: "why3" },
+              { num: 4, key: "why4" },
+              { num: 5, key: "why5" },
+              { num: 6, key: "why6" },
             ].map((item) => (
               <div key={item.num} className="flex flex-col items-center text-center">
                 <img
                   src={`/icons/why${item.num}.png`}
-                  alt={item.label}
+                  alt={t(item.key)}
                   className="w-24 h-24 lg:w-32 lg:h-32 object-contain mb-3"
                 />
-                <p className="text-sm font-medium text-gray-700">{item.label}</p>
+                <p className="text-sm font-medium text-gray-700">{t(item.key)}</p>
               </div>
             ))}
           </div>

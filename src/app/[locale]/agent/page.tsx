@@ -23,7 +23,7 @@ export default async function AgentPage() {
           }}
         />
         <div className="w-full h-full px-8 lg:px-32 relative z-10 flex items-end pb-16 lg:pb-24">
-          <div className="max-w-2xl ml-4 lg:ml-12 mb-[-180px]">
+          <div className="max-w-2xl ml-4 lg:ml-12 mb-[-330px]">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white drop-shadow-lg mb-6">
               เราปั้นคุณให้เป็น <span className="text-accent">&quot;ผู้เชี่ยวชาญด้านบรรจุภัณฑ์&quot;</span>
             </h1>

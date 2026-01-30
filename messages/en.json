@@ -76,7 +76,21 @@
     "step3Title": "Production",
     "step3Desc": "High-quality manufacturing with strict quality control",
     "step4Title": "Delivery",
-    "step4Desc": "Fast and reliable delivery to your location"
+    "step4Desc": "Fast and reliable delivery to your location",
+    "bannerTitle": "Professional Packaging Consultant",
+    "bannerSubtitle": "One-stop service from design, production, to delivery",
+    "service1Title": "Packaging Selection Assistant",
+    "service1Desc": "Expert consultation and recommendations for packaging that suits your brand",
+    "service2Title": "Packaging Production",
+    "service2Desc": "Complete one-stop service from material selection to delivery. Fast, reliable quality, meeting all your business needs",
+    "service3Title": "Packaging & Brand Logo Design",
+    "service3Desc": "Transform your ideas into outstanding designs. Create a unique identity that makes your brand memorable",
+    "why1": "One-Stop Service",
+    "why2": "Premium Quality",
+    "why3": "Wide Variety of Packaging",
+    "why4": "Professional Consultation",
+    "why5": "Fast & On-Time Delivery",
+    "why6": "After-Sales Service & Quality Control"
   },
   "catalog": {
     "title": "Product Catalog",
