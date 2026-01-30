@@ -12,6 +12,7 @@ interface BlogSection {
   id: string;
   order: number;
   imageUrl: string | null;
+  imagePosition: "left" | "right";
   content: string | null;
   contentEn: string | null;
 }
@@ -378,7 +379,7 @@ export default function BlogPostPage({
                   )}
 
                   {/* Article Sections */}
-                  <div className="space-y-6">
+                  <div className="space-y-8">
                     {blog.sections.map((section, index) => (
                       <div
                         key={section.id}
@@ -387,28 +388,42 @@ export default function BlogPostPage({
                         }`}
                         style={{ transitionDelay: `${(index + 1) * 100}ms` }}
                       >
-                        {/* Section Content - Text First */}
-                        {getLocalizedContent(section) && (
-                          <div
-                            className="blog-content"
-                            dangerouslySetInnerHTML={{
-                              __html: getLocalizedContent(section)?.replace(/\n/g, "<br />") || "",
-                            }}
-                          />
-                        )}
-
-                        {/* Section Image - Between sections with margins */}
-                        {section.imageUrl && (
-                          <div className="my-8 mx-4 md:mx-8 lg:mx-12">
-                            <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-lg">
-                              <Image
-                                src={section.imageUrl}
-                                alt={`Section ${index + 1}`}
-                                fill
-                                className="object-cover"
-                              />
+                        {/* Section with Image - Side by Side Layout */}
+                        {section.imageUrl ? (
+                          <div className={`flex flex-col ${section.imagePosition === "right" ? "md:flex-row-reverse" : "md:flex-row"} gap-6 items-start`}>
+                            {/* Section Image */}
+                            <div className="w-full md:w-1/2 shrink-0">
+                              <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden shadow-lg">
+                                <Image
+                                  src={section.imageUrl}
+                                  alt={`Section ${index + 1}`}
+                                  fill
+                                  className="object-cover"
+                                />
+                              </div>
                             </div>
+                            {/* Section Content */}
+                            {getLocalizedContent(section) && (
+                              <div className="w-full md:w-1/2">
+                                <div
+                                  className="blog-content"
+                                  dangerouslySetInnerHTML={{
+                                    __html: getLocalizedContent(section)?.replace(/\n/g, "<br />") || "",
+                                  }}
+                                />
+                              </div>
+                            )}
                           </div>
+                        ) : (
+                          /* Section without Image - Full Width Content */
+                          getLocalizedContent(section) && (
+                            <div
+                              className="blog-content"
+                              dangerouslySetInnerHTML={{
+                                __html: getLocalizedContent(section)?.replace(/\n/g, "<br />") || "",
+                              }}
+                            />
+                          )
                         )}
                       </div>
                     ))}

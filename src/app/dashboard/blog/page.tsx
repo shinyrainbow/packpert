@@ -27,6 +27,7 @@ import RichTextEditor from "@/components/ui/rich-text-editor";
 interface BlogSection {
   id?: string;
   imageUrl: string;
+  imagePosition: "left" | "right";
   content: string;
   contentEn: string;
 }
@@ -269,6 +270,7 @@ export default function AdminBlogPage() {
         categoryId: blog.categoryId || "",
         sections: blog.sections.map((s) => ({
           imageUrl: s.imageUrl || "",
+          imagePosition: (s.imagePosition as "left" | "right") || "left",
           content: s.content || "",
           contentEn: s.contentEn || "",
         })),
@@ -287,6 +289,7 @@ export default function AdminBlogPage() {
         sections: [
           {
             imageUrl: "",
+            imagePosition: "left",
             content: "",
             contentEn: "",
           },
@@ -319,6 +322,7 @@ export default function AdminBlogPage() {
         ...formData.sections,
         {
           imageUrl: "",
+          imagePosition: "left",
           content: "",
           contentEn: "",
         },
@@ -784,6 +788,39 @@ export default function AdminBlogPage() {
                           </div>
                         )}
                       </div>
+
+                      {/* Image Position */}
+                      {section.imageUrl && (
+                        <div className="mb-4">
+                          <label className="block text-xs font-medium text-gray-600 mb-2">
+                            ตำแหน่งรูปภาพ
+                          </label>
+                          <div className="flex gap-4">
+                            <label className="flex items-center gap-2 cursor-pointer">
+                              <input
+                                type="radio"
+                                name={`imagePosition-${index}`}
+                                value="left"
+                                checked={section.imagePosition === "left"}
+                                onChange={() => updateSection(index, "imagePosition", "left")}
+                                className="w-4 h-4 text-[#C9A227] border-gray-300 focus:ring-[#C9A227]"
+                              />
+                              <span className="text-sm text-gray-700">รูปซ้าย - เนื้อหาขวา</span>
+                            </label>
+                            <label className="flex items-center gap-2 cursor-pointer">
+                              <input
+                                type="radio"
+                                name={`imagePosition-${index}`}
+                                value="right"
+                                checked={section.imagePosition === "right"}
+                                onChange={() => updateSection(index, "imagePosition", "right")}
+                                className="w-4 h-4 text-[#C9A227] border-gray-300 focus:ring-[#C9A227]"
+                              />
+                              <span className="text-sm text-gray-700">รูปขวา - เนื้อหาซ้าย</span>
+                            </label>
+                          </div>
+                        </div>
+                      )}
 
                       {/* Section Content */}
                       <div className="space-y-3">

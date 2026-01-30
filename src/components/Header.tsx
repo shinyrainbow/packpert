@@ -6,10 +6,10 @@ import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
 
 const catalogSubmenu = [
-  { key: "stickTube", href: "/catalog/stickTube" },
   { key: "creamTube", href: "/catalog/creamTube" },
-  { key: "jar", href: "/catalog/jar" },
+  { key: "stickTube", href: "/catalog/stickTube" },
   { key: "pumpBottle", href: "/catalog/pumpBottle" },
+  { key: "jar", href: "/catalog/jar" },
   { key: "serumBottle", href: "/catalog/serumBottle" },
   { key: "lip", href: "/catalog/lip" },
   { key: "cosmetics", href: "/catalog/cosmetics" },
@@ -71,7 +71,7 @@ export default function Header() {
             <img
               src="/logo.png"
               alt="Packpert"
-              className="h-12 w-auto"
+              className="h-14 w-auto"
             />
           </Link>
 

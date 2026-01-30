@@ -220,11 +220,12 @@ model Blog {
 
 // Blog content sections
 model BlogSection {
-  id        String   @id @default(cuid())
-  order     Int      @default(0)
-  imageUrl  String?
-  content   String?  @db.Text // Thai content (default)
-  contentEn String?  @db.Text // English content
+  id            String   @id @default(cuid())
+  order         Int      @default(0)
+  imageUrl      String?
+  imagePosition String   @default("left") // "left" or "right"
+  content       String?  @db.Text // Thai content (default)
+  contentEn     String?  @db.Text // English content
 
   blogId    String
   blog      Blog     @relation(fields: [blogId], references: [id], onDelete: Cascade)
