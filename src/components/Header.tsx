@@ -60,7 +60,7 @@ export default function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         useWhiteHeader
-          ? "bg-white shadow-sm"
+          ? "bg-primary shadow-sm"
           : "bg-transparent"
       }`}
     >
@@ -88,7 +88,7 @@ export default function Header() {
                     <span
                       className={`font-medium transition-colors py-2 cursor-pointer ${
                         useWhiteHeader
-                          ? "text-gray-700 hover:text-primary"
+                          ? "text-white/90 hover:text-white"
                           : "text-white/90 hover:text-white"
                       }`}
                     >
@@ -126,7 +126,7 @@ export default function Header() {
                     href={`/${locale}${link.href}`}
                     className={`font-medium transition-colors ${
                       useWhiteHeader
-                        ? "text-gray-700 hover:text-primary"
+                        ? "text-white/90 hover:text-white"
                         : "text-white/90 hover:text-white"
                     }`}
                   >
@@ -141,31 +141,27 @@ export default function Header() {
           <div className="hidden lg:flex items-center gap-4">
             <div
               className={`flex items-center gap-2 border rounded-lg px-3 py-1 transition-colors ${
-                useWhiteHeader ? "border-gray-200" : "border-white/30"
+                useWhiteHeader ? "border-white/30" : "border-white/30"
               }`}
             >
               <button
                 onClick={() => switchLocale("th")}
                 className={`px-2 py-1 rounded transition-colors ${
                   locale === "th"
-                    ? "bg-primary text-white"
-                    : useWhiteHeader
-                    ? "text-gray-600 hover:text-primary"
+                    ? "bg-white text-primary"
                     : "text-white/80 hover:text-white"
                 }`}
               >
                 TH
               </button>
-              <span className={useWhiteHeader ? "text-gray-300" : "text-white/30"}>
+              <span className="text-white/30">
                 |
               </span>
               <button
                 onClick={() => switchLocale("en")}
                 className={`px-2 py-1 rounded transition-colors ${
                   locale === "en"
-                    ? "bg-primary text-white"
-                    : useWhiteHeader
-                    ? "text-gray-600 hover:text-primary"
+                    ? "bg-white text-primary"
                     : "text-white/80 hover:text-white"
                 }`}
               >
@@ -174,11 +170,7 @@ export default function Header() {
             </div>
             <Link
               href={`/${locale}/contact`}
-              className={`px-6 py-2.5 rounded-full font-medium transition-colors ${
-                useWhiteHeader
-                  ? "bg-primary text-white hover:bg-primary-dark"
-                  : "bg-white text-primary hover:bg-gray-100"
-              }`}
+              className="px-6 py-2.5 rounded-full font-medium transition-colors bg-white text-primary hover:bg-gray-100"
             >
               {t("contact")}
             </Link>
@@ -190,9 +182,7 @@ export default function Header() {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             <svg
-              className={`w-6 h-6 transition-colors ${
-                useWhiteHeader ? "text-gray-700" : "text-white"
-              }`}
+              className="w-6 h-6 transition-colors text-white"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
