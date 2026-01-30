@@ -1,14 +1,15 @@
 import { getTranslations, getLocale } from "next-intl/server";
 import Link from "next/link";
+import Image from "next/image";
 
 const categories = [
-  { key: "stickTube", value: "stickTube" },
-  { key: "creamTube", value: "creamTube" },
-  { key: "jar", value: "jar" },
-  { key: "pumpBottle", value: "pumpBottle" },
-  { key: "serumBottle", value: "serumBottle" },
-  { key: "lip", value: "lip" },
-  { key: "cosmetics", value: "cosmetics" },
+  { key: "stickTube", value: "stickTube", image: "/catalog/หลอดสติ๊ก/35.png" },
+  { key: "creamTube", value: "creamTube", image: "/catalog/หลอดครีม/1.png" },
+  { key: "jar", value: "jar", image: "/catalog/กระปุก/102.png" },
+  { key: "pumpBottle", value: "pumpBottle", image: "/catalog/ขวดปั๊ม/45.png" },
+  { key: "serumBottle", value: "serumBottle", image: "/catalog/ขวดเซรั่ม/123.png" },
+  { key: "lip", value: "lip", image: "/catalog/ลิป/135.png" },
+  { key: "cosmetics", value: "cosmetics", image: "/catalog/เครื่องสำอางค์/99.png" },
 ];
 
 export default async function CatalogPage() {
@@ -34,24 +35,21 @@ export default async function CatalogPage() {
               <Link
                 key={cat.key}
                 href={`/${locale}/catalog/${cat.value}`}
-                className="rounded-xl p-5 text-center font-medium transition-all hover:shadow-md group bg-secondary text-gray-700 hover:bg-gray-100"
+                className="rounded-xl overflow-hidden text-center font-medium transition-all hover:shadow-lg group bg-white border border-gray-200 hover:border-primary/50"
               >
-                <div className="w-12 h-12 mx-auto mb-3 rounded-lg flex items-center justify-center bg-primary/10 group-hover:bg-primary/20">
-                  <svg
-                    className="w-6 h-6 text-primary"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-                    />
-                  </svg>
+                <div className="aspect-square relative bg-gray-50">
+                  <Image
+                    src={cat.image}
+                    alt={cat.key}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
                 </div>
-                <span className="text-sm">{t(cat.key)}</span>
+                <div className="p-4 bg-white">
+                  <span className="text-sm font-semibold text-gray-800 group-hover:text-primary transition-colors">
+                    {t(cat.key)}
+                  </span>
+                </div>
               </Link>
             ))}
           </div>

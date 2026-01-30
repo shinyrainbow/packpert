@@ -8,30 +8,32 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useTranslations, useLocale } from "next-intl";
 
-interface Article {
+interface BlogCategory {
   id: string;
-  title: string;
-  titleTh: string;
+  name: string;
+  nameEn: string | null;
   slug: string;
-  excerpt: string | null;
-  excerptTh: string | null;
-  featuredImage: string | null;
-  category: string | null;
-  publishedAt: string | null;
-  viewCount: number;
+  color: string;
 }
 
-const CATEGORIES = [
-  { slug: "packaging-tips", name: "Packaging Tips", nameTh: "เคล็ดลับบรรจุภัณฑ์" },
-  { slug: "industry-news", name: "Industry News", nameTh: "ข่าวอุตสาหกรรม" },
-  { slug: "case-study", name: "Case Study", nameTh: "กรณีศึกษา" },
-  { slug: "sustainability", name: "Sustainability", nameTh: "ความยั่งยืน" },
-];
+interface Blog {
+  id: string;
+  title: string;
+  titleEn: string | null;
+  slug: string;
+  excerpt: string | null;
+  excerptEn: string | null;
+  coverImage: string | null;
+  isPublished: boolean;
+  publishedAt: string | null;
+  category: BlogCategory | null;
+}
 
 export default function BlogPage() {
   const t = useTranslations("blog");
   const locale = useLocale();
-  const [articles, setArticles] = useState<Article[]>([]);
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [categories, setCategories] = useState<BlogCategory[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
@@ -42,52 +44,74 @@ export default function BlogPage() {
   }, []);
 
   useEffect(() => {
-    const fetchArticles = async () => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch("/api/blog-categories");
+        const data = await res.json();
+        if (data.success) {
+          setCategories(data.data);
+        }
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
       try {
         setLoading(true);
         const url = selectedCategory
-          ? `/api/public/articles?category=${selectedCategory}`
-          : "/api/public/articles";
+          ? `/api/public/blog?category=${selectedCategory}`
+          : "/api/public/blog";
         const res = await fetch(url);
         const data = await res.json();
         if (data.success) {
-          setArticles(data.data);
+          setBlogs(data.data);
         }
       } catch (error) {
-        console.error("Error fetching articles:", error);
+        console.error("Error fetching blogs:", error);
       } finally {
         setLoading(false);
       }
     };
-    fetchArticles();
+    fetchBlogs();
   }, [selectedCategory]);
 
-  const getLocalizedTitle = (article: Article) => {
-    return locale === "th" ? article.titleTh : article.title;
+  const getLocalizedTitle = (blog: Blog) => {
+    if (locale === "en") {
+      return blog.titleEn || blog.title;
+    }
+    return blog.title;
   };
 
-  const getLocalizedExcerpt = (article: Article) => {
-    return locale === "th" ? article.excerptTh : article.excerpt;
+  const getLocalizedExcerpt = (blog: Blog) => {
+    if (locale === "en") {
+      return blog.excerptEn || blog.excerpt;
+    }
+    return blog.excerpt;
   };
 
-  const getLocalizedCategoryName = (slug: string) => {
-    const cat = CATEGORIES.find((c) => c.slug === slug);
-    if (!cat) return slug;
-    return locale === "th" ? cat.nameTh : cat.name;
+  const getLocalizedCategoryName = (cat: BlogCategory) => {
+    if (locale === "en") {
+      return cat.nameEn || cat.name;
+    }
+    return cat.name;
   };
 
   const formatDate = (dateString: string | null) => {
     if (!dateString) return "";
     const date = new Date(dateString);
-    return date.toLocaleDateString(locale === "th" ? "th-TH" : "en-US", {
+    return date.toLocaleDateString(locale === "th" ? "th-TH" : locale === "zh" ? "zh-CN" : "en-US", {
       year: "numeric",
       month: "short",
       day: "numeric",
     });
   };
 
-  const featuredArticle = articles[0];
-  const restArticles = articles.slice(1);
+  const featuredBlog = blogs[0];
+  const restBlogs = blogs.slice(1);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -153,7 +177,7 @@ export default function BlogPage() {
                 </div>
               </div>
             </div>
-          ) : articles.length === 0 ? (
+          ) : blogs.length === 0 ? (
             <div className="text-center py-20">
               <FileText className="w-16 h-16 mx-auto text-gray-400 mb-4" />
               <p className="text-gray-700 text-lg mb-2">{t("noBlogs")}</p>
@@ -167,20 +191,20 @@ export default function BlogPage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Main Content */}
               <div className="lg:col-span-2 space-y-6">
-                {/* Featured Article */}
-                {featuredArticle && (
+                {/* Featured Blog */}
+                {featuredBlog && (
                   <Link
-                    href={`/blog/${featuredArticle.slug}`}
+                    href={`/${locale}/blog/${featuredBlog.slug}`}
                     className={`group block transition-all duration-500 ${
                       isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
                     }`}
                   >
                     <div className="relative rounded-xl overflow-hidden bg-white border border-gray-200 hover:border-primary/50 hover:shadow-lg transition-all">
                       <div className="relative h-72 md:h-96 overflow-hidden">
-                        {featuredArticle.featuredImage ? (
+                        {featuredBlog.coverImage ? (
                           <Image
-                            src={featuredArticle.featuredImage}
-                            alt={getLocalizedTitle(featuredArticle)}
+                            src={featuredBlog.coverImage}
+                            alt={getLocalizedTitle(featuredBlog)}
                             fill
                             priority
                             sizes="(max-width: 1024px) 100vw, 66vw"
@@ -198,21 +222,31 @@ export default function BlogPage() {
                             FEATURED
                           </span>
                         </div>
+                        {featuredBlog.category && (
+                          <div className="absolute top-4 right-4">
+                            <span
+                              className="px-3 py-1 text-xs font-semibold rounded-full text-white"
+                              style={{ backgroundColor: featuredBlog.category.color }}
+                            >
+                              {getLocalizedCategoryName(featuredBlog.category)}
+                            </span>
+                          </div>
+                        )}
                       </div>
                       <div className="absolute bottom-0 left-0 right-0 p-6">
                         <h2 className="text-xl md:text-2xl font-bold text-white mb-2 group-hover:text-accent transition-colors line-clamp-2">
-                          {getLocalizedTitle(featuredArticle)}
+                          {getLocalizedTitle(featuredBlog)}
                         </h2>
-                        {getLocalizedExcerpt(featuredArticle) && (
+                        {getLocalizedExcerpt(featuredBlog) && (
                           <p className="text-gray-300 text-sm mb-3 line-clamp-2">
-                            {getLocalizedExcerpt(featuredArticle)}
+                            {getLocalizedExcerpt(featuredBlog)}
                           </p>
                         )}
                         <div className="flex items-center gap-4 text-gray-400 text-xs">
-                          {featuredArticle.publishedAt && (
+                          {featuredBlog.publishedAt && (
                             <span className="flex items-center gap-1">
                               <Calendar className="w-3 h-3" />
-                              {formatDate(featuredArticle.publishedAt)}
+                              {formatDate(featuredBlog.publishedAt)}
                             </span>
                           )}
                           <span className="flex items-center gap-1 text-accent">
@@ -225,12 +259,12 @@ export default function BlogPage() {
                   </Link>
                 )}
 
-                {/* Rest of Articles */}
+                {/* Rest of Blogs */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {restArticles.map((article, index) => (
+                  {restBlogs.map((blog, index) => (
                     <Link
-                      key={article.id}
-                      href={`/blog/${article.slug}`}
+                      key={blog.id}
+                      href={`/${locale}/blog/${blog.slug}`}
                       className={`group block transition-all duration-500 ${
                         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
                       }`}
@@ -238,10 +272,10 @@ export default function BlogPage() {
                     >
                       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:border-primary/50 transition-all h-full">
                         <div className="relative h-44 overflow-hidden">
-                          {article.featuredImage ? (
+                          {blog.coverImage ? (
                             <Image
-                              src={article.featuredImage}
-                              alt={getLocalizedTitle(article)}
+                              src={blog.coverImage}
+                              alt={getLocalizedTitle(blog)}
                               fill
                               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                               loading={index < 2 ? "eager" : "lazy"}
@@ -252,20 +286,30 @@ export default function BlogPage() {
                               <FileText className="w-12 h-12 text-gray-400" />
                             </div>
                           )}
+                          {blog.category && (
+                            <div className="absolute top-3 right-3">
+                              <span
+                                className="px-2 py-1 text-xs font-medium rounded text-white"
+                                style={{ backgroundColor: blog.category.color }}
+                              >
+                                {getLocalizedCategoryName(blog.category)}
+                              </span>
+                            </div>
+                          )}
                         </div>
                         <div className="p-4">
-                          {article.category && (
-                            <span className="text-xs text-primary font-medium">
-                              {getLocalizedCategoryName(article.category)}
-                            </span>
-                          )}
                           <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-primary transition-colors line-clamp-2 text-sm">
-                            {getLocalizedTitle(article)}
+                            {getLocalizedTitle(blog)}
                           </h3>
-                          {article.publishedAt && (
+                          {getLocalizedExcerpt(blog) && (
+                            <p className="text-gray-600 text-xs mb-2 line-clamp-2">
+                              {getLocalizedExcerpt(blog)}
+                            </p>
+                          )}
+                          {blog.publishedAt && (
                             <div className="flex items-center gap-1 text-gray-500 text-xs">
                               <Calendar className="w-3 h-3" />
-                              {formatDate(article.publishedAt)}
+                              {formatDate(blog.publishedAt)}
                             </div>
                           )}
                         </div>
@@ -294,9 +338,9 @@ export default function BlogPage() {
                       >
                         {locale === "th" ? "ทั้งหมด" : "All"}
                       </button>
-                      {CATEGORIES.map((category) => (
+                      {categories.map((category) => (
                         <button
-                          key={category.slug}
+                          key={category.id}
                           onClick={() => setSelectedCategory(category.slug)}
                           className={`px-3 py-1 text-xs rounded-full border transition-colors ${
                             selectedCategory === category.slug
@@ -304,31 +348,31 @@ export default function BlogPage() {
                               : "bg-gray-100 text-gray-600 border-gray-200 hover:border-primary/50 hover:text-primary"
                           }`}
                         >
-                          {locale === "th" ? category.nameTh : category.name}
+                          {getLocalizedCategoryName(category)}
                         </button>
                       ))}
                     </div>
                   </div>
 
-                  {/* Popular Articles */}
-                  {articles.length > 0 && (
+                  {/* Popular Blogs */}
+                  {blogs.length > 0 && (
                     <div className="bg-white rounded-xl border border-gray-200 p-5">
                       <h3 className="text-gray-900 font-semibold mb-4 flex items-center gap-2">
                         <TrendingUp className="w-4 h-4 text-primary" />
                         {locale === "th" ? "บทความยอดนิยม" : "Popular Articles"}
                       </h3>
                       <div className="space-y-4">
-                        {articles.slice(0, 5).map((article) => (
+                        {blogs.slice(0, 5).map((blog) => (
                           <Link
-                            key={article.id}
-                            href={`/blog/${article.slug}`}
+                            key={blog.id}
+                            href={`/${locale}/blog/${blog.slug}`}
                             className="group flex gap-3"
                           >
                             <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                              {article.featuredImage ? (
+                              {blog.coverImage ? (
                                 <Image
-                                  src={article.featuredImage}
-                                  alt={getLocalizedTitle(article)}
+                                  src={blog.coverImage}
+                                  alt={getLocalizedTitle(blog)}
                                   fill
                                   sizes="64px"
                                   loading="lazy"
@@ -342,11 +386,11 @@ export default function BlogPage() {
                             </div>
                             <div className="flex-1 min-w-0">
                               <h4 className="text-gray-900 text-xs font-medium line-clamp-2 group-hover:text-primary transition-colors">
-                                {getLocalizedTitle(article)}
+                                {getLocalizedTitle(blog)}
                               </h4>
-                              {article.publishedAt && (
+                              {blog.publishedAt && (
                                 <p className="text-gray-500 text-[10px] mt-1">
-                                  {formatDate(article.publishedAt)}
+                                  {formatDate(blog.publishedAt)}
                                 </p>
                               )}
                             </div>

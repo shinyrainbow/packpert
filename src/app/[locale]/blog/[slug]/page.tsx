@@ -14,18 +14,15 @@ interface BlogSection {
   imageUrl: string | null;
   content: string | null;
   contentEn: string | null;
-  contentZh: string | null;
 }
 
 interface Blog {
   id: string;
   title: string;
   titleEn: string | null;
-  titleZh: string | null;
   slug: string;
   excerpt: string | null;
   excerptEn: string | null;
-  excerptZh: string | null;
   coverImage: string | null;
   isPublished: boolean;
   publishedAt: string | null;
@@ -77,25 +74,17 @@ export default function BlogPostPage({
   }, [resolvedParams.slug]);
 
   const getLocalizedTitle = (blog: Blog) => {
-    switch (locale) {
-      case "en":
-        return blog.titleEn || blog.title;
-      case "zh":
-        return blog.titleZh || blog.title;
-      default:
-        return blog.title;
+    if (locale === "en") {
+      return blog.titleEn || blog.title;
     }
+    return blog.title;
   };
 
   const getLocalizedContent = (section: BlogSection) => {
-    switch (locale) {
-      case "en":
-        return section.contentEn || section.content;
-      case "zh":
-        return section.contentZh || section.content;
-      default:
-        return section.content;
+    if (locale === "en") {
+      return section.contentEn || section.content;
     }
+    return section.content;
   };
 
   const formatDate = (dateString: string | null) => {

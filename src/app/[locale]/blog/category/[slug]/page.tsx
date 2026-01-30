@@ -14,14 +14,12 @@ interface BlogSection {
   imageUrl: string | null;
   content: string | null;
   contentEn: string | null;
-  contentZh: string | null;
 }
 
 interface BlogCategory {
   id: string;
   name: string;
   nameEn: string | null;
-  nameZh: string | null;
   slug: string;
   color: string;
 }
@@ -30,11 +28,9 @@ interface Blog {
   id: string;
   title: string;
   titleEn: string | null;
-  titleZh: string | null;
   slug: string;
   excerpt: string | null;
   excerptEn: string | null;
-  excerptZh: string | null;
   coverImage: string | null;
   isPublished: boolean;
   publishedAt: string | null;
@@ -86,36 +82,24 @@ export default function CategoryPage() {
   }, [categorySlug]);
 
   const getLocalizedTitle = (blog: Blog) => {
-    switch (locale) {
-      case "en":
-        return blog.titleEn || blog.title;
-      case "zh":
-        return blog.titleZh || blog.title;
-      default:
-        return blog.title;
+    if (locale === "en") {
+      return blog.titleEn || blog.title;
     }
+    return blog.title;
   };
 
   const getLocalizedExcerpt = (blog: Blog) => {
-    switch (locale) {
-      case "en":
-        return blog.excerptEn || blog.excerpt;
-      case "zh":
-        return blog.excerptZh || blog.excerpt;
-      default:
-        return blog.excerpt;
+    if (locale === "en") {
+      return blog.excerptEn || blog.excerpt;
     }
+    return blog.excerpt;
   };
 
   const getLocalizedCategoryName = (cat: BlogCategory) => {
-    switch (locale) {
-      case "en":
-        return cat.nameEn || cat.name;
-      case "zh":
-        return cat.nameZh || cat.name;
-      default:
-        return cat.name;
+    if (locale === "en") {
+      return cat.nameEn || cat.name;
     }
+    return cat.name;
   };
 
   const formatDate = (dateString: string | null) => {

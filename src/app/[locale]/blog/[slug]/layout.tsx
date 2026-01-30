@@ -15,10 +15,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     select: {
       title: true,
       titleEn: true,
-      titleZh: true,
       excerpt: true,
       excerptEn: true,
-      excerptZh: true,
       coverImage: true,
     },
   });
@@ -30,20 +28,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   // Get localized title
-  const title =
-    locale === "en"
-      ? blog.titleEn || blog.title
-      : locale === "zh"
-      ? blog.titleZh || blog.title
-      : blog.title;
+  const title = locale === "en" ? blog.titleEn || blog.title : blog.title;
 
   // Get localized excerpt
-  const description =
-    locale === "en"
-      ? blog.excerptEn || blog.excerpt
-      : locale === "zh"
-      ? blog.excerptZh || blog.excerpt
-      : blog.excerpt;
+  const description = locale === "en" ? blog.excerptEn || blog.excerpt : blog.excerpt;
 
   return {
     title: `${title} | Packpert`,

@@ -1,222 +1,877 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Plus,
+  Pencil,
+  Trash2,
+  Image as ImageIcon,
+  Loader2,
+  Eye,
+  EyeOff,
+  FileText,
+  Upload,
+  X,
+  Calendar,
+  ExternalLink,
+} from "lucide-react";
+import Image from "next/image";
+import { toast } from "sonner";
+import { useConfirmDialog } from "@/components/ui/confirm-dialog";
 import Link from "next/link";
+import RichTextEditor from "@/components/ui/rich-text-editor";
 
-interface Article {
-  id: string;
-  title: string;
-  titleTh: string;
-  slug: string;
-  excerpt: string | null;
-  status: "draft" | "published" | "archived";
-  publishedAt: string | null;
-  viewCount: number;
-  createdAt: string;
-  author: {
-    name: string | null;
-    email: string;
-  } | null;
+interface BlogSection {
+  id?: string;
+  imageUrl: string;
+  content: string;
+  contentEn: string;
 }
 
-export default function BlogDashboardPage() {
-  const [articles, setArticles] = useState<Article[]>([]);
+interface BlogCategory {
+  id: string;
+  name: string;
+  nameEn: string | null;
+  slug: string;
+  color: string;
+}
+
+interface Blog {
+  id: string;
+  title: string;
+  titleEn: string | null;
+  slug: string;
+  excerpt: string | null;
+  excerptEn: string | null;
+  coverImage: string | null;
+  isPublished: boolean;
+  publishedAt: string | null;
+  createdAt: string;
+  categoryId: string | null;
+  category: BlogCategory | null;
+  sections: BlogSection[];
+}
+
+export default function AdminBlogPage() {
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [categories, setCategories] = useState<BlogCategory[]>([]);
   const [loading, setLoading] = useState(true);
+  const [updating, setUpdating] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState(false);
+  const [editingBlog, setEditingBlog] = useState<Blog | null>(null);
+  const [uploading, setUploading] = useState<string | null>(null);
+  const coverImageInputRef = useRef<HTMLInputElement>(null);
+  const sectionImageInputRef = useRef<HTMLInputElement>(null);
+  const [currentSectionIndex, setCurrentSectionIndex] = useState<number | null>(null);
+  const { confirm } = useConfirmDialog();
+  const [formData, setFormData] = useState({
+    title: "",
+    titleEn: "",
+    slug: "",
+    excerpt: "",
+    excerptEn: "",
+    coverImage: "",
+    isPublished: false,
+    categoryId: "",
+    sections: [] as BlogSection[],
+  });
 
-  useEffect(() => {
-    fetchArticles();
-  }, []);
+  const generateSlug = (title: string) => {
+    return title
+      .toLowerCase()
+      .replace(/[^a-z0-9ก-๙]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  };
 
-  async function fetchArticles() {
+  const handleImageUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    type: "cover" | "section"
+  ) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const uploadKey = type === "cover" ? "cover" : `section-${currentSectionIndex}`;
+    setUploading(uploadKey);
+
     try {
-      const res = await fetch("/api/articles");
+      const uploadFormData = new FormData();
+      uploadFormData.append("file", file);
+
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: uploadFormData,
+      });
+
       const data = await res.json();
-      setArticles(data);
+
+      if (data.success) {
+        if (type === "cover") {
+          setFormData({ ...formData, coverImage: data.data.url });
+        } else if (currentSectionIndex !== null) {
+          const newSections = [...formData.sections];
+          newSections[currentSectionIndex].imageUrl = data.data.url;
+          setFormData({ ...formData, sections: newSections });
+        }
+        toast.success("อัปโหลดรูปภาพสำเร็จ");
+      } else {
+        toast.error(data.error || "อัปโหลดไม่สำเร็จ");
+      }
     } catch (error) {
-      console.error("Failed to fetch articles:", error);
+      console.error("Upload failed:", error);
+      toast.error("อัปโหลดไม่สำเร็จ");
+    } finally {
+      setUploading(null);
+      if (coverImageInputRef.current) {
+        coverImageInputRef.current.value = "";
+      }
+      if (sectionImageInputRef.current) {
+        sectionImageInputRef.current.value = "";
+      }
+    }
+  };
+
+  const fetchBlogs = async () => {
+    try {
+      const res = await fetch("/api/admin/blog");
+      const data = await res.json();
+
+      if (data.success) {
+        setBlogs(data.data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch blogs:", error);
     } finally {
       setLoading(false);
     }
-  }
+  };
 
-  async function deleteArticle(id: string) {
-    if (!confirm("Are you sure you want to delete this article?")) return;
-
+  const fetchCategories = async () => {
     try {
-      await fetch(`/api/articles/${id}`, { method: "DELETE" });
-      fetchArticles();
+      const res = await fetch("/api/admin/blog-categories");
+      const data = await res.json();
+      if (data.success) {
+        setCategories(data.data);
+      }
     } catch (error) {
-      console.error("Failed to delete article:", error);
+      console.error("Failed to fetch categories:", error);
     }
-  }
+  };
 
-  async function toggleStatus(id: string, currentStatus: string) {
-    const newStatus = currentStatus === "published" ? "draft" : "published";
+  useEffect(() => {
+    fetchBlogs();
+    fetchCategories();
+  }, []);
+
+  const handleSubmit = async () => {
+    if (!formData.title || !formData.slug) {
+      toast.error("กรุณากรอกหัวข้อและ slug");
+      return;
+    }
+
+    setUpdating("form");
     try {
-      await fetch(`/api/articles/${id}`, {
-        method: "PATCH",
+      const url = editingBlog
+        ? `/api/admin/blog/${editingBlog.id}`
+        : "/api/admin/blog";
+      const method = editingBlog ? "PUT" : "POST";
+
+      const res = await fetch(url, {
+        method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: newStatus }),
+        body: JSON.stringify(formData),
       });
-      fetchArticles();
-    } catch (error) {
-      console.error("Failed to update article:", error);
-    }
-  }
 
-  const publishedCount = articles.filter((a) => a.status === "published").length;
-  const draftCount = articles.filter((a) => a.status === "draft").length;
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        toast.success(editingBlog ? "บันทึกการแก้ไขสำเร็จ" : "สร้างบทความสำเร็จ");
+        fetchBlogs();
+        handleCloseModal();
+      } else {
+        toast.error(data.error || "เกิดข้อผิดพลาด");
+      }
+    } catch (error) {
+      console.error("Failed to save blog:", error);
+      toast.error("เกิดข้อผิดพลาด");
+    } finally {
+      setUpdating(null);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    const confirmed = await confirm({
+      title: "ยืนยันการลบ",
+      message: "คุณแน่ใจหรือไม่ว่าต้องการลบบทความนี้?",
+      confirmText: "ลบ",
+      cancelText: "ยกเลิก",
+      variant: "danger",
+    });
+    if (!confirmed) return;
+
+    setUpdating(id);
+    try {
+      const res = await fetch(`/api/admin/blog/${id}`, {
+        method: "DELETE",
+      });
+
+      if (res.ok) {
+        toast.success("ลบบทความสำเร็จ");
+        fetchBlogs();
+      } else {
+        toast.error("เกิดข้อผิดพลาด");
+      }
+    } catch (error) {
+      console.error("Failed to delete blog:", error);
+      toast.error("เกิดข้อผิดพลาด");
+    } finally {
+      setUpdating(null);
+    }
+  };
+
+  const handleTogglePublish = async (blog: Blog) => {
+    setUpdating(blog.id);
+    try {
+      const res = await fetch(`/api/admin/blog/${blog.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...blog,
+          isPublished: !blog.isPublished,
+        }),
+      });
+
+      if (res.ok) {
+        toast.success(blog.isPublished ? "ซ่อนบทความแล้ว" : "เผยแพร่บทความแล้ว");
+        fetchBlogs();
+      }
+    } catch (error) {
+      console.error("Failed to toggle publish:", error);
+      toast.error("เกิดข้อผิดพลาด");
+    } finally {
+      setUpdating(null);
+    }
+  };
+
+  const handleOpenModal = (blog?: Blog) => {
+    if (blog) {
+      setEditingBlog(blog);
+      setFormData({
+        title: blog.title,
+        titleEn: blog.titleEn || "",
+        slug: blog.slug,
+        excerpt: blog.excerpt || "",
+        excerptEn: blog.excerptEn || "",
+        coverImage: blog.coverImage || "",
+        isPublished: blog.isPublished,
+        categoryId: blog.categoryId || "",
+        sections: blog.sections.map((s) => ({
+          imageUrl: s.imageUrl || "",
+          content: s.content || "",
+          contentEn: s.contentEn || "",
+        })),
+      });
+    } else {
+      setEditingBlog(null);
+      setFormData({
+        title: "",
+        titleEn: "",
+        slug: "",
+        excerpt: "",
+        excerptEn: "",
+        coverImage: "",
+        isPublished: false,
+        categoryId: "",
+        sections: [
+          {
+            imageUrl: "",
+            content: "",
+            contentEn: "",
+          },
+        ],
+      });
+    }
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setEditingBlog(null);
+    setFormData({
+      title: "",
+      titleEn: "",
+      slug: "",
+      excerpt: "",
+      excerptEn: "",
+      coverImage: "",
+      isPublished: false,
+      categoryId: "",
+      sections: [],
+    });
+  };
+
+  const addSection = () => {
+    setFormData({
+      ...formData,
+      sections: [
+        ...formData.sections,
+        {
+          imageUrl: "",
+          content: "",
+          contentEn: "",
+        },
+      ],
+    });
+  };
+
+  const removeSection = (index: number) => {
+    const newSections = formData.sections.filter((_, i) => i !== index);
+    setFormData({ ...formData, sections: newSections });
+  };
+
+  const updateSection = useCallback(
+    (index: number, field: keyof BlogSection, value: string) => {
+      setFormData((prev) => {
+        // Only update if value actually changed to prevent infinite loops
+        if (prev.sections[index]?.[field] === value) {
+          return prev;
+        }
+        const newSections = [...prev.sections];
+        newSections[index] = { ...newSections[index], [field]: value };
+        return { ...prev, sections: newSections };
+      });
+    },
+    []
+  );
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("th-TH", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
+
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <div className="h-8 w-48 bg-gray-200 animate-pulse rounded" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[...Array(6)].map((_, i) => (
+            <Card key={i} className="h-64 animate-pulse bg-gray-200" />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-7xl mx-auto">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-primary">Blog Articles</h1>
-        <Link
-          href="/dashboard/blog/new"
-          className="btn-primary flex items-center gap-2"
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">จัดการบล็อก</h1>
+          <p className="text-gray-600 mt-1">สร้างและจัดการบทความบล็อก</p>
+        </div>
+        <Button
+          onClick={() => handleOpenModal()}
+          className="bg-[#C9A227] hover:bg-[#A88B1F] text-white"
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
-          New Article
-        </Link>
+          <Plus className="w-4 h-4 mr-2" />
+          สร้างบทความใหม่
+        </Button>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white p-6 rounded-xl shadow-sm">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-              <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-              </svg>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Card className="p-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+              <FileText className="w-5 h-5 text-blue-600" />
             </div>
             <div>
-              <p className="text-sm text-muted">Total Articles</p>
-              <p className="text-2xl font-bold text-primary">{articles.length}</p>
+              <p className="text-sm text-gray-600">บทความทั้งหมด</p>
+              <p className="text-2xl font-bold text-gray-900">{blogs.length}</p>
             </div>
           </div>
-        </div>
-
-        <div className="bg-white p-6 rounded-xl shadow-sm">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-              <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+        </Card>
+        <Card className="p-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+              <Eye className="w-5 h-5 text-green-600" />
             </div>
             <div>
-              <p className="text-sm text-muted">Published</p>
-              <p className="text-2xl font-bold text-green-600">{publishedCount}</p>
+              <p className="text-sm text-gray-600">เผยแพร่แล้ว</p>
+              <p className="text-2xl font-bold text-gray-900">
+                {blogs.filter((b) => b.isPublished).length}
+              </p>
             </div>
           </div>
-        </div>
-
-        <div className="bg-white p-6 rounded-xl shadow-sm">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-              <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-              </svg>
+        </Card>
+        <Card className="p-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+              <EyeOff className="w-5 h-5 text-gray-600" />
             </div>
             <div>
-              <p className="text-sm text-muted">Drafts</p>
-              <p className="text-2xl font-bold text-yellow-600">{draftCount}</p>
+              <p className="text-sm text-gray-600">แบบร่าง</p>
+              <p className="text-2xl font-bold text-gray-900">
+                {blogs.filter((b) => !b.isPublished).length}
+              </p>
             </div>
           </div>
-        </div>
+        </Card>
       </div>
 
-      {/* Articles Table */}
-      <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-        <div className="p-6 border-b">
-          <h2 className="text-lg font-semibold text-primary">All Articles</h2>
-        </div>
+      {/* Blog Grid */}
+      {blogs.length === 0 ? (
+        <Card className="p-12 text-center">
+          <FileText className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+          <p className="text-gray-500 mb-4">ยังไม่มีบทความ</p>
+          <Button
+            onClick={() => handleOpenModal()}
+            className="bg-[#C9A227] hover:bg-[#A88B1F] text-white"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            สร้างบทความแรก
+          </Button>
+        </Card>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {blogs.map((blog) => (
+            <Card
+              key={blog.id}
+              className={`overflow-hidden ${
+                !blog.isPublished ? "opacity-70" : ""
+              }`}
+            >
+              {/* Image */}
+              <div className="relative h-40 bg-gray-100">
+                {blog.coverImage ? (
+                  <Image
+                    src={blog.coverImage}
+                    alt={blog.title}
+                    fill
+                    className="object-cover"
+                  />
+                ) : (
+                  <div className="flex items-center justify-center h-full">
+                    <ImageIcon className="w-12 h-12 text-gray-300" />
+                  </div>
+                )}
+                {/* Status Badge */}
+                <div
+                  className={`absolute top-2 left-2 px-2 py-1 rounded-full text-xs font-bold ${
+                    blog.isPublished
+                      ? "bg-green-500 text-white"
+                      : "bg-gray-700 text-white"
+                  }`}
+                >
+                  {blog.isPublished ? "เผยแพร่แล้ว" : "แบบร่าง"}
+                </div>
+                {/* Sections Count */}
+                <div className="absolute top-2 right-2 bg-black/50 text-white px-2 py-1 rounded-full text-xs font-bold">
+                  {blog.sections.length} ส่วน
+                </div>
+              </div>
 
-        {loading ? (
-          <div className="p-8 text-center text-muted">Loading...</div>
-        ) : articles.length === 0 ? (
-          <div className="p-8 text-center text-muted">
-            No articles yet. Create your first article!
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50 border-b">
-                <tr>
-                  <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Title
-                  </th>
-                  <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Views
-                  </th>
-                  <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Date
-                  </th>
-                  <th className="text-right px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                {articles.map((article) => (
-                  <tr key={article.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4">
-                      <div>
-                        <p className="font-medium text-gray-900">{article.title}</p>
-                        <p className="text-sm text-gray-500">{article.titleTh}</p>
+              {/* Content */}
+              <div className="p-4">
+                <h3 className="font-semibold text-gray-900 mb-1 line-clamp-2">
+                  {blog.title}
+                </h3>
+                {blog.excerpt && (
+                  <p className="text-sm text-gray-600 mb-2 line-clamp-2">
+                    {blog.excerpt}
+                  </p>
+                )}
+                <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-3">
+                  <Calendar className="w-3 h-3" />
+                  {formatDate(blog.createdAt)}
+                </div>
+
+                {/* View Link */}
+                {blog.isPublished && (
+                  <Link
+                    href={`/blog/${blog.slug}`}
+                    target="_blank"
+                    className="text-sm text-[#C9A227] hover:text-[#A88B1F] flex items-center gap-1 mb-3"
+                  >
+                    <ExternalLink className="w-3 h-3" />
+                    ดูบทความ
+                  </Link>
+                )}
+
+                {/* Actions */}
+                <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleTogglePublish(blog)}
+                    disabled={updating === blog.id}
+                    className={
+                      blog.isPublished
+                        ? "text-gray-600 hover:text-gray-700"
+                        : "text-green-600 hover:text-green-700"
+                    }
+                  >
+                    {updating === blog.id ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : blog.isPublished ? (
+                      <>
+                        <EyeOff className="w-4 h-4 mr-1" />
+                        ซ่อน
+                      </>
+                    ) : (
+                      <>
+                        <Eye className="w-4 h-4 mr-1" />
+                        เผยแพร่
+                      </>
+                    )}
+                  </Button>
+                  <div className="flex items-center gap-1">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleOpenModal(blog)}
+                      className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                    >
+                      <Pencil className="w-4 h-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleDelete(blog.id)}
+                      disabled={updating === blog.id}
+                      className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
+      )}
+
+      {/* Add/Edit Modal */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <Card className="w-full max-w-4xl p-6 bg-white max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-lg font-semibold text-gray-900">
+                {editingBlog ? "แก้ไขบทความ" : "สร้างบทความใหม่"}
+              </h3>
+              <button
+                onClick={handleCloseModal}
+                className="p-2 hover:bg-gray-100 rounded-lg"
+              >
+                <X className="w-5 h-5 text-gray-500" />
+              </button>
+            </div>
+
+            <div className="space-y-6">
+              {/* Basic Info */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    หัวข้อ (ภาษาไทย) *
+                  </label>
+                  <Input
+                    value={formData.title}
+                    onChange={(e) => {
+                      const newTitle = e.target.value;
+                      setFormData({
+                        ...formData,
+                        title: newTitle,
+                        slug: formData.slug || generateSlug(newTitle),
+                      });
+                    }}
+                    placeholder="หัวข้อบทความ"
+                    className="text-gray-900"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Slug (URL) *
+                  </label>
+                  <Input
+                    value={formData.slug}
+                    onChange={(e) =>
+                      setFormData({ ...formData, slug: e.target.value })
+                    }
+                    placeholder="url-friendly-slug"
+                    className="text-gray-900"
+                  />
+                </div>
+              </div>
+
+              {/* English Title */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  หัวข้อ (English)
+                </label>
+                <Input
+                  value={formData.titleEn}
+                  onChange={(e) =>
+                    setFormData({ ...formData, titleEn: e.target.value })
+                  }
+                  placeholder="Blog title"
+                  className="text-gray-900"
+                />
+              </div>
+
+              {/* Category & Excerpt */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    หมวดหมู่
+                  </label>
+                  <select
+                    value={formData.categoryId}
+                    onChange={(e) =>
+                      setFormData({ ...formData, categoryId: e.target.value })
+                    }
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:border-transparent text-gray-900 bg-white h-10"
+                  >
+                    <option value="">-- ไม่ระบุหมวดหมู่ --</option>
+                    {categories.map((cat) => (
+                      <option key={cat.id} value={cat.id}>
+                        {cat.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    ตัวอย่างเนื้อหา (ภาษาไทย)
+                  </label>
+                  <textarea
+                    value={formData.excerpt}
+                    onChange={(e) =>
+                      setFormData({ ...formData, excerpt: e.target.value })
+                    }
+                    placeholder="คำอธิบายสั้นๆ..."
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm min-h-[80px] focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:border-transparent text-gray-900"
+                  />
+                </div>
+              </div>
+
+              {/* Cover Image */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  รูปภาพปก
+                </label>
+                {formData.coverImage ? (
+                  <div className="relative h-48 bg-gray-100 rounded-lg overflow-hidden mb-2">
+                    <Image
+                      src={formData.coverImage}
+                      alt="Cover"
+                      fill
+                      className="object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setFormData({ ...formData, coverImage: "" })}
+                      className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ) : (
+                  <div
+                    onClick={() => coverImageInputRef.current?.click()}
+                    className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-[#C9A227] hover:bg-[#C9A227]/5 transition-colors"
+                  >
+                    {uploading === "cover" ? (
+                      <Loader2 className="w-8 h-8 text-[#C9A227] animate-spin mx-auto" />
+                    ) : (
+                      <>
+                        <Upload className="w-8 h-8 text-gray-500 mx-auto mb-2" />
+                        <p className="text-sm text-gray-900">คลิกเพื่ออัปโหลด</p>
+                      </>
+                    )}
+                  </div>
+                )}
+                <input
+                  ref={coverImageInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload(e, "cover")}
+                  className="hidden"
+                />
+              </div>
+
+              {/* Content Sections */}
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <label className="block text-sm font-medium text-gray-700">
+                    เนื้อหาบทความ (รูปภาพ + เนื้อหา)
+                  </label>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={addSection}
+                    className="text-[#C9A227] border-[#C9A227] hover:bg-[#C9A227]/10"
+                  >
+                    <Plus className="w-4 h-4 mr-1" />
+                    เพิ่มส่วนเนื้อหา
+                  </Button>
+                </div>
+
+                <div className="space-y-6">
+                  {formData.sections.map((section, index) => (
+                    <Card key={index} className="p-4 bg-gray-50">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-sm font-medium text-gray-700">
+                          ส่วนที่ {index + 1}
+                        </span>
+                        {formData.sections.length > 1 && (
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => removeSection(index)}
+                            className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                          >
+                            <Trash2 className="w-4 h-4 mr-1" />
+                            ลบ
+                          </Button>
+                        )}
                       </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <button
-                        onClick={() => toggleStatus(article.id, article.status)}
-                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          article.status === "published"
-                            ? "bg-green-100 text-green-800"
-                            : article.status === "draft"
-                            ? "bg-yellow-100 text-yellow-800"
-                            : "bg-gray-100 text-gray-800"
-                        }`}
-                      >
-                        {article.status}
-                      </button>
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-500">
-                      {article.viewCount}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-500">
-                      {new Date(article.createdAt).toLocaleDateString()}
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <Link
-                          href={`/dashboard/blog/${article.id}`}
-                          className="text-primary hover:text-primary-dark"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                          </svg>
-                        </Link>
-                        <button
-                          onClick={() => deleteArticle(article.id)}
-                          className="text-red-600 hover:text-red-700"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                          </svg>
-                        </button>
+
+                      {/* Section Image */}
+                      <div className="mb-4">
+                        <label className="block text-xs font-medium text-gray-600 mb-1">
+                          รูปภาพ (ไม่บังคับ)
+                        </label>
+                        {section.imageUrl ? (
+                          <div className="relative h-32 bg-gray-100 rounded-lg overflow-hidden">
+                            <Image
+                              src={section.imageUrl}
+                              alt={`Section ${index + 1}`}
+                              fill
+                              className="object-cover"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => updateSection(index, "imageUrl", "")}
+                              className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
+                            >
+                              <X className="w-3 h-3" />
+                            </button>
+                          </div>
+                        ) : (
+                          <div
+                            onClick={() => {
+                              setCurrentSectionIndex(index);
+                              sectionImageInputRef.current?.click();
+                            }}
+                            className="border border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-[#C9A227] hover:bg-[#C9A227]/5 transition-colors"
+                          >
+                            {uploading === `section-${index}` ? (
+                              <Loader2 className="w-6 h-6 text-[#C9A227] animate-spin mx-auto" />
+                            ) : (
+                              <>
+                                <Upload className="w-6 h-6 text-gray-400 mx-auto mb-1" />
+                                <p className="text-xs text-gray-600">อัปโหลดรูป</p>
+                              </>
+                            )}
+                          </div>
+                        )}
                       </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+
+                      {/* Section Content */}
+                      <div className="space-y-3">
+                        <div>
+                          <label className="block text-xs font-medium text-gray-600 mb-1">
+                            เนื้อหา (ภาษาไทย)
+                          </label>
+                          <RichTextEditor
+                            value={section.content}
+                            onChange={(value) =>
+                              updateSection(index, "content", value)
+                            }
+                            placeholder="เนื้อหาส่วนนี้..."
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-medium text-gray-600 mb-1">
+                            Content (English)
+                          </label>
+                          <RichTextEditor
+                            value={section.contentEn}
+                            onChange={(value) =>
+                              updateSection(index, "contentEn", value)
+                            }
+                            placeholder="Content in English..."
+                          />
+                        </div>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+
+                <input
+                  ref={sectionImageInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload(e, "section")}
+                  className="hidden"
+                />
+              </div>
+
+              {/* Publish Toggle */}
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="isPublished"
+                  checked={formData.isPublished}
+                  onChange={(e) =>
+                    setFormData({ ...formData, isPublished: e.target.checked })
+                  }
+                  className="w-4 h-4 text-[#C9A227] border-gray-300 rounded focus:ring-[#C9A227]"
+                />
+                <label htmlFor="isPublished" className="text-sm text-gray-700">
+                  เผยแพร่บทความนี้
+                </label>
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="flex gap-3 justify-end mt-6 pt-4 border-t border-gray-200">
+              <Button
+                variant="outline"
+                onClick={handleCloseModal}
+                disabled={updating === "form"}
+                className="text-gray-900"
+              >
+                ยกเลิก
+              </Button>
+              <Button
+                className="bg-[#C9A227] hover:bg-[#A88B1F] text-white"
+                onClick={handleSubmit}
+                disabled={updating === "form" || !formData.title || !formData.slug}
+              >
+                {updating === "form" ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    กำลังบันทึก...
+                  </>
+                ) : editingBlog ? (
+                  "บันทึกการแก้ไข"
+                ) : (
+                  "สร้างบทความ"
+                )}
+              </Button>
+            </div>
+          </Card>
+        </div>
+      )}
     </div>
   );
 }
