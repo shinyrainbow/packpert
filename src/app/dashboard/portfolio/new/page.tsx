@@ -18,7 +18,6 @@ export default function NewPortfolioPage() {
     image: "",
     client: "",
     category: "",
-    isFeatured: false,
   });
 
   const handleChange = (
@@ -280,21 +279,6 @@ export default function NewPortfolioPage() {
               />
             </div>
           </div>
-        </div>
-
-        <div className="bg-white rounded-xl shadow-sm p-6">
-          <h2 className="text-lg font-semibold text-primary mb-4">Settings</h2>
-
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="checkbox"
-              name="isFeatured"
-              checked={formData.isFeatured}
-              onChange={handleChange}
-              className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
-            />
-            <span className="text-sm text-gray-700">Featured Project</span>
-          </label>
         </div>
 
         <div className="flex justify-end gap-4">

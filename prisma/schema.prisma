@@ -185,12 +185,10 @@ model Portfolio {
   images        String?  // Additional images (JSON array)
   client        String?
   category      String?  // e.g., "cosmetics", "food", "retail"
-  isFeatured    Boolean  @default(false)
   sortOrder     Int      @default(0)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  @@index([isFeatured])
   @@index([category])
 }
 
