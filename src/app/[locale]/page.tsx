@@ -66,7 +66,7 @@ export default async function HomePage() {
       >
         {/* Background Image */}
         <img
-          src="/home-banner.PNG"
+          src="/home-banner.png"
           alt="Packpert Banner"
           className="absolute inset-0 w-full h-full object-cover"
         />
