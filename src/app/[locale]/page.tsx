@@ -82,7 +82,7 @@ export default async function HomePage() {
         />
         <div className="w-full px-8 lg:px-20 relative z-10 bg-pink">
           <div className="max-w-md text-white text-left lg:ml-16">
-            <h1 className="text-3xl lg:text-5xl font-bold mb-2 leading-tight animate-fade-in-up">
+            <h1 className="text-3xl lg:text-5xl font-bold mb-2 leading-tight animate-fade-in-up whitespace-nowrap">
               {t("title")}
             </h1>
             {t("subtitle") && (
