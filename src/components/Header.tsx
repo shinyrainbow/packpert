@@ -231,7 +231,7 @@ export default function Header() {
               </svg>
             </button>
             <img src="/logo.png" alt="Packpert" className="h-14 w-auto" />
-            <p className="text-white/70 text-sm mt-2">Premium Packaging Solutions</p>
+            <p className="text-white/70 text-sm mt-2">ศูนย์รวมแพ็กเกจจิ้งทุกชนิด รับผลิตและจำหน่าย</p>
           </div>
 
           {/* Mobile Menu Content */}
