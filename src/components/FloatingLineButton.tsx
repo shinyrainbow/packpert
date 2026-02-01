@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-const LINE_URL = "https://lin.ee/Gq5zgzn";
+const LINE_URL = "https://lin.ee/n9Tx1PK";
 
 export default function FloatingLineButton() {
   return (

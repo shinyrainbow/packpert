@@ -29,7 +29,7 @@ export default async function AgentPage() {
             </h1>
             <div className="flex flex-col sm:flex-row gap-4">
               <a
-                href="https://lin.ee/Gq5zgzn"
+                href="https://lin.ee/v7UuIJT"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-100 text-primary px-8 py-4 rounded-xl font-semibold transition-colors shadow-lg"
@@ -37,7 +37,7 @@ export default async function AgentPage() {
                 {t("applyNow")}
               </a>
               <a
-                href="https://lin.ee/Gq5zgzn"
+                href="https://lin.ee/v7UuIJT"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-100 text-primary px-8 py-4 rounded-xl font-semibold transition-colors shadow-lg"
@@ -169,7 +169,7 @@ export default async function AgentPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="https://lin.ee/Gq5zgzn"
+                href="https://lin.ee/v7UuIJT"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-3 bg-[#06C755] hover:bg-[#05b34c] text-white px-8 py-4 rounded-xl font-semibold transition-colors shadow-lg"
@@ -180,7 +180,7 @@ export default async function AgentPage() {
                 ลงทะเบียนตอนนี้
               </a>
               <a
-                href="https://lin.ee/Gq5zgzn"
+                href="https://lin.ee/v7UuIJT"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-3 bg-white hover:bg-gray-100 text-primary border-2 border-primary px-8 py-4 rounded-xl font-semibold transition-colors shadow-lg"

@@ -359,7 +359,7 @@ export default function ContactPage() {
 
                 {/* LINE Contact */}
                 <a
-                  href="https://lin.ee/Gq5zgzn"
+                  href="https://lin.ee/n9Tx1PK"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-4 p-6 bg-[#06C755] rounded-xl text-white hover:bg-[#05b34c] transition-colors"

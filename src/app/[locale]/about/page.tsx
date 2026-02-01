@@ -32,7 +32,7 @@ export default async function AboutPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-3 animate-fade-in-up-delay-2">
               <a
-                href="https://lin.ee/Gq5zgzn"
+                href="https://lin.ee/uL0OFJ5"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-3 bg-[#06C755] hover:bg-[#05b34c] text-white px-6 py-4 rounded-xl font-medium transition-colors"
