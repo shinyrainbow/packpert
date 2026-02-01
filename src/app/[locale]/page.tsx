@@ -161,17 +161,22 @@ export default async function HomePage() {
 
       {/* Portfolio Section */}
       <section className="relative w-screen left-1/2 right-1/2 -ml-[50vw]">
+        {/* Top gradient blend */}
+        <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-white to-transparent z-10" />
         <img
           src="/home-third.png"
           alt="Portfolio"
           className="w-full h-auto"
         />
-        <div className="absolute inset-0 flex items-end justify-start pb-16 lg:pb-24 pl-12 lg:pl-24">
+        <div className="absolute inset-0 flex items-end justify-end pb-16 lg:pb-24 pr-36 lg:pr-48">
           <Link
             href={`/${locale}/portfolio`}
-            className="bg-primary hover:bg-primary-dark text-white px-8 py-4 lg:px-12 lg:py-5 rounded-xl font-semibold text-lg lg:text-xl transition-colors shadow-lg"
+            className="group inline-flex items-center gap-2 bg-white/95 hover:bg-white text-primary px-5 py-2.5 lg:px-6 lg:py-3 rounded-full font-medium text-sm lg:text-base transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 backdrop-blur-sm"
           >
             {tp("viewPortfolio")}
+            <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
           </Link>
         </div>
       </section>
