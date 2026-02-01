@@ -71,7 +71,7 @@ export default function Header() {
             <img
               src="/logo.png"
               alt="Packpert"
-              className="h-20 w-auto"
+              className="h-12 lg:h-20 w-auto"
             />
           </Link>
 

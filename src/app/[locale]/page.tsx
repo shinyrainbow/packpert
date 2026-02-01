@@ -131,13 +131,13 @@ export default async function HomePage() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
             {[
+              { src: "/products/bottles1.png", nameKey: "glassBottle", slug: "bottle" },
+              { src: "/products/bottles2.png", nameKey: "glassBottle", slug: "bottle" },
               { src: "/products/cream-tubes.png", nameKey: "creamTube", slug: "cream-tube" },
-              { src: "/products/stick-tubes.png", nameKey: "stickTube", slug: "stick-tube" },
-              { src: "/products/bottles1.png", nameKey: "bottles", slug: "bottle" },
               { src: "/products/jars.png", nameKey: "creamJar", slug: "jar" },
-              { src: "/products/serum-bottles.png", nameKey: "serumBottle", slug: "serum-bottle" },
               { src: "/products/lip.png", nameKey: "lip", slug: "lip" },
-              { src: "/products/bottles2.png", nameKey: "bottles", slug: "bottle" },
+              { src: "/products/serum-bottles.png", nameKey: "serumBottle", slug: "serum-bottle" },
+              { src: "/products/stick-tubes.png", nameKey: "stickTube", slug: "stick-tube" },
               { src: "/products/toner-pad-jars.png", nameKey: "tonerPadJar", slug: "jar" },
             ].map((product, index) => (
               <Link key={index} href={`/${locale}/catalog/${product.slug}`} className="group">
