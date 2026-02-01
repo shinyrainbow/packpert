@@ -64,8 +64,11 @@ export default async function AboutPage() {
               <h2 className="text-lg lg:text-xl font-bold text-primary mb-3">
                 {t("subtitle")}
               </h2>
-              <p className="text-muted mb-4 leading-relaxed text-sm lg:text-base">
+              <p className="text-muted mb-3 leading-relaxed">
                 {t("description")}
+              </p>
+              <p className="text-muted mb-4 leading-relaxed">
+                {t("description2")}
               </p>
               <Link
                 href={`/${locale}/catalog`}

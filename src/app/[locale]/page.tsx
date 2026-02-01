@@ -309,13 +309,17 @@ export default async function HomePage() {
             {/* Text content - right side */}
             <div className="flex flex-col justify-center px-4 lg:px-8">
               <h2 className="text-3xl lg:text-4xl font-bold text-primary mb-4">
-                {th("minOrderTitle")}
+                {th("minOrderTitle")}<br />
+                {th("minOrderTitle2")}
               </h2>
-              <p className="text-muted mb-4">
+              <p className="text-muted mb-3">
                 {th("minOrderDesc")}
               </p>
-              <p className="text-muted mb-6">
+              <p className="text-muted mb-3">
                 {th("minOrderDesc2")}
+              </p>
+              <p className="text-muted mb-6">
+                {th("minOrderDesc3")}
               </p>
               <Link href={`/${locale}/contact`} className="btn-primary w-fit">
                 {th("contactUs")}
