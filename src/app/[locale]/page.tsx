@@ -131,14 +131,14 @@ export default async function HomePage() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
             {[
-              { src: "/products/bottles1.png", nameKey: "glassBottle", slug: "bottle" },
-              { src: "/products/bottles2.png", nameKey: "glassBottle", slug: "bottle" },
-              { src: "/products/cream-tubes.png", nameKey: "creamTube", slug: "cream-tube" },
-              { src: "/products/jars.png", nameKey: "creamJar", slug: "jar" },
-              { src: "/products/lip.png", nameKey: "lip", slug: "lip" },
-              { src: "/products/serum-bottles.png", nameKey: "serumBottle", slug: "serum-bottle" },
-              { src: "/products/stick-tubes.png", nameKey: "stickTube", slug: "stick-tube" },
-              { src: "/products/toner-pad-jars.png", nameKey: "tonerPadJar", slug: "jar" },
+              { src: "/products/1stick-tubes.png", nameKey: "stickTube", slug: "stick-tube" },
+              { src: "/products/2cream-tubes.png", nameKey: "creamTube", slug: "cream-tube" },
+              { src: "/products/3bottles.png", nameKey: "pumpBottle", slug: "bottle" },
+              { src: "/products/4toner-pad-jars.png", nameKey: "tonerPadJar", slug: "jar" },
+              { src: "/products/5glass-bottles.png", nameKey: "glassBottle", slug: "bottle" },
+              { src: "/products/6serum-bottles.png", nameKey: "serumBottle", slug: "serum-bottle" },
+              { src: "/products/7jars.png", nameKey: "creamJar", slug: "jar" },
+              { src: "/products/8lip.png", nameKey: "lip", slug: "lip" },
             ].map((product, index) => (
               <Link key={index} href={`/${locale}/catalog/${product.slug}`} className="group">
                 <div className="aspect-square rounded-xl overflow-hidden bg-gray-100">
@@ -172,10 +172,10 @@ export default async function HomePage() {
         <div className="absolute inset-0 flex items-end justify-end pb-16 lg:pb-24 pr-36 lg:pr-48">
           <Link
             href={`/${locale}/portfolio`}
-            className="group inline-flex items-center gap-2 bg-white/95 hover:bg-white text-primary px-5 py-2.5 lg:px-6 lg:py-3 rounded-full font-medium text-sm lg:text-base transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 backdrop-blur-sm"
+            className="group inline-flex items-center gap-3 bg-white/95 hover:bg-white text-primary px-8 py-4 lg:px-10 lg:py-5 rounded-full font-semibold text-lg lg:text-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 backdrop-blur-sm"
           >
             {tp("viewPortfolio")}
-            <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 lg:w-6 lg:h-6 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </Link>
