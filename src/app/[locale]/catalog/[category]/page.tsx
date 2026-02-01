@@ -1,5 +1,6 @@
 import { getTranslations, getLocale } from "next-intl/server";
 import Link from "next/link";
+import { prisma } from "@/lib/prisma";
 
 interface Props {
   params: Promise<{ category: string }>;
@@ -51,8 +52,62 @@ export default async function CategoryDetailPage({ params }: Props) {
   const locale = await getLocale();
   const t = await getTranslations("catalog");
   const tcommon = await getTranslations("common");
+  const th = await getTranslations("home");
 
   const data = categoryImages[category];
+
+  // Fetch latest published blogs
+  let blogs: Array<{
+    id: string;
+    title: string;
+    titleEn: string | null;
+    slug: string;
+    excerpt: string | null;
+    excerptEn: string | null;
+    publishedAt: Date | null;
+    sections: Array<{ imageUrl: string | null }>;
+  }> = [];
+
+  try {
+    blogs = await prisma.blog.findMany({
+      where: { isPublished: true },
+      orderBy: { publishedAt: "desc" },
+      take: 3,
+      select: {
+        id: true,
+        title: true,
+        titleEn: true,
+        slug: true,
+        excerpt: true,
+        excerptEn: true,
+        publishedAt: true,
+        sections: {
+          orderBy: { order: "asc" },
+          take: 1,
+          select: { imageUrl: true },
+        },
+      },
+    });
+  } catch (error) {
+    console.error("Failed to fetch blogs:", error);
+  }
+
+  const getLocalizedTitle = (blog: (typeof blogs)[0]) => {
+    return locale === "en" && blog.titleEn ? blog.titleEn : blog.title;
+  };
+
+  const getLocalizedExcerpt = (blog: (typeof blogs)[0]) => {
+    return locale === "en" && blog.excerptEn ? blog.excerptEn : blog.excerpt;
+  };
+
+  const formatDate = (date: Date | null) => {
+    if (!date) return "";
+    return new Date(date).toLocaleDateString(locale === "th" ? "th-TH" : "en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
 
   if (!data) {
     return (
@@ -81,7 +136,6 @@ export default async function CategoryDetailPage({ params }: Props) {
         <img
           src={categoryBanners[category]}
           alt={t(`${category}Alt`)}
-          title={t(`${category}Alt`)}
           className="w-full h-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-primary-dark/60" />

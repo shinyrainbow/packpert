@@ -167,7 +167,6 @@ export default async function HomePage() {
         <img
           src="/home-third.png"
           alt="บรรจุภัณฑ์สกินแคร์สีขาวและขวดแก้วสีน้ำตาลวางเรียงแถวบนสายพานลำเลียงในโรงงาน เพื่อแสดงขั้นตอนการบรรจุผลิตภัณฑ์"
-          title="บรรจุภัณฑ์สกินแคร์สีขาวและขวดแก้วสีน้ำตาลวางเรียงแถวบนสายพานลำเลียงในโรงงาน เพื่อแสดงขั้นตอนการบรรจุผลิตภัณฑ์"
           className="w-full h-auto"
         />
         <div className="absolute inset-0 flex items-end justify-end pb-16 lg:pb-24 pr-36 lg:pr-48">
