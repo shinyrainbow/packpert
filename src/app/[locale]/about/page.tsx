@@ -13,7 +13,8 @@ export default async function AboutPage() {
         {/* Background Image */}
         <img
           src="/about-banner.png"
-          alt="About Packpert Banner"
+          alt="บรรยากาศภายในออฟฟิศสมัยใหม่ ตกแต่งด้วยชุดโซฟาและเก้าอี้ทำงานสีส้ม พร้อมโต๊ะทำงานไม้และคอมพิวเตอร์ท่ามกลางแสงไฟอบอุ่น"
+          title="บรรยากาศภายในออฟฟิศสมัยใหม่ ตกแต่งด้วยชุดโซฟาและเก้าอี้ทำงานสีส้ม พร้อมโต๊ะทำงานไม้และคอมพิวเตอร์ท่ามกลางแสงไฟอบอุ่น"
           className="absolute inset-0 w-full h-full object-cover"
         />
         {/* Gradient Overlay */}

@@ -80,7 +80,8 @@ export default async function CategoryDetailPage({ params }: Props) {
       <section className="relative text-white h-[45vh] md:h-[55vh] lg:h-[60vh] overflow-hidden -mt-16">
         <img
           src={categoryBanners[category]}
-          alt={t(category)}
+          alt={t(`${category}Alt`)}
+          title={t(`${category}Alt`)}
           className="w-full h-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-primary-dark/60" />

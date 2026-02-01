@@ -166,7 +166,8 @@ export default async function HomePage() {
         <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-white to-transparent z-10" />
         <img
           src="/home-third.png"
-          alt="Portfolio"
+          alt="บรรจุภัณฑ์สกินแคร์สีขาวและขวดแก้วสีน้ำตาลวางเรียงแถวบนสายพานลำเลียงในโรงงาน เพื่อแสดงขั้นตอนการบรรจุผลิตภัณฑ์"
+          title="บรรจุภัณฑ์สกินแคร์สีขาวและขวดแก้วสีน้ำตาลวางเรียงแถวบนสายพานลำเลียงในโรงงาน เพื่อแสดงขั้นตอนการบรรจุผลิตภัณฑ์"
           className="w-full h-auto"
         />
         <div className="absolute inset-0 flex items-end justify-end pb-16 lg:pb-24 pr-36 lg:pr-48">
