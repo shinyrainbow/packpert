@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Packpert - ศูนย์รวมแพ็กเกจจิ้งทุกชนิด รับผลิตและจำหน่าย",
+  title: "Packpert | ศูนย์รวมแพ็กเกจจิ้งทุกชนิด รับผลิตและจำหน่าย",
   description: "Your trusted partner for quality packaging solutions. Custom packaging for cosmetics, food, and various industries.",
   keywords: ["packaging", "custom packaging", "cosmetics packaging", "food packaging", "Thailand packaging", "บรรจุภัณฑ์"],
   authors: [{ name: "Packpert" }],
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     apple: "/favicon.png",
   },
   openGraph: {
-    title: "Packpert - ศูนย์รวมแพ็กเกจจิ้งทุกชนิด รับผลิตและจำหน่าย",
+    title: "Packpert | ศูนย์รวมแพ็กเกจจิ้งทุกชนิด รับผลิตและจำหน่าย",
     description: "Your trusted partner for quality packaging solutions. Custom packaging for cosmetics, food, and various industries.",
     type: "website",
     locale: "th_TH",
