@@ -9,6 +9,7 @@ export default async function HomePage() {
   const tp = await getTranslations("portfolio");
   const tcommon = await getTranslations("common");
   const ta = await getTranslations("about");
+  const tc = await getTranslations("catalog");
 
   // Fetch latest published blogs
   let blogs: Array<{
@@ -130,25 +131,25 @@ export default async function HomePage() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
             {[
-              "/products/ChatGPT%20Image%20Jan%2024,%202026,%2003_17_32%20PM.png",
-              "/products/ChatGPT%20Image%20Jan%2024,%202026,%2003_17_41%20PM.png",
-              "/products/ChatGPT%20Image%20Jan%2024,%202026,%2003_17_45%20PM.png",
-              "/products/ChatGPT%20Image%20Jan%2024,%202026,%2003_17_48%20PM.png",
-              "/products/ChatGPT%20Image%20Jan%2024,%202026,%2003_17_50%20PM.png",
-              "/products/ChatGPT%20Image%20Jan%2024,%202026,%2003_17_53%20PM.png",
-              "/products/ChatGPT%20Image%20Jan%2024,%202026,%2003_17_56%20PM.png",
-              "/products/ChatGPT%20Image%20Jan%2024,%202026,%2003_17_58%20PM.png",
-            ].map((src, index) => (
-              <div
-                key={index}
-                className="aspect-square rounded-xl overflow-hidden bg-gray-100 group"
-              >
-                <img
-                  src={src}
-                  alt={`Product ${index + 1}`}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              </div>
+              { src: "/products/cream-tubes.png", nameKey: "creamTube", slug: "cream-tube" },
+              { src: "/products/stick-tubes.png", nameKey: "stickTube", slug: "stick-tube" },
+              { src: "/products/bottles1.png", nameKey: "bottles", slug: "bottles" },
+              { src: "/products/jars.png", nameKey: "creamJar", slug: "jar" },
+              { src: "/products/serum-bottles.png", nameKey: "serumBottle", slug: "serum-bottle" },
+              { src: "/products/lip.png", nameKey: "lip", slug: "lip" },
+              { src: "/products/bottles2.png", nameKey: "bottles", slug: "bottles" },
+              { src: "/products/toner-pad-jars.png", nameKey: "tonerPadJar", slug: "jar" },
+            ].map((product, index) => (
+              <Link key={index} href={`/${locale}/catalog/${product.slug}`} className="group">
+                <div className="aspect-square rounded-xl overflow-hidden bg-gray-100">
+                  <img
+                    src={product.src}
+                    alt={tc(product.nameKey)}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <p className="text-center text-primary font-medium mt-3 group-hover:text-primary/80 transition-colors">{tc(product.nameKey)}</p>
+              </Link>
             ))}
           </div>
           {/* <div className="text-center mt-8">
