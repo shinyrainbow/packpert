@@ -133,11 +133,11 @@ export default async function HomePage() {
             {[
               { src: "/products/cream-tubes.png", nameKey: "creamTube", slug: "cream-tube" },
               { src: "/products/stick-tubes.png", nameKey: "stickTube", slug: "stick-tube" },
-              { src: "/products/bottles1.png", nameKey: "bottles", slug: "bottles" },
+              { src: "/products/bottles1.png", nameKey: "bottles", slug: "bottle" },
               { src: "/products/jars.png", nameKey: "creamJar", slug: "jar" },
               { src: "/products/serum-bottles.png", nameKey: "serumBottle", slug: "serum-bottle" },
               { src: "/products/lip.png", nameKey: "lip", slug: "lip" },
-              { src: "/products/bottles2.png", nameKey: "bottles", slug: "bottles" },
+              { src: "/products/bottles2.png", nameKey: "bottles", slug: "bottle" },
               { src: "/products/toner-pad-jars.png", nameKey: "tonerPadJar", slug: "jar" },
             ].map((product, index) => (
               <Link key={index} href={`/${locale}/catalog/${product.slug}`} className="group">
