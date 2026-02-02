@@ -241,7 +241,7 @@ export default async function HomePage() {
           alt="บรรจุภัณฑ์สกินแคร์สีขาวและขวดแก้วสีน้ำตาลวางเรียงแถวบนสายพานลำเลียงในโรงงาน เพื่อแสดงขั้นตอนการบรรจุผลิตภัณฑ์"
           className="w-full h-auto"
         />
-        <div className="absolute inset-0 flex items-end justify-end pb-16 lg:pb-24 pr-36 lg:pr-48">
+        <div className="absolute inset-0 flex items-end justify-center lg:justify-end pb-16 lg:pb-24 lg:pr-48">
           <Link
             href={`/${locale}/portfolio`}
             className="group inline-flex items-center gap-3 bg-white/95 hover:bg-white text-primary px-8 py-4 lg:px-10 lg:py-5 rounded-full font-semibold text-lg lg:text-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 backdrop-blur-sm"

@@ -520,7 +520,6 @@ export default async function CategoryDetailPage({ params }: Props) {
               { image: "1creamtube.png", key: "creamTube", value: "creamTube" },
               { image: "2stick.png", key: "stickTube", value: "stickTube" },
               { image: "3bottle.png", key: "bottle", value: "bottle" },
-              { image: "4cosmetic.png", key: "cosmetics", value: "cosmetics" },
               { image: "5jar.png", key: "jar", value: "jar" },
               { image: "6serum.png", key: "serumBottle", value: "serumBottle" },
               { image: "7lip.png", key: "lip", value: "lip" },

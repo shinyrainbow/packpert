@@ -29,14 +29,16 @@ export default async function LocaleLayout({
   const messages = (await import(`../../../messages/${locale}.json`)).default;
 
   return (
-    <div className={`${prompt.variable} antialiased flex flex-col min-h-screen font-(family-name:--font-prompt)`} lang={locale}>
-      <NextIntlClientProvider locale={locale} messages={messages}>
-        <Header />
-        <main className="flex-1 pt-20">{children}</main>
-        <Footer />
-        <FloatingLineButton />
-        <CookieConsent />
-      </NextIntlClientProvider>
-    </div>
+    <html lang={locale}>
+      <body className={`${prompt.variable} antialiased flex flex-col min-h-screen font-(family-name:--font-prompt)`}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <Header />
+          <main className="flex-1 pt-20">{children}</main>
+          <Footer />
+          <FloatingLineButton />
+          <CookieConsent />
+        </NextIntlClientProvider>
+      </body>
+    </html>
   );
 }
