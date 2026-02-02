@@ -66,13 +66,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const categories = [
-  { key: "stickTube", value: "stickTube", image: "/catalog/หลอดสติ๊ก/35.png" },
-  { key: "creamTube", value: "creamTube", image: "/catalog/หลอดครีม/1.png" },
-  { key: "jar", value: "jar", image: "/catalog/กระปุก/102.png" },
-  { key: "bottle", value: "bottle", image: "/catalog/ขวดปั๊ม/45.png" },
-  { key: "serumBottle", value: "serumBottle", image: "/catalog/ขวดเซรั่ม/123.png" },
-  { key: "lip", value: "lip", image: "/catalog/ลิป/135.png" },
-  { key: "cosmetics", value: "cosmetics", image: "/catalog/เครื่องสำอางค์/99.png" },
+  { key: "stickTube", value: "stickTube", image: "/all-catalogs/Stick Tube.png" },
+  { key: "creamTube", value: "creamTube", image: "/all-catalogs/Cream Tube.png" },
+  { key: "jar", value: "jar", image: "/all-catalogs/Jar.png" },
+  { key: "bottle", value: "bottle", image: "/all-catalogs/Bottle.png" },
+  { key: "serumBottle", value: "serumBottle", image: "/all-catalogs/Serum.png" },
+  { key: "lip", value: "lip", image: "/all-catalogs/Lip.png" },
+  { key: "cosmetics", value: "cosmetics", image: "/all-catalogs/cosmetic.png" },
 ];
 
 export default async function CatalogPage() {
@@ -82,7 +82,7 @@ export default async function CatalogPage() {
   return (
     <>
       {/* Hero Section with Banner */}
-      <section className="relative text-white py-20 -mt-20 pt-24 min-h-[300px]">
+      <section className="relative text-white py-20 -mt-20 pt-24 min-h-[400px]">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url('/Packpert Catalog Banner.png')` }}
