@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: "Packpert",
       images: [
         {
-          url: "/Packpert Catalog Banner.png",
+          url: "/Catalog-Banner.png",
           width: 1200,
           height: 630,
           alt: "Packpert Catalog",
@@ -53,7 +53,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: "summary_large_image",
       title,
       description,
-      images: ["/Packpert Catalog Banner.png"],
+      images: ["/Catalog-Banner.png"],
     },
     alternates: {
       canonical: `/${locale}/catalog`,
@@ -85,7 +85,7 @@ export default async function CatalogPage() {
       <section className="relative text-white py-20 -mt-20 pt-24 min-h-[400px]">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url('/Packpert Catalog Banner.png')` }}
+          style={{ backgroundImage: `url('/Catalog-Banner.png')` }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-primary-dark/60" />
         <div className="container-custom relative z-10">
