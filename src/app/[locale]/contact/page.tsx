@@ -15,8 +15,11 @@ export default function ContactPage() {
     email: "",
     phone: "",
     company: "",
-    subject: "",
-    message: "",
+    packagingType: "",
+    otherPackaging: "",
+    size: "",
+    quantity: "",
+    wantScreenPrinting: false,
   });
   const [acceptPrivacy, setAcceptPrivacy] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -44,8 +47,11 @@ export default function ContactPage() {
           email: "",
           phone: "",
           company: "",
-          subject: "",
-          message: "",
+          packagingType: "",
+          otherPackaging: "",
+          size: "",
+          quantity: "",
+          wantScreenPrinting: false,
         });
         setAcceptPrivacy(false);
       } else {
@@ -57,10 +63,22 @@ export default function ContactPage() {
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const packagingOptions = [
+    { value: "", label: locale === "th" ? "-- เลือกแพ็กเกจจิ้ง --" : "-- Select packaging --" },
+    { value: "creamTube", label: locale === "th" ? "หลอดครีม" : "Cream Tube" },
+    { value: "stickTube", label: locale === "th" ? "หลอดสติ๊ก" : "Stick Tube" },
+    { value: "bottle", label: locale === "th" ? "ขวดพลาสติก/ขวดแก้ว" : "Plastic/Glass Bottle" },
+    { value: "jar", label: locale === "th" ? "กระปุก" : "Jar" },
+    { value: "serumBottle", label: locale === "th" ? "ขวดเซรั่ม" : "Serum Bottle" },
+    { value: "lip", label: locale === "th" ? "ลิป" : "Lip" },
+    { value: "powderCase", label: locale === "th" ? "ตลับแป้ง" : "Powder Case" },
+    { value: "other", label: locale === "th" ? "อื่นๆ (โปรดระบุ)" : "Other (please specify)" },
+  ];
 
   return (
     <>
@@ -173,32 +191,67 @@ export default function ContactPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    {t("subject")} *
+                    {locale === "th" ? "แพ็กเกจจิ้งที่สนใจ" : "Packaging Type"} *
                   </label>
-                  <input
-                    type="text"
-                    name="subject"
-                    value={formData.subject}
+                  <select
+                    name="packagingType"
+                    value={formData.packagingType}
                     onChange={handleChange}
                     required
-                    placeholder={t("subjectPlaceholder")}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-colors"
-                  />
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-colors bg-white"
+                  >
+                    {packagingOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    {t("message")} *
-                  </label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    rows={5}
-                    placeholder={t("messagePlaceholder")}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-colors resize-none"
-                  ></textarea>
+                {formData.packagingType === "other" && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      {locale === "th" ? "โปรดระบุแพ็กเกจจิ้ง" : "Please specify packaging"} *
+                    </label>
+                    <input
+                      type="text"
+                      name="otherPackaging"
+                      value={formData.otherPackaging}
+                      onChange={handleChange}
+                      required
+                      placeholder={locale === "th" ? "ระบุประเภทแพ็กเกจจิ้ง" : "Specify packaging type"}
+                      className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-colors"
+                    />
+                  </div>
+                )}
+
+                <div className="grid sm:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      {locale === "th" ? "ขนาด (กรัม / มล.)" : "Size (g / ml)"}
+                    </label>
+                    <input
+                      type="text"
+                      name="size"
+                      value={formData.size}
+                      onChange={handleChange}
+                      placeholder={locale === "th" ? "เช่น 50 มล., 100 กรัม" : "e.g. 50ml, 100g"}
+                      className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      {locale === "th" ? "จำนวนที่ต้องการ (ชิ้น)" : "Quantity (pcs)"}
+                    </label>
+                    <input
+                      type="text"
+                      name="quantity"
+                      value={formData.quantity}
+                      onChange={handleChange}
+                      placeholder={locale === "th" ? "เช่น 500, 1000" : "e.g. 500, 1000"}
+                      className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-colors"
+                    />
+                  </div>
                 </div>
 
                 {/* Privacy Policy Checkbox */}
@@ -292,32 +345,6 @@ export default function ContactPage() {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth={2}
-                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-primary mb-1">
-                      {tc("phone")}
-                    </h3>
-                    <a href="tel:+66636521222" className="text-muted text-sm hover:text-primary transition-colors">
-                      +66 63 652 1222
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4 p-6 bg-secondary rounded-xl">
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <svg
-                      className="w-6 h-6 text-primary"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
                         d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                       />
                     </svg>
@@ -326,8 +353,8 @@ export default function ContactPage() {
                     <h3 className="font-semibold text-primary mb-1">
                       {tc("email")}
                     </h3>
-                    <a href="mailto:contact@packpert.com" className="text-muted text-sm hover:text-primary transition-colors">
-                      contact@packpert.com
+                    <a href="mailto:packpertcompany@gmail.com" className="text-muted text-sm hover:text-primary transition-colors">
+                      packpertcompany@gmail.com
                     </a>
                   </div>
                 </div>
