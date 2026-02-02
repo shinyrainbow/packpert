@@ -115,15 +115,7 @@ const categoryBanners: Record<string, string> = {
   cosmetics: "/product-catalog/7Cosmetics.png",
 };
 
-const categoryLineUrls: Record<string, string> = {
-  creamTube: "https://lin.ee/n9h5cHB",
-  stickTube: "https://lin.ee/izvk1yr",
-  bottle: "https://lin.ee/VlwOT7X",
-  jar: "https://lin.ee/z6zl8GV",
-  serumBottle: "https://lin.ee/GhuPtHq",
-  lip: "https://lin.ee/aA2U9au",
-  cosmetics: "https://lin.ee/hjAy4CO",
-};
+const lineUrl = "https://lin.ee/m78GUGI";
 
 // Import alt-text mapping from JSON
 import altTextMapping from "@/../public/catalog/alt-text-mapping.json";
@@ -342,7 +334,7 @@ export default async function CategoryDetailPage({ params }: Props) {
             </h1>
             <div className="flex flex-col sm:flex-row gap-3">
               <a
-                href={categoryLineUrls[category] || "https://lin.ee/n9Tx1PK"}
+                href={lineUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-3 bg-[#06C755] hover:bg-[#05b34c] text-white px-6 py-3 rounded-xl font-medium transition-colors whitespace-nowrap"
@@ -382,7 +374,7 @@ export default async function CategoryDetailPage({ params }: Props) {
           {data.hasSubfolders && data.subfolders ? (
             <CatalogTabs
               tabs={data.subfolders}
-              lineUrl={categoryLineUrls[category] || "https://lin.ee/n9Tx1PK"}
+              lineUrl={lineUrl}
               locale={locale}
             />
           ) : (
@@ -390,7 +382,7 @@ export default async function CategoryDetailPage({ params }: Props) {
               {data.images?.map((image) => (
                 <a
                   key={image.path}
-                  href={categoryLineUrls[category] || "https://lin.ee/n9Tx1PK"}
+                  href={lineUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="aspect-square rounded-xl overflow-hidden bg-gray-100 group cursor-pointer"
