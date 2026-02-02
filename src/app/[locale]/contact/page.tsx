@@ -254,6 +254,20 @@ export default function ContactPage() {
                   </div>
                 </div>
 
+                {/* Screen Printing Checkbox */}
+                <div className="flex items-start gap-3">
+                  <input
+                    type="checkbox"
+                    id="wantScreenPrinting"
+                    checked={formData.wantScreenPrinting}
+                    onChange={(e) => setFormData({ ...formData, wantScreenPrinting: e.target.checked })}
+                    className="mt-1 w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary cursor-pointer"
+                  />
+                  <label htmlFor="wantScreenPrinting" className="text-sm text-gray-700 cursor-pointer">
+                    {locale === "th" ? "ต้องการสกรีนหรือไม่" : "Do you need screen printing?"}
+                  </label>
+                </div>
+
                 {/* Privacy Policy Checkbox */}
                 <div className="flex items-start gap-3">
                   <input

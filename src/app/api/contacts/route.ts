@@ -33,13 +33,16 @@ export async function POST(request: Request) {
       ? `${packagingLabel}: ${data.otherPackaging}`
       : packagingLabel;
 
-    // Build message from size and quantity
+    // Build message from size, quantity, and screen printing
     const messageParts: string[] = [];
     if (data.size) {
       messageParts.push(`ขนาด/Size: ${data.size}`);
     }
     if (data.quantity) {
       messageParts.push(`จำนวน/Quantity: ${data.quantity} ชิ้น/pcs`);
+    }
+    if (data.wantScreenPrinting) {
+      messageParts.push(`ต้องการสกรีน/Screen printing: ใช่/Yes`);
     }
     const message = messageParts.length > 0 ? messageParts.join("\n") : "-";
 
