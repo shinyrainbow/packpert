@@ -127,7 +127,7 @@ export default async function CategoryPage({
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="relative pt-24 pb-16 bg-primary -mt-16">
+      <section className="relative pt-24 pb-16 bg-primary -mt-20">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl">
             <Link

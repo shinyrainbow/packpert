@@ -295,6 +295,13 @@
     "companyName": "Packpert Co., Ltd.",
     "companyEmail": "Email: contact@packpertgroup.com"
   },
+  "cookie": {
+    "title": "We use cookies",
+    "message": "We use cookies to enhance your browsing experience, analyze site traffic, and personalize content. By clicking \"Accept\", you consent to our use of cookies.",
+    "accept": "Accept",
+    "decline": "Decline",
+    "learnMore": "Learn more"
+  },
   "agent": {
     "title": "Packpert Agent Program",
     "applyNow": "Apply Now",

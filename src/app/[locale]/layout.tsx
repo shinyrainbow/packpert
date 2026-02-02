@@ -5,6 +5,7 @@ import { Prompt } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingLineButton from "@/components/FloatingLineButton";
+import CookieConsent from "@/components/CookieConsent";
 
 const prompt = Prompt({
   variable: "--font-prompt",
@@ -34,6 +35,7 @@ export default async function LocaleLayout({
         <main className="flex-1 pt-20">{children}</main>
         <Footer />
         <FloatingLineButton />
+        <CookieConsent />
       </NextIntlClientProvider>
     </div>
   );

@@ -43,7 +43,19 @@ interface Blog {
   publishedAt: string | null;
   createdAt: string;
   sections: BlogSection[];
+  catalogType: string | null;
 }
+
+const CATALOG_TYPES = [
+  { value: "", label: "ไม่เลือก" },
+  { value: "creamTube", label: "หลอดครีม (Cream Tube)" },
+  { value: "stickTube", label: "หลอดสติ๊ก (Stick Tube)" },
+  { value: "pumpBottle", label: "ขวดปั๊ม (Pump Bottle)" },
+  { value: "jar", label: "กระปุก (Jar)" },
+  { value: "serumBottle", label: "ขวดเซรั่ม (Serum Bottle)" },
+  { value: "lip", label: "ลิป (Lip)" },
+  { value: "cosmetics", label: "ตลับเครื่องสำอาง (Cosmetics)" },
+];
 
 export default function AdminBlogPage() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
@@ -64,6 +76,7 @@ export default function AdminBlogPage() {
     coverImage: "",
     isPublished: false,
     categoryId: "",
+    catalogType: "",
     sections: [] as BlogSection[],
   });
 
@@ -239,6 +252,7 @@ export default function AdminBlogPage() {
         coverImage: blog.coverImage || "",
         isPublished: blog.isPublished,
         categoryId: "",
+        catalogType: blog.catalogType || "",
         sections: blog.sections.map((s) => ({
           imageUrl: s.imageUrl || "",
           imagePosition: (s.imagePosition as "left" | "right") || "left",
@@ -257,6 +271,7 @@ export default function AdminBlogPage() {
         coverImage: "",
         isPublished: false,
         categoryId: "",
+        catalogType: "",
         sections: [
           {
             imageUrl: "",
@@ -282,6 +297,7 @@ export default function AdminBlogPage() {
       coverImage: "",
       isPublished: false,
       categoryId: "",
+      catalogType: "",
       sections: [],
     });
   };
@@ -642,6 +658,29 @@ export default function AdminBlogPage() {
                   placeholder="Short description in English..."
                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm min-h-[80px] focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:border-transparent text-gray-900"
                 />
+              </div>
+
+              {/* Catalog Type */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  ประเภทสินค้าที่เกี่ยวข้อง (Catalog Type)
+                </label>
+                <select
+                  value={formData.catalogType}
+                  onChange={(e) =>
+                    setFormData({ ...formData, catalogType: e.target.value })
+                  }
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:border-transparent text-gray-900 bg-white"
+                >
+                  {CATALOG_TYPES.map((type) => (
+                    <option key={type.value} value={type.value}>
+                      {type.label}
+                    </option>
+                  ))}
+                </select>
+                <p className="text-xs text-gray-500 mt-1">
+                  เลือกประเภทสินค้าเพื่อแสดงสินค้าที่เกี่ยวข้องในหน้าบทความ
+                </p>
               </div>
 
               {/* Content Sections */}
