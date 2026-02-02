@@ -19,7 +19,7 @@ export default async function CatalogPage() {
   return (
     <>
       {/* Hero Section with Banner */}
-      <section className="relative text-white py-20 -mt-16 pt-24 min-h-[300px]">
+      <section className="relative text-white py-20 -mt-20 pt-24 min-h-[300px]">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url('/product-catalog/7Cosmetics.png')` }}

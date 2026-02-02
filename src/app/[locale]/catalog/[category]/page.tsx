@@ -347,7 +347,7 @@ export default async function CategoryDetailPage({ params }: Props) {
   return (
     <>
       {/* Hero Section with Banner */}
-      <section className="relative text-white h-[45vh] md:h-[55vh] lg:h-[60vh] overflow-hidden -mt-16">
+      <section className="relative text-white h-[45vh] md:h-[55vh] lg:h-[60vh] overflow-hidden -mt-20">
         <img
           src={categoryBanners[category]}
           alt={t(`${category}Alt`)}
