@@ -50,7 +50,7 @@ const CATALOG_TYPES = [
   { value: "", label: "ไม่เลือก" },
   { value: "creamTube", label: "หลอดครีม (Cream Tube)" },
   { value: "stickTube", label: "หลอดสติ๊ก (Stick Tube)" },
-  { value: "pumpBottle", label: "ขวดปั๊ม (Pump Bottle)" },
+  { value: "bottle", label: "ขวดพลาสติก (Bottle)" },
   { value: "jar", label: "กระปุก (Jar)" },
   { value: "serumBottle", label: "ขวดเซรั่ม (Serum Bottle)" },
   { value: "lip", label: "ลิป (Lip)" },

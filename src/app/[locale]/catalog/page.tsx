@@ -6,7 +6,7 @@ const categories = [
   { key: "stickTube", value: "stickTube", image: "/catalog/หลอดสติ๊ก/35.png" },
   { key: "creamTube", value: "creamTube", image: "/catalog/หลอดครีม/1.png" },
   { key: "jar", value: "jar", image: "/catalog/กระปุก/102.png" },
-  { key: "pumpBottle", value: "pumpBottle", image: "/catalog/ขวดปั๊ม/45.png" },
+  { key: "bottle", value: "bottle", image: "/catalog/ขวดปั๊ม/45.png" },
   { key: "serumBottle", value: "serumBottle", image: "/catalog/ขวดเซรั่ม/123.png" },
   { key: "lip", value: "lip", image: "/catalog/ลิป/135.png" },
   { key: "cosmetics", value: "cosmetics", image: "/catalog/เครื่องสำอางค์/99.png" },
@@ -96,7 +96,7 @@ export default async function CatalogPage() {
             {[
               { image: "1creamtube.png", key: "creamTube", value: "creamTube" },
               { image: "2stick.png", key: "stickTube", value: "stickTube" },
-              { image: "3bottle.png", key: "pumpBottle", value: "pumpBottle" },
+              { image: "3bottle.png", key: "bottle", value: "bottle" },
               { image: "4cosmetic.png", key: "cosmetics", value: "cosmetics" },
               { image: "5jar.png", key: "jar", value: "jar" },
               { image: "6serum.png", key: "serumBottle", value: "serumBottle" },

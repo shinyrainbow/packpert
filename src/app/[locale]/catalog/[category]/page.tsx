@@ -26,7 +26,7 @@ const categoryBanners: Record<string, string> = {
   stickTube: "/product-catalog/2Stick tube.png",
   creamTube: "/product-catalog/1creamTube.png",
   jar: "/product-catalog/4Jar.png",
-  pumpBottle: "/product-catalog/3Bottle.png",
+  bottle: "/product-catalog/3Bottle.png",
   serumBottle: "/product-catalog/5Serum bottle.png",
   lip: "/product-catalog/6Lip.png",
   cosmetics: "/product-catalog/7Cosmetics.png",
@@ -35,7 +35,7 @@ const categoryBanners: Record<string, string> = {
 const categoryLineUrls: Record<string, string> = {
   creamTube: "https://lin.ee/n9h5cHB",
   stickTube: "https://lin.ee/izvk1yr",
-  pumpBottle: "https://lin.ee/VlwOT7X",
+  bottle: "https://lin.ee/VlwOT7X",
   jar: "https://lin.ee/z6zl8GV",
   serumBottle: "https://lin.ee/GhuPtHq",
   lip: "https://lin.ee/aA2U9au",
@@ -93,7 +93,7 @@ const categoryData: Record<string, CategoryData> = {
       "/catalogs/Stick Tube/หลอดบรรจุภัณฑ์ทรงปากกาสีใส (pen-style cosmetic tube) ตัวหลอดโปร่งใสทรงกระบอกเรียวยาว ฝาดำทั้งสองด้าน แยกฝาครอบ ปลายหลอดออกแบบสำหรับหัวแปรงหรือหัวลูกกลิ้ง เหมาะสำหรับเซรั่ม ออยล์ และผลิตภัณฑ์แต้มเฉพาะจุด.png",
     ],
   },
-  pumpBottle: {
+  bottle: {
     folder: "Bottle",
     hasSubfolders: true,
     subfolders: [
@@ -397,16 +397,6 @@ export default async function CategoryDetailPage({ params }: Props) {
       {/* Back link + Images Grid */}
       <section className="section-padding bg-white min-h-[60vh]">
         <div className="container-custom">
-          <Link
-            href={`/${locale}/catalog`}
-            className="inline-flex items-center gap-2 text-primary hover:underline mb-8"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            {tcommon("viewAll")}
-          </Link>
-
           {/* Render tabs for categories with subfolders, or direct grid for categories without */}
           {data.hasSubfolders && data.subfolders ? (
             <CatalogTabs
@@ -545,7 +535,7 @@ export default async function CategoryDetailPage({ params }: Props) {
             {[
               { image: "1creamtube.png", key: "creamTube", value: "creamTube" },
               { image: "2stick.png", key: "stickTube", value: "stickTube" },
-              { image: "3bottle.png", key: "pumpBottle", value: "pumpBottle" },
+              { image: "3bottle.png", key: "bottle", value: "bottle" },
               { image: "4cosmetic.png", key: "cosmetics", value: "cosmetics" },
               { image: "5jar.png", key: "jar", value: "jar" },
               { image: "6serum.png", key: "serumBottle", value: "serumBottle" },

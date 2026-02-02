@@ -139,7 +139,7 @@ export default async function HomePage() {
             {[
               { src: "/products/1stick-tubes.png", nameKey: "stickTube", slug: "stick-tube" },
               { src: "/products/2cream-tubes.png", nameKey: "creamTube", slug: "cream-tube" },
-              { src: "/products/3bottles.png", nameKey: "pumpBottle", slug: "bottle" },
+              { src: "/products/3bottles.png", nameKey: "bottle", slug: "bottle" },
               { src: "/products/4toner-pad-jars.png", nameKey: "tonerPadJar", slug: "jar" },
               { src: "/products/5glass-bottles.png", nameKey: "glassBottle", slug: "bottle" },
               { src: "/products/6serum-bottles.png", nameKey: "serumBottle", slug: "serum-bottle" },

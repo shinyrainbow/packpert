@@ -115,6 +115,7 @@ export async function PUT(
         isPublished: body.isPublished || false,
         publishedAt,
         categoryId: body.categoryId || null,
+        catalogType: body.catalogType || null,
         sections: {
           create: (body.sections || []).map(
             (

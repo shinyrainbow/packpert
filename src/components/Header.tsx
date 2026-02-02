@@ -8,7 +8,7 @@ import { usePathname, useRouter } from "next/navigation";
 const catalogSubmenu = [
   { key: "creamTube", href: "/catalog/creamTube" },
   { key: "stickTube", href: "/catalog/stickTube" },
-  { key: "pumpBottle", href: "/catalog/bottle" },
+  { key: "bottle", href: "/catalog/bottle" },
   { key: "jar", href: "/catalog/jar" },
   { key: "serumBottle", href: "/catalog/serumBottle" },
   { key: "lip", href: "/catalog/lip" },

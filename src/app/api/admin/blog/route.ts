@@ -80,6 +80,7 @@ export async function POST(request: NextRequest) {
         isPublished: body.isPublished || false,
         publishedAt: body.isPublished ? new Date() : null,
         categoryId: body.categoryId || null,
+        catalogType: body.catalogType || null,
         sections: {
           create: (body.sections || []).map(
             (
