@@ -1,6 +1,49 @@
 import { getTranslations, getLocale } from "next-intl/server";
 import { prisma } from "@/lib/prisma";
 import PortfolioGrid from "@/components/PortfolioGrid";
+import type { Metadata } from "next";
+
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+
+  const title =
+    locale === "th"
+      ? "ผลงานของเรา - Packpert บรรจุภัณฑ์เครื่องสำอาง"
+      : "Our Portfolio - Packpert Cosmetic Packaging";
+
+  const description =
+    locale === "th"
+      ? "ชมผลงานบรรจุภัณฑ์เครื่องสำอางคุณภาพจาก Packpert หลอดครีม ขวดปั๊ม กระปุก และอื่นๆ ที่เราผลิตให้ลูกค้า"
+      : "View our cosmetic packaging portfolio - cream tubes, pump bottles, jars and more produced by Packpert";
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      locale: locale === "th" ? "th_TH" : "en_US",
+      siteName: "Packpert",
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
+    },
+    alternates: {
+      canonical: `/${locale}/portfolio`,
+      languages: {
+        th: "/th/portfolio",
+        en: "/en/portfolio",
+      },
+    },
+  };
+}
 
 export default async function PortfolioPage() {
   const locale = await getLocale();

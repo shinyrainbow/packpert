@@ -1,4 +1,56 @@
 import { getTranslations, getLocale } from "next-intl/server";
+import type { Metadata } from "next";
+
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+
+  const title =
+    locale === "th"
+      ? "โปรแกรมตัวแทนจำหน่าย - Packpert Agent Program"
+      : "Agent Program - Packpert Reseller Partnership";
+
+  const description =
+    locale === "th"
+      ? "สมัครเป็นตัวแทนจำหน่าย Packpert ไม่ต้องสต๊อกสินค้า ไม่มีความเสี่ยง คอมมิชชั่นสูง พร้อมบริการดรอปชิป"
+      : "Join Packpert Agent Program - No stock required, zero risk, high commission with dropship service";
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      locale: locale === "th" ? "th_TH" : "en_US",
+      siteName: "Packpert",
+      images: [
+        {
+          url: "/agent-program.jpeg",
+          width: 1200,
+          height: 630,
+          alt: "Packpert Agent Program",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/agent-program.jpeg"],
+    },
+    alternates: {
+      canonical: `/${locale}/agent`,
+      languages: {
+        th: "/th/agent",
+        en: "/en/agent",
+      },
+    },
+  };
+}
 
 export default async function AgentPage() {
   const t = await getTranslations("agent");

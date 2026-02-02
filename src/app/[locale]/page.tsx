@@ -1,6 +1,72 @@
 import { getTranslations, getLocale } from "next-intl/server";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import type { Metadata } from "next";
+
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+
+  const title =
+    locale === "th"
+      ? "ศูนย์รวมแพ็กเกจจิ้งทุกชนิด รับผลิตและจำหน่าย | Packpert"
+      : "Packaging Solutions - Manufacturing & Distribution | Packpert";
+
+  const description =
+    locale === "th"
+      ? "Packpert ศูนย์รวมบรรจุภัณฑ์เครื่องสำอางครบวงจร หลอดครีม ขวดปั๊ม กระปุก ขวดเซรั่ม ลิปสติก สั่งขั้นต่ำ 50 ชิ้น พร้อมบริการ OEM/ODM"
+      : "Packpert - Your trusted partner for quality cosmetic packaging solutions. Cream tubes, pump bottles, jars, serum bottles, lipstick packaging. Minimum order 50 pieces with OEM/ODM services.";
+
+  return {
+    title,
+    description,
+    keywords: [
+      "แพ็กเกจจิ้ง",
+      "บรรจุภัณฑ์",
+      "บรรจุภัณฑ์เครื่องสำอาง",
+      "หลอดครีม",
+      "ขวดปั๊ม",
+      "กระปุก",
+      "ขวดเซรั่ม",
+      "packaging",
+      "cosmetic packaging",
+      "OEM",
+      "ODM",
+      "Packpert",
+    ],
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      locale: locale === "th" ? "th_TH" : "en_US",
+      siteName: "Packpert",
+      images: [
+        {
+          url: "/main-banner.png",
+          width: 1200,
+          height: 630,
+          alt: "Packpert - Packaging Solutions",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/main-banner.png"],
+    },
+    alternates: {
+      canonical: `/${locale}`,
+      languages: {
+        th: "/th",
+        en: "/en",
+      },
+    },
+  };
+}
 
 export default async function HomePage() {
   const locale = await getLocale();

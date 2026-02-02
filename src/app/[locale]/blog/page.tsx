@@ -3,6 +3,49 @@ import Image from "next/image";
 import Link from "next/link";
 import { getTranslations, getLocale } from "next-intl/server";
 import { prisma } from "@/lib/prisma";
+import type { Metadata } from "next";
+
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+
+  const title =
+    locale === "th"
+      ? "บทความและข่าวสาร - Packpert"
+      : "Blog & News - Packpert";
+
+  const description =
+    locale === "th"
+      ? "บทความความรู้เกี่ยวกับบรรจุภัณฑ์เครื่องสำอาง เทรนด์แพ็กเกจจิ้ง ข่าวสารและอัพเดทจาก Packpert"
+      : "Articles about cosmetic packaging, packaging trends, news and updates from Packpert";
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      locale: locale === "th" ? "th_TH" : "en_US",
+      siteName: "Packpert",
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
+    },
+    alternates: {
+      canonical: `/${locale}/blog`,
+      languages: {
+        th: "/th/blog",
+        en: "/en/blog",
+      },
+    },
+  };
+}
 
 interface BlogSection {
   id: string;

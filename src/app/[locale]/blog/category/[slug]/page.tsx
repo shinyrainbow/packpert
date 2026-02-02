@@ -4,6 +4,61 @@ import Link from "next/link";
 import { getTranslations, getLocale } from "next-intl/server";
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+
+type Props = {
+  params: Promise<{ locale: string; slug: string }>;
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale, slug } = await params;
+
+  const category = await prisma.blogCategory.findUnique({
+    where: { slug },
+    select: { name: true, nameEn: true },
+  });
+
+  if (!category) {
+    return {
+      title: locale === "th" ? "ไม่พบหมวดหมู่" : "Category Not Found",
+    };
+  }
+
+  const categoryName = locale === "en" ? category.nameEn || category.name : category.name;
+  const title =
+    locale === "th"
+      ? `${categoryName} - บทความ Packpert`
+      : `${categoryName} - Packpert Blog`;
+
+  const description =
+    locale === "th"
+      ? `บทความในหมวดหมู่ ${categoryName} จาก Packpert`
+      : `Articles in ${categoryName} category from Packpert`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      locale: locale === "th" ? "th_TH" : "en_US",
+      siteName: "Packpert",
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
+    },
+    alternates: {
+      canonical: `/${locale}/blog/category/${slug}`,
+      languages: {
+        th: `/th/blog/category/${slug}`,
+        en: `/en/blog/category/${slug}`,
+      },
+    },
+  };
+}
 
 interface BlogSection {
   id: string;

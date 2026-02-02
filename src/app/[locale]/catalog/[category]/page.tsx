@@ -3,9 +3,87 @@ import Link from "next/link";
 import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import CatalogTabs from "@/components/CatalogTabs";
+import type { Metadata } from "next";
 
 interface Props {
-  params: Promise<{ category: string }>;
+  params: Promise<{ locale: string; category: string }>;
+}
+
+const categoryNames: Record<string, { th: string; en: string }> = {
+  stickTube: { th: "หลอดสติ๊ก", en: "Stick Tube" },
+  creamTube: { th: "หลอดครีม", en: "Cream Tube" },
+  jar: { th: "กระปุก", en: "Jar" },
+  bottle: { th: "ขวดปั๊ม", en: "Pump Bottle" },
+  serumBottle: { th: "ขวดเซรั่ม", en: "Serum Bottle" },
+  lip: { th: "ลิป", en: "Lip" },
+  cosmetics: { th: "เครื่องสำอาง", en: "Cosmetics" },
+};
+
+const categoryBannersForMeta: Record<string, string> = {
+  stickTube: "/product-catalog/2Stick tube.png",
+  creamTube: "/product-catalog/1creamTube.png",
+  jar: "/product-catalog/4Jar.png",
+  bottle: "/product-catalog/3Bottle.png",
+  serumBottle: "/product-catalog/5Serum bottle.png",
+  lip: "/product-catalog/6Lip.png",
+  cosmetics: "/product-catalog/7Cosmetics.png",
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale, category } = await params;
+
+  const categoryInfo = categoryNames[category];
+  if (!categoryInfo) {
+    return {
+      title: locale === "th" ? "ไม่พบหมวดหมู่" : "Category Not Found",
+    };
+  }
+
+  const categoryName = locale === "th" ? categoryInfo.th : categoryInfo.en;
+  const title =
+    locale === "th"
+      ? `${categoryName} - Packpert บรรจุภัณฑ์เครื่องสำอาง`
+      : `${categoryName} - Packpert Cosmetic Packaging`;
+
+  const description =
+    locale === "th"
+      ? `บรรจุภัณฑ์${categoryName}คุณภาพสูงจาก Packpert สั่งขั้นต่ำ 50 ชิ้น พร้อมบริการ OEM/ODM`
+      : `High-quality ${categoryName} packaging from Packpert. Minimum order 50 pieces with OEM/ODM services.`;
+
+  const bannerImage = categoryBannersForMeta[category] || "/product-catalog/7Cosmetics.png";
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      locale: locale === "th" ? "th_TH" : "en_US",
+      siteName: "Packpert",
+      images: [
+        {
+          url: bannerImage,
+          width: 1200,
+          height: 630,
+          alt: `Packpert ${categoryName}`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [bannerImage],
+    },
+    alternates: {
+      canonical: `/${locale}/catalog/${category}`,
+      languages: {
+        th: `/th/catalog/${category}`,
+        en: `/en/catalog/${category}`,
+      },
+    },
+  };
 }
 
 interface SubfolderData {

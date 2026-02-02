@@ -1,6 +1,69 @@
 import { getTranslations, getLocale } from "next-intl/server";
 import Link from "next/link";
 import Image from "next/image";
+import type { Metadata } from "next";
+
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+
+  const title =
+    locale === "th"
+      ? "แคตตาล็อกสินค้า - Packpert บรรจุภัณฑ์เครื่องสำอาง"
+      : "Product Catalog - Packpert Cosmetic Packaging";
+
+  const description =
+    locale === "th"
+      ? "ชมแคตตาล็อกบรรจุภัณฑ์เครื่องสำอางครบวงจร หลอดครีม ขวดปั๊ม กระปุก ขวดเซรั่ม ลิปสติก จาก Packpert"
+      : "Browse our complete cosmetic packaging catalog - cream tubes, pump bottles, jars, serum bottles, lipstick packaging from Packpert";
+
+  return {
+    title,
+    description,
+    keywords: [
+      "แคตตาล็อก",
+      "บรรจุภัณฑ์",
+      "หลอดครีม",
+      "ขวดปั๊ม",
+      "กระปุก",
+      "ขวดเซรั่ม",
+      "catalog",
+      "packaging",
+      "cosmetic packaging",
+    ],
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      locale: locale === "th" ? "th_TH" : "en_US",
+      siteName: "Packpert",
+      images: [
+        {
+          url: "/product-catalog/7Cosmetics.png",
+          width: 1200,
+          height: 630,
+          alt: "Packpert Catalog",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/product-catalog/7Cosmetics.png"],
+    },
+    alternates: {
+      canonical: `/${locale}/catalog`,
+      languages: {
+        th: "/th/catalog",
+        en: "/en/catalog",
+      },
+    },
+  };
+}
 
 const categories = [
   { key: "stickTube", value: "stickTube", image: "/catalog/หลอดสติ๊ก/35.png" },

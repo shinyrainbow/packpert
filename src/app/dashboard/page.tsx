@@ -79,6 +79,54 @@ export default function DashboardPage() {
 
   const notContactedCount = contacts.filter((c) => !c.isContacted).length;
 
+  function exportToCSV() {
+    if (contacts.length === 0) {
+      alert("No contacts to export");
+      return;
+    }
+
+    const headers = [
+      "Name",
+      "Email",
+      "Phone",
+      "Company",
+      "Subject",
+      "Message",
+      "Status",
+      "Contacted At",
+      "Created At",
+    ];
+
+    const csvRows = [
+      headers.join(","),
+      ...contacts.map((contact) => {
+        const row = [
+          `"${contact.name.replace(/"/g, '""')}"`,
+          `"${contact.email.replace(/"/g, '""')}"`,
+          `"${(contact.phone || "").replace(/"/g, '""')}"`,
+          `"${(contact.company || "").replace(/"/g, '""')}"`,
+          `"${contact.subject.replace(/"/g, '""')}"`,
+          `"${contact.message.replace(/"/g, '""').replace(/\n/g, " ")}"`,
+          contact.isContacted ? "Contacted" : "Pending",
+          contact.contactedAt ? new Date(contact.contactedAt).toLocaleString() : "",
+          new Date(contact.createdAt).toLocaleString(),
+        ];
+        return row.join(",");
+      }),
+    ];
+
+    const csvContent = "\uFEFF" + csvRows.join("\n"); // BOM for Thai support
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `contacts_${new Date().toISOString().split("T")[0]}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
   return (
     <div className="max-w-7xl mx-auto">
       <h1 className="text-2xl font-bold text-primary mb-6">Dashboard</h1>
@@ -162,8 +210,18 @@ export default function DashboardPage() {
 
       {/* Contact Messages */}
       <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-        <div className="p-6 border-b">
+        <div className="p-6 border-b flex items-center justify-between">
           <h2 className="text-lg font-semibold text-primary">Contact Messages</h2>
+          <button
+            onClick={exportToCSV}
+            disabled={contacts.length === 0}
+            className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Export CSV
+          </button>
         </div>
 
         {loading ? (

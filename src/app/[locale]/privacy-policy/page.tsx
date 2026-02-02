@@ -1,4 +1,42 @@
 import { getTranslations } from "next-intl/server";
+import type { Metadata } from "next";
+
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+
+  const title =
+    locale === "th"
+      ? "นโยบายความเป็นส่วนตัว - Packpert"
+      : "Privacy Policy - Packpert";
+
+  const description =
+    locale === "th"
+      ? "นโยบายความเป็นส่วนตัวและการคุ้มครองข้อมูลส่วนบุคคลของ Packpert"
+      : "Privacy policy and personal data protection of Packpert";
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      locale: locale === "th" ? "th_TH" : "en_US",
+      siteName: "Packpert",
+    },
+    alternates: {
+      canonical: `/${locale}/privacy-policy`,
+      languages: {
+        th: "/th/privacy-policy",
+        en: "/en/privacy-policy",
+      },
+    },
+  };
+}
 
 export default async function PrivacyPolicyPage() {
   const t = await getTranslations("privacy");

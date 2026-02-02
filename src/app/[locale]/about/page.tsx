@@ -1,5 +1,57 @@
 import { getTranslations, getLocale } from "next-intl/server";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+
+  const title =
+    locale === "th"
+      ? "เกี่ยวกับเรา - Packpert ผู้เชี่ยวชาญด้านบรรจุภัณฑ์"
+      : "About Us - Packpert Packaging Experts";
+
+  const description =
+    locale === "th"
+      ? "Packpert ผู้นำด้านบรรจุภัณฑ์เครื่องสำอางครบวงจร บริการออกแบบ ผลิต และจัดจำหน่ายบรรจุภัณฑ์คุณภาพสูง พร้อมทีมงานมืออาชีพ"
+      : "Packpert - Leading cosmetic packaging provider. Design, manufacturing, and distribution of high-quality packaging with professional team.";
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      locale: locale === "th" ? "th_TH" : "en_US",
+      siteName: "Packpert",
+      images: [
+        {
+          url: "/about-banner.png",
+          width: 1200,
+          height: 630,
+          alt: "Packpert - About Us",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/about-banner.png"],
+    },
+    alternates: {
+      canonical: `/${locale}/about`,
+      languages: {
+        th: "/th/about",
+        en: "/en/about",
+      },
+    },
+  };
+}
 
 export default async function AboutPage() {
   const t = await getTranslations("about");
