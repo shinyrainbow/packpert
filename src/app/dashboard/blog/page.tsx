@@ -614,7 +614,7 @@ export default function AdminBlogPage() {
                 />
               </div>
 
-              {/* Excerpt */}
+              {/* Excerpt Thai */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   ตัวอย่างเนื้อหา (ภาษาไทย)
@@ -625,6 +625,21 @@ export default function AdminBlogPage() {
                     setFormData({ ...formData, excerpt: e.target.value })
                   }
                   placeholder="คำอธิบายสั้นๆ..."
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm min-h-[80px] focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:border-transparent text-gray-900"
+                />
+              </div>
+
+              {/* Excerpt English */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  ตัวอย่างเนื้อหา (ภาษาอังกฤษ)
+                </label>
+                <textarea
+                  value={formData.excerptEn}
+                  onChange={(e) =>
+                    setFormData({ ...formData, excerptEn: e.target.value })
+                  }
+                  placeholder="Short description in English..."
                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm min-h-[80px] focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:border-transparent text-gray-900"
                 />
               </div>

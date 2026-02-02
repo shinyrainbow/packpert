@@ -103,11 +103,17 @@ export default async function CategoryDetailPage({ params }: Props) {
   }
 
   const getLocalizedTitle = (blog: (typeof blogs)[0]) => {
-    return locale === "en" && blog.titleEn ? blog.titleEn : blog.title;
+    if (locale === "en") {
+      return blog.titleEn || blog.title;
+    }
+    return blog.title;
   };
 
   const getLocalizedExcerpt = (blog: (typeof blogs)[0]) => {
-    return locale === "en" && blog.excerptEn ? blog.excerptEn : blog.excerpt;
+    if (locale === "en") {
+      return blog.excerptEn || "";
+    }
+    return blog.excerpt;
   };
 
   const formatDate = (date: Date | null) => {

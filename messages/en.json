@@ -300,6 +300,10 @@
     "applyNow": "Apply Now",
     "askMore": "Ask More",
     "intro": "Intro",
+    "bannerTitle": "We shape you into a",
+    "bannerHighlight": "Packaging Expert",
+    "knowledgeIntro": "No experience is not a problem!",
+    "knowledgeDesc": "Our agents get access to the \"Packaging Selection Knowledge Base\" covering all 6 categories (tubes, bottles, jars, serums, lips, compacts) so you can advise customers professionally and close sales more easily.",
     "whyChooseTitle": "Why Choose to Be a Packpert Agent",
     "feature1Title": "Zero Stock & Risk",
     "feature1Desc": "No need to invest in inventory yourself. Reduce your business startup risk by 100%",
@@ -311,6 +315,9 @@
     "step1": "Register online and verify your identity",
     "step2": "Get sales materials. Download premium product images and catalogs to sell immediately",
     "step3": "Submit orders through the system and receive your profit margin",
-    "ctaTitle": "Ready to Start Earning with Packpert?"
+    "ctaTitle": "Ready to Start Earning with Packpert?",
+    "ctaDesc": "Start your business today and join the Packpert family",
+    "registerNow": "Register Now",
+    "talkToStaff": "Talk to Our Team"
   }
 }

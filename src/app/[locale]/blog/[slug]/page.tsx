@@ -83,7 +83,7 @@ export default async function BlogPostPage({
 
   const getLocalizedContent = (section: BlogSection) => {
     if (locale === "en") {
-      return section.contentEn || section.content;
+      return section.contentEn || "";
     }
     return section.content;
   };

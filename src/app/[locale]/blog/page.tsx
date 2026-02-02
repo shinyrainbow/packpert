@@ -63,7 +63,7 @@ export default async function BlogPage() {
 
   const getLocalizedExcerpt = (blog: Blog) => {
     if (locale === "en") {
-      return blog.excerptEn || blog.excerpt;
+      return blog.excerptEn || "";
     }
     return blog.excerpt;
   };
