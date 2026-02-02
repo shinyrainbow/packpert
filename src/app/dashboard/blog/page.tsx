@@ -48,13 +48,13 @@ interface Blog {
 
 const CATALOG_TYPES = [
   { value: "", label: "ไม่เลือก" },
-  { value: "creamTube", label: "หลอดครีม (Cream Tube)" },
-  { value: "stickTube", label: "หลอดสติ๊ก (Stick Tube)" },
-  { value: "bottle", label: "ขวดพลาสติก (Bottle)" },
-  { value: "jar", label: "กระปุก (Jar)" },
-  { value: "serumBottle", label: "ขวดเซรั่ม (Serum Bottle)" },
-  { value: "lip", label: "ลิป (Lip)" },
-  { value: "cosmetics", label: "ตลับเครื่องสำอาง (Cosmetics)" },
+  { value: "creamTube", label: "หลอดครีม" },
+  { value: "stickTube", label: "หลอดสติ๊ก" },
+  { value: "bottle", label: "ขวดพลาสติก" },
+  { value: "jar", label: "กระปุก" },
+  { value: "serumBottle", label: "ขวดเซรั่ม" },
+  { value: "lip", label: "ลิป" },
+  { value: "cosmetics", label: "ตลับแป้ง" },
 ];
 
 export default function AdminBlogPage() {

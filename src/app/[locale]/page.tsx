@@ -137,12 +137,12 @@ export default async function HomePage() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
             {[
-              { src: "/products/1stick-tubes.png", nameKey: "stickTube", slug: "stick-tube" },
-              { src: "/products/2cream-tubes.png", nameKey: "creamTube", slug: "cream-tube" },
+              { src: "/products/1stick-tubes.png", nameKey: "stickTube", slug: "stickTube" },
+              { src: "/products/2cream-tubes.png", nameKey: "creamTube", slug: "creamTube" },
               { src: "/products/3bottles.png", nameKey: "bottle", slug: "bottle" },
               { src: "/products/4toner-pad-jars.png", nameKey: "tonerPadJar", slug: "jar" },
-              { src: "/products/5glass-bottles.png", nameKey: "glassBottle", slug: "bottle" },
-              { src: "/products/6serum-bottles.png", nameKey: "serumBottle", slug: "serum-bottle" },
+              { src: "/products/5glass-bottles.png", nameKey: "glassBottle", slug: "serumBottle" },
+              { src: "/products/6serum-bottles.png", nameKey: "serumBottle", slug: "serumBottle" },
               { src: "/products/7jars.png", nameKey: "creamJar", slug: "jar" },
               { src: "/products/8lip.png", nameKey: "lip", slug: "lip" },
             ].map((product, index) => (
