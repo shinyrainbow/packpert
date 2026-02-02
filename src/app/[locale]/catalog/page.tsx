@@ -82,13 +82,13 @@ export default async function CatalogPage() {
   return (
     <>
       {/* Hero Section with Banner */}
-      <section className="relative text-white py-20 -mt-20 pt-24 min-h-[400px]">
+      <section className="relative text-white -mt-20 min-h-[400px] flex items-center justify-start">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url('/Catalog-Banner.png')` }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-primary-dark/60" />
-        <div className="container-custom relative z-10">
+        <div className="container-custom relative z-10 text-left">
           <h1 className="text-4xl lg:text-5xl font-bold mb-4">{t("title")}</h1>
           <p className="text-xl text-white/80">{t("subtitle")}</p>
         </div>
