@@ -86,18 +86,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+interface ImageData {
+  path: string;
+  altText: string;
+}
+
 interface SubfolderData {
   name: string;
   nameTh: string;
   nameEn: string;
-  images: string[];
+  images: ImageData[];
 }
 
 interface CategoryData {
   folder: string;
   hasSubfolders: boolean;
   subfolders?: SubfolderData[];
-  images?: string[]; // For categories without subfolders
+  images?: ImageData[]; // For categories without subfolders
 }
 
 const categoryBanners: Record<string, string> = {
@@ -120,53 +125,32 @@ const categoryLineUrls: Record<string, string> = {
   cosmetics: "https://lin.ee/hjAy4CO",
 };
 
+// Import alt-text mapping from JSON
+import altTextMapping from "@/../public/catalog/alt-text-mapping.json";
+
 const categoryData: Record<string, CategoryData> = {
   creamTube: {
-    folder: "cream tube",
+    folder: "Cream tube",
     hasSubfolders: true,
     subfolders: [
       {
         name: "หลอดกลม - Round Tube",
         nameTh: "หลอดกลม",
         nameEn: "Round Tube",
-        images: [
-          "/catalogs/cream tube/หลอดกลม - Round Tube/tube-round-tube-001.png",
-          "/catalogs/cream tube/หลอดกลม - Round Tube/tube-round-tube-002.png",
-          "/catalogs/cream tube/หลอดกลม - Round Tube/tube-round-tube-003.png",
-          "/catalogs/cream tube/หลอดกลม - Round Tube/tube-round-tube-004.png",
-          "/catalogs/cream tube/หลอดกลม - Round Tube/tube-round-tube-005.png",
-          "/catalogs/cream tube/หลอดกลม - Round Tube/tube-round-tube-006.png",
-        ],
+        images: altTextMapping["Cream tube/หลอดกลม - Round Tube"] as ImageData[],
       },
       {
         name: "หลอดรี - Oval Tube",
         nameTh: "หลอดรี",
         nameEn: "Oval Tube",
-        images: [
-          "/catalogs/cream tube/หลอดรี - Oval Tube/tube-oval-tube-001.png",
-          "/catalogs/cream tube/หลอดรี - Oval Tube/tube-oval-tube-002.png",
-          "/catalogs/cream tube/หลอดรี - Oval Tube/tube-oval-tube-003.png",
-          "/catalogs/cream tube/หลอดรี - Oval Tube/tube-oval-tube-004.png",
-          "/catalogs/cream tube/หลอดรี - Oval Tube/tube-oval-tube-005.png",
-          "/catalogs/cream tube/หลอดรี - Oval Tube/tube-oval-tube-006.png",
-          "/catalogs/cream tube/หลอดรี - Oval Tube/tube-oval-tube-007.png",
-        ],
+        images: altTextMapping["Cream tube/หลอดรี - Oval Tube"] as ImageData[],
       },
     ],
   },
   stickTube: {
     folder: "Stick Tube",
     hasSubfolders: false,
-    images: [
-      "/catalogs/Stick Tube/stick-default-001.png",
-      "/catalogs/Stick Tube/stick-default-002.png",
-      "/catalogs/Stick Tube/stick-default-003.png",
-      "/catalogs/Stick Tube/stick-default-004.png",
-      "/catalogs/Stick Tube/stick-default-005.png",
-      "/catalogs/Stick Tube/stick-default-006.png",
-      "/catalogs/Stick Tube/stick-default-007.png",
-      "/catalogs/Stick Tube/stick-default-008.png",
-    ],
+    images: altTextMapping["Stick Tube"] as ImageData[],
   },
   bottle: {
     folder: "Bottle",
@@ -176,45 +160,19 @@ const categoryData: Record<string, CategoryData> = {
         name: "Pump bottle - ขวดปั๊ม",
         nameTh: "ขวดปั๊ม",
         nameEn: "Pump Bottle",
-        images: [
-          "/catalogs/Bottle/Pump bottle - ขวดปั๊ม/bottle-pump-bottle-001.png",
-          "/catalogs/Bottle/Pump bottle - ขวดปั๊ม/bottle-pump-bottle-002.png",
-          "/catalogs/Bottle/Pump bottle - ขวดปั๊ม/bottle-pump-bottle-003.png",
-          "/catalogs/Bottle/Pump bottle - ขวดปั๊ม/bottle-pump-bottle-004.png",
-          "/catalogs/Bottle/Pump bottle - ขวดปั๊ม/bottle-pump-bottle-005.png",
-          "/catalogs/Bottle/Pump bottle - ขวดปั๊ม/bottle-pump-bottle-006.png",
-          "/catalogs/Bottle/Pump bottle - ขวดปั๊ม/bottle-pump-bottle-007.png",
-        ],
+        images: altTextMapping["Bottle/Pump bottle - ขวดปั๊ม"] as ImageData[],
       },
       {
         name: "Press bottle - ขวดฝากด",
         nameTh: "ขวดฝากด",
         nameEn: "Press Bottle",
-        images: [
-          "/catalogs/Bottle/Press bottle - ขวดฝากด/bottle-press-bottle-001.png",
-          "/catalogs/Bottle/Press bottle - ขวดฝากด/bottle-press-bottle-002.png",
-          "/catalogs/Bottle/Press bottle - ขวดฝากด/bottle-press-bottle-003.png",
-          "/catalogs/Bottle/Press bottle - ขวดฝากด/bottle-press-bottle-004.png",
-          "/catalogs/Bottle/Press bottle - ขวดฝากด/bottle-press-bottle-005.png",
-          "/catalogs/Bottle/Press bottle - ขวดฝากด/bottle-press-bottle-006.png",
-          "/catalogs/Bottle/Press bottle - ขวดฝากด/bottle-press-bottle-007.png",
-          "/catalogs/Bottle/Press bottle - ขวดฝากด/bottle-press-bottle-008.png",
-        ],
+        images: altTextMapping["Bottle/Press bottle - ขวดฝากด"] as ImageData[],
       },
       {
         name: "Airless bottle - ขวดสูญญากาศ",
         nameTh: "ขวดสูญญากาศ",
         nameEn: "Airless Bottle",
-        images: [
-          "/catalogs/Bottle/Airless bottle - ขวดสูญญากาศ/bottle-airless-bottle-001.png",
-          "/catalogs/Bottle/Airless bottle - ขวดสูญญากาศ/bottle-airless-bottle-002.png",
-          "/catalogs/Bottle/Airless bottle - ขวดสูญญากาศ/bottle-airless-bottle-003.png",
-          "/catalogs/Bottle/Airless bottle - ขวดสูญญากาศ/bottle-airless-bottle-004.png",
-          "/catalogs/Bottle/Airless bottle - ขวดสูญญากาศ/bottle-airless-bottle-005.png",
-          "/catalogs/Bottle/Airless bottle - ขวดสูญญากาศ/bottle-airless-bottle-006.png",
-          "/catalogs/Bottle/Airless bottle - ขวดสูญญากาศ/bottle-airless-bottle-007.png",
-          "/catalogs/Bottle/Airless bottle - ขวดสูญญากาศ/bottle-airless-bottle-008.png",
-        ],
+        images: altTextMapping["Bottle/Airless bottle - ขวดสูญญากาศ"] as ImageData[],
       },
     ],
   },
@@ -226,45 +184,20 @@ const categoryData: Record<string, CategoryData> = {
         name: "Cream jar กระปุกครีม",
         nameTh: "กระปุกครีม",
         nameEn: "Cream Jar",
-        images: [
-          "/catalogs/Jar/Cream jar กระปุกครีม/jar-cream-jar-001.png",
-          "/catalogs/Jar/Cream jar กระปุกครีม/jar-cream-jar-002.png",
-          "/catalogs/Jar/Cream jar กระปุกครีม/jar-cream-jar-003.png",
-          "/catalogs/Jar/Cream jar กระปุกครีม/jar-cream-jar-004.png",
-          "/catalogs/Jar/Cream jar กระปุกครีม/jar-cream-jar-005.png",
-          "/catalogs/Jar/Cream jar กระปุกครีม/กระปุกครีมอะคริลิกใส ฝาสีขาว ทรงกลม ดีไซน์เรียบมินิมอล.png",
-          "/catalogs/Jar/Cream jar กระปุกครีม/กระปุกทรงกระบอก สีพาสเทล ฟ้า ดำ ขาว และชมพู.png",
-          "/catalogs/Jar/Cream jar กระปุกครีม/กระปุกแก้วสีเขียวมะกอก 3 ขนาด พร้อมฝาสีดำ วางเรียงขนาด.png",
-        ],
+        images: altTextMapping["Jar/Cream jar กระปุกครีม"] as ImageData[],
       },
       {
         name: "Toner pad jar กระปุกโทนเนอร์แพด",
         nameTh: "กระปุกโทนเนอร์แพด",
         nameEn: "Toner Pad Jar",
-        images: [
-          "/catalogs/Jar/Toner pad jar กระปุกโทนเนอร์แพด/jar-toner-pad-jar-001.png",
-          "/catalogs/Jar/Toner pad jar กระปุกโทนเนอร์แพด/jar-toner-pad-jar-002.png",
-          "/catalogs/Jar/Toner pad jar กระปุกโทนเนอร์แพด/jar-toner-pad-jar-003.png",
-          "/catalogs/Jar/Toner pad jar กระปุกโทนเนอร์แพด/jar-toner-pad-jar-004.png",
-          "/catalogs/Jar/Toner pad jar กระปุกโทนเนอร์แพด/jar-toner-pad-jar-005.png",
-          "/catalogs/Jar/Toner pad jar กระปุกโทนเนอร์แพด/jar-toner-pad-jar-006.png",
-        ],
+        images: altTextMapping["Jar/Toner pad jar กระปุกโทนเนอร์แพด"] as ImageData[],
       },
     ],
   },
   serumBottle: {
     folder: "Serum Bottle",
     hasSubfolders: false,
-    images: [
-      "/catalogs/Serum Bottle/serum-default-001.png",
-      "/catalogs/Serum Bottle/serum-default-002.png",
-      "/catalogs/Serum Bottle/ขวดดรอปเปอร์แก้วสีชมพูอ่อน 2 ขนาด พร้อมฝาสีโรสโกลด์.png",
-      "/catalogs/Serum Bottle/ขวดดรอปเปอร์แก้วสีม่วงเข้ม 2 ขนาด พร้อมฝาดรอปเปอร์สีดำ.png",
-      "/catalogs/Serum Bottle/ขวดดรอปเปอร์แก้วใส 2 ขนาด ฝาโลหะสีเงินและสีทอง ดีไซน์เรียบหรู.png",
-      "/catalogs/Serum Bottle/ขวดดรอปเปอร์แก้วใสทรงสูง ฝาโลหะสีทอง พร้อมหลอดหยดสีขาว.png",
-      "/catalogs/Serum Bottle/ขวดเซรั่มทรงกลมแก้วใส 2 ขนาด ฝาสีเงินและสีทอง ดีไซน์พรีเมียม.png",
-      "/catalogs/Serum Bottle/ขวดเซรั่มทรงเหลี่ยมใส ดีไซน์คริสตัล หัวปั๊มสีเงิน.png",
-    ],
+    images: altTextMapping["Serum Bottle"] as ImageData[],
   },
   lip: {
     folder: "Lip",
@@ -274,31 +207,13 @@ const categoryData: Record<string, CategoryData> = {
         name: "Lip Gloss ลิปกลอส",
         nameTh: "ลิปกลอส",
         nameEn: "Lip Gloss",
-        images: [
-          "/catalogs/Lip/Lip Gloss ลิปกลอส/lip-lip-gloss-001.png",
-          "/catalogs/Lip/Lip Gloss ลิปกลอส/lip-lip-gloss-002.png",
-          "/catalogs/Lip/Lip Gloss ลิปกลอส/lip-lip-gloss-003.png",
-          "/catalogs/Lip/Lip Gloss ลิปกลอส/lip-lip-gloss-004.png",
-          "/catalogs/Lip/Lip Gloss ลิปกลอส/lip-lip-gloss-005.png",
-          "/catalogs/Lip/Lip Gloss ลิปกลอส/lip-lip-gloss-006.png",
-          "/catalogs/Lip/Lip Gloss ลิปกลอส/lip-lip-gloss-007.png",
-          "/catalogs/Lip/Lip Gloss ลิปกลอส/lip-lip-gloss-008.png",
-        ],
+        images: altTextMapping["Lip/Lip Gloss ลิปกลอส"] as ImageData[],
       },
       {
         name: "Lipstick ลิปสติก",
         nameTh: "ลิปสติก",
         nameEn: "Lipstick",
-        images: [
-          "/catalogs/Lip/Lipstick ลิปสติก/lip-lipstick-001.png",
-          "/catalogs/Lip/Lipstick ลิปสติก/lip-lipstick-002.png",
-          "/catalogs/Lip/Lipstick ลิปสติก/lip-lipstick-003.png",
-          "/catalogs/Lip/Lipstick ลิปสติก/lip-lipstick-004.png",
-          "/catalogs/Lip/Lipstick ลิปสติก/lip-lipstick-005.png",
-          "/catalogs/Lip/Lipstick ลิปสติก/lip-lipstick-006.png",
-          "/catalogs/Lip/Lipstick ลิปสติก/แท่งลิปสติกทรงกระบอกผิวเงา ไล่สีชมพูถึงขาว.png",
-          "/catalogs/Lip/Lipstick ลิปสติก/แท่งลิปสติกทรงหกเหลี่ยมมุมตัด สีเทาอ่อน ดีไซน์มินิมอล.png",
-        ],
+        images: altTextMapping["Lip/Lipstick ลิปสติก"] as ImageData[],
       },
     ],
   },
@@ -310,21 +225,13 @@ const categoryData: Record<string, CategoryData> = {
         name: "Powder case ตลับแป้ง",
         nameTh: "ตลับแป้ง",
         nameEn: "Powder Case",
-        images: [
-          "/catalogs/Powder case/Powder case ตลับแป้ง/powder-powder-case-001.png",
-          "/catalogs/Powder case/Powder case ตลับแป้ง/powder-powder-case-002.png",
-          "/catalogs/Powder case/Powder case ตลับแป้ง/powder-powder-case-003.png",
-        ],
+        images: altTextMapping["Powder case/Powder case ตลับแป้ง"] as ImageData[],
       },
       {
         name: "Cushion case ตลับคุชชั่น",
         nameTh: "ตลับคุชชั่น",
         nameEn: "Cushion Case",
-        images: [
-          "/catalogs/Powder case/Cushion case ตลับคุชชั่น/powder-cushion-case-001.png",
-          "/catalogs/Powder case/Cushion case ตลับคุชชั่น/powder-cushion-case-002.png",
-          "/catalogs/Powder case/Cushion case ตลับคุชชั่น/powder-cushion-case-003.png",
-        ],
+        images: altTextMapping["Powder case/Cushion case ตลับคุชชั่น"] as ImageData[],
       },
     ],
   },
@@ -480,27 +387,23 @@ export default async function CategoryDetailPage({ params }: Props) {
             />
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-              {data.images?.map((imagePath: string) => {
-                const filename = imagePath.split("/").pop() || "";
-                const altText = filename.replace(/\.[^/.]+$/, "");
-                return (
-                  <a
-                    key={imagePath}
-                    href={categoryLineUrls[category] || "https://lin.ee/n9Tx1PK"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="aspect-square rounded-xl overflow-hidden bg-gray-100 group cursor-pointer"
-                  >
-                    <Image
-                      src={imagePath}
-                      alt={altText}
-                      width={400}
-                      height={400}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </a>
-                );
-              })}
+              {data.images?.map((image) => (
+                <a
+                  key={image.path}
+                  href={categoryLineUrls[category] || "https://lin.ee/n9Tx1PK"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="aspect-square rounded-xl overflow-hidden bg-gray-100 group cursor-pointer"
+                >
+                  <Image
+                    src={image.path}
+                    alt={image.altText}
+                    width={400}
+                    height={400}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </a>
+              ))}
             </div>
           )}
 

@@ -3,11 +3,16 @@
 import { useState } from "react";
 import Image from "next/image";
 
+interface ImageData {
+  path: string;
+  altText: string;
+}
+
 interface TabData {
   name: string;
   nameTh: string;
   nameEn: string;
-  images: string[];
+  images: ImageData[];
 }
 
 interface CatalogTabsProps {
@@ -21,12 +26,6 @@ export default function CatalogTabs({ tabs, lineUrl, locale }: CatalogTabsProps)
 
   const getTabName = (tab: TabData) => {
     return locale === "en" ? tab.nameEn : tab.nameTh;
-  };
-
-  const getAltText = (imagePath: string) => {
-    // Extract filename without extension for alt text
-    const filename = imagePath.split("/").pop() || "";
-    return filename.replace(/\.[^/.]+$/, "");
   };
 
   return (
@@ -50,17 +49,17 @@ export default function CatalogTabs({ tabs, lineUrl, locale }: CatalogTabsProps)
 
       {/* Tab Content - Images Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-        {tabs[activeTab]?.images.map((imagePath) => (
+        {tabs[activeTab]?.images.map((image) => (
           <a
-            key={imagePath}
+            key={image.path}
             href={lineUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="aspect-square rounded-xl overflow-hidden bg-gray-100 group cursor-pointer"
           >
             <Image
-              src={imagePath}
-              alt={getAltText(imagePath)}
+              src={image.path}
+              alt={image.altText}
               width={400}
               height={400}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
