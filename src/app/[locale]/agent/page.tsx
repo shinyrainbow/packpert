@@ -1,5 +1,6 @@
-import { getTranslations, getLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
+import AgentApplicationForm from "@/components/AgentApplicationForm";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -54,7 +55,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function AgentPage() {
   const t = await getTranslations("agent");
-  const locale = await getLocale();
 
   return (
     <>
@@ -239,6 +239,22 @@ export default async function AgentPage() {
               >
                 {t("talkToStaff")}
               </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Application Form Section */}
+      <section id="apply-form" className="py-16 bg-white">
+        <div className="container-custom">
+          <div className="max-w-2xl mx-auto">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl lg:text-3xl font-bold text-gray-800 mb-4">
+                {t("formTitle")}
+              </h2>
+            </div>
+            <div className="bg-gray-50 rounded-2xl p-6 lg:p-8 shadow-lg">
+              <AgentApplicationForm />
             </div>
           </div>
         </div>

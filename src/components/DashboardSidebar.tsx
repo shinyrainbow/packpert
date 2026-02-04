@@ -12,6 +12,7 @@ import {
   Menu,
   X,
   Globe,
+  Users,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -28,6 +29,12 @@ const navItems = [
     label: "ข้อความ",
     labelEn: "Messages",
     icon: Mail,
+  },
+  {
+    href: "/dashboard/agents",
+    label: "ตัวแทน",
+    labelEn: "Agents",
+    icon: Users,
   },
   {
     href: "/dashboard/blog",

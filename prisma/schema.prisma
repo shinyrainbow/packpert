@@ -249,3 +249,38 @@ model BlogCategory {
 
   createdAt DateTime @default(now())
 }
+
+// Agent Program Applications
+model AgentApplication {
+  id                  String    @id @default(cuid())
+  name                String
+  phone               String
+  lineId              String
+  email               String
+
+  // Current work
+  currentWork         String    // ฝ่ายขาย OEM, ฝ่ายจัดซื้อ OEM, เจ้าของแบรนด์, ที่ปรึกษาแบรนด์, อื่นๆ
+  currentWorkOther    String?   // If currentWork is "other"
+
+  // Expected income
+  expectedIncome      String    // ต่ำกว่า 10,000, 10,000-30,000, มากกว่า 30,000
+
+  // Pricing approach
+  pricingApproach     String    // อธิบายลูกค้า, ปรึกษา Packpert, ขอลดราคา
+
+  // Confirmations
+  confirmCommission   Boolean   @default(false)
+  confirmPricing      Boolean   @default(false)
+
+  // Admin fields
+  isRead              Boolean   @default(false)
+  isContacted         Boolean   @default(false)
+  contactedAt         DateTime?
+  notes               String?   @db.Text
+
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  @@index([isRead])
+  @@index([createdAt])
+}
