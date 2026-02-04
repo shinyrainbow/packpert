@@ -84,7 +84,7 @@ export default async function AgentPage() {
                 href="https://lin.ee/v7UuIJT"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-100 text-primary px-8 py-4 rounded-xl font-semibold transition-colors shadow-lg"
+                className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-100 text-primary px-8 py-4 rounded-xl font-semibold transition-colors shadow-lg min-w-45"
               >
                 {t("applyNow")}
               </a>
@@ -92,7 +92,7 @@ export default async function AgentPage() {
                 href="https://lin.ee/v7UuIJT"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-100 text-primary px-8 py-4 rounded-xl font-semibold transition-colors shadow-lg"
+                className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-100 text-primary px-8 py-4 rounded-xl font-semibold transition-colors shadow-lg min-w-45"
               >
                 {t("askMore")}
               </a>
