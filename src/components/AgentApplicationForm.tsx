@@ -244,7 +244,7 @@ export default function AgentApplicationForm() {
             type="checkbox"
             checked={formData.confirmCommission}
             onChange={(e) => setFormData({ ...formData, confirmCommission: e.target.checked })}
-            className="w-5 h-5 mt-0.5 text-primary focus:ring-primary border-gray-300 rounded"
+            className="w-5 h-5 mt-0.5 text-primary focus:ring-primary border-gray-300 rounded shrink-0"
           />
           <span className="text-gray-700 text-sm group-hover:text-primary transition-colors">
             {t("confirmCommission")} <span className="text-red-500">*</span>
@@ -255,7 +255,7 @@ export default function AgentApplicationForm() {
             type="checkbox"
             checked={formData.confirmPricing}
             onChange={(e) => setFormData({ ...formData, confirmPricing: e.target.checked })}
-            className="w-5 h-5 mt-0.5 text-primary focus:ring-primary border-gray-300 rounded"
+            className="w-5 h-5 mt-0.5 text-primary focus:ring-primary border-gray-300 rounded shrink-0"
           />
           <span className="text-gray-700 text-sm group-hover:text-primary transition-colors">
             {t("confirmPricing")} <span className="text-red-500">*</span>
