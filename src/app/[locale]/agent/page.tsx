@@ -213,9 +213,6 @@ export default async function AgentPage() {
       <section className="py-16 bg-[#d4edda]">
         <div className="container-custom">
           <div className="text-center">
-            <h2 className="text-2xl lg:text-3xl font-bold text-gray-800 mb-4">
-              {t("stepsTitle")}
-            </h2>
             <p className="text-gray-700 mb-8">
               {t("ctaDesc")}
             </p>

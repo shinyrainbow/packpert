@@ -329,7 +329,7 @@ export default async function CategoryDetailPage({ params }: Props) {
         <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-primary-dark/60" />
         <div className="absolute inset-0 flex items-end pb-8 md:items-center md:pb-0">
           <div className="container-custom">
-            <h1 className="text-3xl lg:text-4xl xl:text-5xl font-bold mb-6 leading-tight">
+            <h1 className="text-3xl lg:text-4xl xl:text-5xl font-bold mb-6 leading-tight whitespace-pre-line">
               {t(`${category}H1`)}
             </h1>
             <div className="flex flex-col sm:flex-row gap-3">
