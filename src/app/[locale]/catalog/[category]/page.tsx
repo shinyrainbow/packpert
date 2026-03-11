@@ -402,7 +402,7 @@ export default async function CategoryDetailPage({ params }: Props) {
           {/* View All Products PDF Button */}
           <div className="text-center mt-10">
             <a
-              href="/Packpert Catalog.pdf"
+              href="/[For Sale] Packpert 2026 Catalogue.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-accent hover:bg-accent/90 text-primary px-8 py-3 rounded-xl font-medium transition-colors"
