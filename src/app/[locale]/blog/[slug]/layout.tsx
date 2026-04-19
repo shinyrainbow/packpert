@@ -40,9 +40,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = locale === "en" ? blog.excerptEn || blog.excerpt : blog.excerpt;
 
   const rawImage = blog.coverImage || blog.sections[0]?.imageUrl || null;
-  // Serve a social-optimized version via Cloudinary transforms: 1200x630, auto format, auto quality
+  // Serve a social-optimized version via Cloudinary transforms: 1200x630 JPG, small file size.
+  // Also rewrite the file extension to .jpg so the URL matches the content-type — some social
+  // crawlers (Messenger) reject images where extension disagrees with MIME type.
   const shareImage = rawImage?.includes("res.cloudinary.com")
-    ? rawImage.replace("/upload/", "/upload/w_1200,h_630,c_fill,g_auto,f_jpg,q_auto/")
+    ? rawImage
+        .replace("/upload/", "/upload/w_1200,h_630,c_fill,g_auto,f_jpg,q_auto/")
+        .replace(/\.(png|webp|gif|avif)$/i, ".jpg")
     : rawImage;
   const canonicalUrl = `https://www.packpertgroup.com/${locale}/blog/${slug}`;
 
