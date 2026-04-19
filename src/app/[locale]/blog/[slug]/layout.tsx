@@ -18,6 +18,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       excerpt: true,
       excerptEn: true,
       coverImage: true,
+      sections: {
+        orderBy: { order: "asc" },
+        where: { imageUrl: { not: null } },
+        take: 1,
+        select: { imageUrl: true },
+      },
     },
   });
 
@@ -33,6 +39,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // Get localized excerpt
   const description = locale === "en" ? blog.excerptEn || blog.excerpt : blog.excerpt;
 
+  const shareImage = blog.coverImage || blog.sections[0]?.imageUrl || null;
+
   return {
     title: `${title} | Packpert`,
     description: description || undefined,
@@ -40,10 +48,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description: description || undefined,
       type: "article",
-      images: blog.coverImage
+      images: shareImage
         ? [
             {
-              url: blog.coverImage,
+              url: shareImage,
               width: 1200,
               height: 630,
               alt: title,
@@ -55,7 +63,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: "summary_large_image",
       title,
       description: description || undefined,
-      images: blog.coverImage ? [blog.coverImage] : undefined,
+      images: shareImage ? [shareImage] : undefined,
     },
   };
 }

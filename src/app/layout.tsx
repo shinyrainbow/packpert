@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.packpertgroup.com"),
   title: "ศูนย์รวมแพ็กเกจจิ้งทุกชนิด รับผลิตและจำหน่าย | Packpert",
   description: "Your trusted partner for quality packaging solutions. Custom packaging for cosmetics, food, and various industries.",
   keywords: ["packaging", "custom packaging", "cosmetics packaging", "food packaging", "Thailand packaging", "บรรจุภัณฑ์"],
