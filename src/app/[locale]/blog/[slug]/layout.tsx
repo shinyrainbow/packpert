@@ -39,15 +39,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // Get localized excerpt
   const description = locale === "en" ? blog.excerptEn || blog.excerpt : blog.excerpt;
 
-  const shareImage = blog.coverImage || blog.sections[0]?.imageUrl || null;
+  const rawImage = blog.coverImage || blog.sections[0]?.imageUrl || null;
+  // Serve a social-optimized version via Cloudinary transforms: 1200x630, auto format, auto quality
+  const shareImage = rawImage?.includes("res.cloudinary.com")
+    ? rawImage.replace("/upload/", "/upload/w_1200,h_630,c_fill,g_auto,f_jpg,q_auto/")
+    : rawImage;
+  const canonicalUrl = `https://www.packpertgroup.com/${locale}/blog/${slug}`;
 
   return {
     title: `${title} | Packpert`,
     description: description || undefined,
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title,
       description: description || undefined,
       type: "article",
+      url: canonicalUrl,
+      siteName: "Packpert",
+      locale: locale === "th" ? "th_TH" : "en_US",
       images: shareImage
         ? [
             {
